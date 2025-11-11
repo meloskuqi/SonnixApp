@@ -158,7 +158,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.section}>
           <TouchableOpacity
             style={styles.vendorBanner}
-            onPress={() => navigation.navigate('PayTab', { screen: 'VendorMenu' })}
+            onPress={() => navigation.navigate('PayTab', { screen: 'VendorsList' })}
             activeOpacity={0.9}
           >
             <View style={styles.vendorBannerContent}>
@@ -262,7 +262,7 @@ const HomeScreen = ({ navigation }) => {
 
             <TouchableOpacity
               style={styles.featureBox}
-              onPress={() => navigation.navigate('PayTab', { screen: 'VendorMenu' })}
+              onPress={() => navigation.navigate('PayTab', { screen: 'VendorsList' })}
             >
               <View style={[styles.featureBoxIcon, { backgroundColor: '#EA580C15' }]}>
                 <Ionicons name="restaurant" size={28} color="#EA580C" />

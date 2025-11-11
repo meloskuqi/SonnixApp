@@ -7,6 +7,7 @@ import AddFundsScreen from '../screens/Transactions/AddFundsScreen';
 import SendMoneyScreen from '../screens/Transactions/SendMoneyScreen';
 import RequestMoneyScreen from '../screens/Transactions/RequestMoneyScreen';
 import RefundScreen from '../screens/Transactions/RefundScreen';
+import VendorsListScreen from '../screens/Vendors/VendorsListScreen';
 import VendorMenuScreen from '../screens/Vendors/VendorMenuScreen';
 import OrderConfirmScreen from '../screens/Vendors/OrderConfirmScreen';
 import TransactionHistoryScreen from '../screens/Wallet/TransactionHistoryScreen';
@@ -28,6 +29,7 @@ const PaymentStackNavigator = () => {
       <Stack.Screen name="SendMoney" component={SendMoneyScreen} />
       <Stack.Screen name="RequestMoney" component={RequestMoneyScreen} />
       <Stack.Screen name="Refund" component={RefundScreen} />
+      <Stack.Screen name="VendorsList" component={VendorsListScreen} />
       <Stack.Screen name="VendorMenu" component={VendorMenuScreen} />
       <Stack.Screen name="OrderConfirm" component={OrderConfirmScreen} />
       <Stack.Screen name="TransactionHistory" component={TransactionHistoryScreen} />

@@ -141,7 +141,7 @@ const EventsScreen = ({ navigation }) => {
       {/* Vendors Quick Access */}
       <TouchableOpacity
         style={styles.vendorsQuickAccess}
-        onPress={() => navigation.navigate('PayTab', { screen: 'VendorMenu' })}
+        onPress={() => navigation.navigate('PayTab', { screen: 'VendorsList' })}
         activeOpacity={0.8}
       >
         <View style={styles.vendorsAccessContent}>

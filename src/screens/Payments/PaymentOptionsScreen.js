@@ -67,7 +67,7 @@ const PaymentOptionsScreen = ({ navigation }) => {
       title: 'Food & Drinks',
       icon: 'restaurant',
       color: '#EA580C',
-      screen: 'VendorMenu',
+      screen: 'VendorsList',
     },
     {
       id: 2,
