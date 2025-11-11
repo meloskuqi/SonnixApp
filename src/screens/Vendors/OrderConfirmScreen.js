@@ -202,158 +202,143 @@ const OrderConfirmScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Sexy Header with Gradient */}
+      {/* Compact Gradient Header */}
       <LinearGradient
         colors={vendor ? [...vendor.gradient, '#0D0D0D'] : ['#7B2CBF', '#9333EA', '#0D0D0D']}
         start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 0.3 }}
-        style={[styles.preOrderHeader, { paddingTop: insets.top + 16 }]}
+        end={{ x: 0, y: 0.25 }}
+        style={[styles.preOrderHeader, { paddingTop: insets.top + 12 }]}
       >
         <View style={styles.headerRow}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.preOrderBackButton}
           >
-            <Ionicons name="arrow-back" size={24} color="white" />
+            <Ionicons name="arrow-back" size={22} color="white" />
           </TouchableOpacity>
           <View style={styles.headerTitleContainer}>
             <Text style={styles.preOrderTitle}>Review Order</Text>
             <Text style={styles.preOrderSubtitle}>{vendor ? vendor.name : 'Vendor'}</Text>
           </View>
-          <View style={{ width: 44 }} />
+          <View style={{ width: 40 }} />
         </View>
       </LinearGradient>
 
       <ScrollView style={styles.preOrderContent} showsVerticalScrollIndicator={false}>
-        {/* Premium Item Card */}
+        {/* Compact Item Card */}
         <View style={styles.itemDisplayCard}>
-          <LinearGradient
-            colors={vendor ? [`${vendor.color}30`, `${vendor.color}15`] : ['#7B2CBF30', '#7B2CBF15']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.itemImageBox}
-          >
-            <View style={styles.itemImageGlow} />
-            <Text style={styles.itemDisplayEmoji}>{item.image}</Text>
-          </LinearGradient>
-          <View style={styles.itemBadge}>
-            <Ionicons name="star" size={12} color="#F59E0B" />
-            <Text style={styles.itemBadgeText}>Popular</Text>
-          </View>
-          <Text style={styles.itemDisplayName}>{item.name}</Text>
-          <Text style={styles.itemDisplayCategory}>{item.category}</Text>
-          <View style={styles.itemPriceRow}>
-            <Text style={[styles.itemDisplayPrice, vendor && { color: vendor.color }]}>
-              ${item.price}
-            </Text>
-            <Text style={styles.itemPriceLabel}>per item</Text>
-          </View>
-        </View>
-
-        {/* Sexy Quantity Selector */}
-        <View style={styles.quantityCard}>
-          <View style={styles.quantityHeader}>
-            <Text style={styles.quantityCardLabel}>Quantity</Text>
-            <View style={styles.quantityBadge}>
-              <Ionicons name="cube-outline" size={14} color={vendor ? vendor.color : '#7B2CBF'} />
-              <Text style={[styles.quantityBadgeText, vendor && { color: vendor.color }]}>
-                {quantity} item{quantity > 1 ? 's' : ''}
+          <View style={styles.itemCardRow}>
+            <LinearGradient
+              colors={vendor ? [`${vendor.color}30`, `${vendor.color}15`] : ['#7B2CBF30', '#7B2CBF15']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.itemImageBox}
+            >
+              <Text style={styles.itemDisplayEmoji}>{item.image}</Text>
+            </LinearGradient>
+            <View style={styles.itemInfo}>
+              <View style={styles.itemTopRow}>
+                <Text style={styles.itemDisplayName} numberOfLines={2}>{item.name}</Text>
+                <View style={styles.itemBadge}>
+                  <Ionicons name="star" size={10} color="#F59E0B" />
+                </View>
+              </View>
+              <Text style={styles.itemDisplayCategory}>{item.category}</Text>
+              <Text style={[styles.itemDisplayPrice, vendor && { color: vendor.color }]}>
+                ${item.price} <Text style={styles.itemPriceLabel}>each</Text>
               </Text>
             </View>
           </View>
-          <View style={styles.quantityControls}>
-            <TouchableOpacity
-              onPress={() => setQuantity(Math.max(1, quantity - 1))}
-              style={[styles.quantityBtn, quantity === 1 && styles.quantityBtnDisabled]}
-              activeOpacity={0.7}
-              disabled={quantity === 1}
-            >
-              <Ionicons name="remove" size={24} color={quantity === 1 ? "#666666" : "#FFFFFF"} />
-            </TouchableOpacity>
-            <View style={styles.quantityDisplay}>
-              <Text style={styles.quantityNumber}>{quantity}</Text>
-              <View style={styles.quantityPulse} />
-            </View>
-            <TouchableOpacity
-              onPress={() => setQuantity(quantity + 1)}
-              style={styles.quantityBtn}
-              activeOpacity={0.7}
-            >
-              <Ionicons name="add" size={24} color="#FFFFFF" />
-            </TouchableOpacity>
-          </View>
         </View>
 
-        {/* Premium Payment Summary */}
+        {/* Inline Quantity & Payment Card */}
         <View style={styles.paymentCard}>
-          <View style={styles.paymentCardHeader}>
-            <Ionicons name="wallet" size={20} color={vendor ? vendor.color : '#7B2CBF'} />
-            <Text style={styles.paymentCardTitle}>Payment Details</Text>
-          </View>
-          
-          <View style={styles.paymentRow}>
-            <View style={styles.paymentLabelRow}>
-              <Ionicons name="cash-outline" size={16} color="#9CA3AF" />
-              <Text style={styles.paymentLabel}>Your Balance</Text>
+          {/* Quantity Section */}
+          <View style={styles.quantitySection}>
+            <View style={styles.quantityHeader}>
+              <Text style={styles.sectionLabel}>Quantity</Text>
             </View>
-            <Text style={styles.paymentValue}>${balance.toFixed(2)}</Text>
-          </View>
-          
-          <View style={styles.paymentRow}>
-            <View style={styles.paymentLabelRow}>
-              <Ionicons name="receipt-outline" size={16} color="#9CA3AF" />
-              <Text style={styles.paymentLabel}>Order Total ({quantity}x ${item.price})</Text>
+            <View style={styles.quantityControls}>
+              <TouchableOpacity
+                onPress={() => setQuantity(Math.max(1, quantity - 1))}
+                style={[styles.quantityBtn, quantity === 1 && styles.quantityBtnDisabled]}
+                activeOpacity={0.7}
+                disabled={quantity === 1}
+              >
+                <Ionicons name="remove" size={20} color={quantity === 1 ? "#666666" : "#FFFFFF"} />
+              </TouchableOpacity>
+              <View style={styles.quantityDisplay}>
+                <Text style={styles.quantityNumber}>{quantity}</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => setQuantity(quantity + 1)}
+                style={styles.quantityBtn}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="add" size={20} color="#FFFFFF" />
+              </TouchableOpacity>
             </View>
-            <Text style={[styles.paymentValue, vendor && { color: vendor.color }]}>
-              ${totalPrice.toFixed(2)}
-            </Text>
           </View>
 
-          <View style={styles.paymentDivider} />
-          
-          <View style={styles.paymentRowFinal}>
-            <View>
-              <Text style={styles.paymentLabelFinal}>Remaining Balance</Text>
-              <Text style={[
-                styles.paymentValueFinal,
-                balance < totalPrice && styles.insufficientFunds
-              ]}>
-                ${(balance - totalPrice).toFixed(2)}
+          <View style={styles.sectionDivider} />
+
+          {/* Payment Section */}
+          <View style={styles.paymentSection}>
+            <Text style={styles.sectionLabel}>Payment Summary</Text>
+            
+            <View style={styles.paymentRow}>
+              <Text style={styles.paymentLabel}>Your Balance</Text>
+              <Text style={styles.paymentValue}>${balance.toFixed(2)}</Text>
+            </View>
+            
+            <View style={styles.paymentRow}>
+              <Text style={styles.paymentLabel}>Subtotal ({quantity}x ${item.price})</Text>
+              <Text style={[styles.paymentValue, vendor && { color: vendor.color }]}>
+                ${totalPrice.toFixed(2)}
               </Text>
             </View>
-            {balance < totalPrice ? (
-              <View style={styles.warningBadge}>
-                <Ionicons name="alert-circle" size={16} color="#DC2626" />
-                <Text style={styles.warningText}>Insufficient</Text>
+
+            <View style={styles.paymentDivider} />
+            
+            <View style={styles.paymentRowFinal}>
+              <View>
+                <Text style={styles.paymentLabelFinal}>After Payment</Text>
+                <Text style={[
+                  styles.paymentValueFinal,
+                  balance < totalPrice && styles.insufficientFunds
+                ]}>
+                  ${(balance - totalPrice).toFixed(2)}
+                </Text>
               </View>
-            ) : (
-              <View style={styles.successBadgeSmall}>
-                <Ionicons name="checkmark-circle" size={16} color="#10B981" />
-                <Text style={styles.successBadgeSmallText}>Ready</Text>
-              </View>
-            )}
+              {balance < totalPrice ? (
+                <View style={styles.warningBadge}>
+                  <Ionicons name="alert-circle" size={14} color="#DC2626" />
+                  <Text style={styles.warningText}>Low Balance</Text>
+                </View>
+              ) : (
+                <View style={styles.successBadgeSmall}>
+                  <Ionicons name="checkmark-circle" size={14} color="#10B981" />
+                  <Text style={styles.successBadgeSmallText}>Ready</Text>
+                </View>
+              )}
+            </View>
           </View>
         </View>
 
-        {/* Payment Info Banner */}
+        {/* Compact Info Banner */}
         <View style={styles.paymentInfoBanner}>
-          <View style={styles.paymentInfoIcon}>
-            <Ionicons name="shield-checkmark" size={20} color="#3B82F6" />
-          </View>
-          <View style={styles.paymentInfoContent}>
-            <Text style={styles.paymentInfoTitle}>Secure Payment</Text>
-            <Text style={styles.paymentInfoText}>
-              Instant transaction with your Sonnix tokens
-            </Text>
-          </View>
+          <Ionicons name="shield-checkmark" size={18} color="#3B82F6" />
+          <Text style={styles.paymentInfoText}>
+            Secure instant payment with Sonnix tokens
+          </Text>
         </View>
       </ScrollView>
 
-      {/* Sexy Bottom Action Bar */}
+      {/* Sleek Bottom Bar */}
       <View style={styles.bottomBar}>
         <View style={styles.bottomBarContent}>
           <View style={styles.priceColumn}>
-            <Text style={styles.priceLabel}>Total Amount</Text>
+            <Text style={styles.priceLabel}>Total</Text>
             <Text style={styles.priceValue}>${totalPrice.toFixed(2)}</Text>
           </View>
           <LinearGradient
@@ -368,17 +353,14 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               style={styles.confirmBtnInner}
               activeOpacity={0.9}
             >
+              <Text style={styles.confirmBtnText}>
+                {balance < totalPrice ? 'Add Funds' : 'Confirm & Pay'}
+              </Text>
               <Ionicons 
-                name={balance < totalPrice ? "alert-circle" : "checkmark-circle"} 
-                size={24} 
+                name={balance < totalPrice ? "wallet" : "arrow-forward"} 
+                size={20} 
                 color="#FFFFFF" 
               />
-              <Text style={styles.confirmBtnText}>
-                {balance < totalPrice ? 'Insufficient Balance' : 'Confirm & Pay'}
-              </Text>
-              {balance >= totalPrice && (
-                <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
-              )}
             </TouchableOpacity>
           </LinearGradient>
         </View>
@@ -755,10 +737,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFFFFF',
   },
-  // Pre-Order Screen (SEXY VERSION)
+  // Pre-Order Screen (COMPACT & SEXY)
   preOrderHeader: {
     paddingHorizontal: 20,
-    paddingBottom: 24,
+    paddingBottom: 18,
     overflow: 'hidden',
   },
   headerRow: {
@@ -767,9 +749,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   preOrderBackButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: '#FFFFFF15',
     alignItems: 'center',
     justifyContent: 'center',
@@ -780,14 +762,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   preOrderTitle: {
-    fontSize: 22,
-    fontWeight: '800',
+    fontSize: 19,
+    fontWeight: '700',
     color: '#FFFFFF',
-    textShadow: '0px 2px 8px rgba(0,0,0,0.3)',
   },
   preOrderSubtitle: {
-    fontSize: 13,
-    color: '#FFFFFFCC',
+    fontSize: 12,
+    color: '#FFFFFFAA',
     marginTop: 2,
   },
   backButton: {
@@ -800,236 +781,152 @@ const styles = StyleSheet.create({
   },
   preOrderContent: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
-  // Item Display (ENHANCED)
+  // Item Display (COMPACT HORIZONTAL)
   itemDisplayCard: {
     backgroundColor: '#1A1A1A',
-    borderRadius: 24,
-    padding: 28,
-    alignItems: 'center',
-    marginBottom: 20,
+    borderRadius: 18,
+    padding: 16,
+    marginBottom: 16,
     borderWidth: 1,
     borderColor: '#2A2A2A',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 8,
   },
-  itemImageBox: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-    position: 'relative',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  itemImageGlow: {
-    position: 'absolute',
-    width: 160,
-    height: 160,
-    borderRadius: 80,
-    backgroundColor: '#FFFFFF05',
-  },
-  itemDisplayEmoji: {
-    fontSize: 70,
-    zIndex: 1,
-  },
-  itemBadge: {
+  itemCardRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: 14,
+  },
+  itemImageBox: {
+    width: 80,
+    height: 80,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  itemDisplayEmoji: {
+    fontSize: 42,
+  },
+  itemInfo: {
+    flex: 1,
+  },
+  itemTopRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: 6,
+  },
+  itemBadge: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     backgroundColor: '#F59E0B20',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    marginBottom: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#F59E0B40',
   },
-  itemBadgeText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#F59E0B',
-  },
   itemDisplayName: {
-    fontSize: 24,
-    fontWeight: '800',
+    fontSize: 17,
+    fontWeight: '700',
     color: '#FFFFFF',
-    marginBottom: 6,
-    textAlign: 'center',
+    flex: 1,
+    marginRight: 8,
   },
   itemDisplayCategory: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#9CA3AF',
-    marginBottom: 16,
+    marginBottom: 6,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
-  itemPriceRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 6,
-  },
   itemDisplayPrice: {
-    fontSize: 32,
-    fontWeight: '900',
+    fontSize: 20,
+    fontWeight: '800',
     color: '#7B2CBF',
   },
   itemPriceLabel: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#6B7280',
+    fontWeight: '500',
   },
-  // Quantity Card (ENHANCED)
-  quantityCard: {
+  // Unified Payment Card
+  paymentCard: {
     backgroundColor: '#1A1A1A',
-    borderRadius: 24,
-    padding: 24,
-    marginBottom: 20,
+    borderRadius: 18,
+    padding: 18,
+    marginBottom: 16,
     borderWidth: 1,
     borderColor: '#2A2A2A',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 8,
   },
-  quantityHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  // Quantity Section
+  quantitySection: {
     marginBottom: 20,
   },
-  quantityCardLabel: {
-    fontSize: 18,
+  quantityHeader: {
+    marginBottom: 14,
+  },
+  sectionLabel: {
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
-  },
-  quantityBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: '#FFFFFF08',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#FFFFFF15',
-  },
-  quantityBadgeText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#7B2CBF',
   },
   quantityControls: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 24,
+    gap: 20,
   },
   quantityBtn: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: '#2A2A2A',
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#3A3A3A',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
   },
   quantityBtnDisabled: {
-    opacity: 0.4,
+    opacity: 0.3,
   },
   quantityDisplay: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#2A2A2A',
+    minWidth: 70,
     alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: '#3A3A3A',
-    position: 'relative',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 6,
   },
   quantityNumber: {
-    fontSize: 40,
-    fontWeight: '900',
+    fontSize: 32,
+    fontWeight: '800',
     color: '#FFFFFF',
-    zIndex: 1,
   },
-  quantityPulse: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#FFFFFF05',
-  },
-  // Payment Card (ENHANCED)
-  paymentCard: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 24,
-    padding: 24,
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: '#2A2A2A',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 8,
-  },
-  paymentCardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
+  sectionDivider: {
+    height: 1,
+    backgroundColor: '#2A2A2A',
     marginBottom: 20,
   },
-  paymentCardTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#FFFFFF',
+  // Payment Section
+  paymentSection: {
   },
   paymentRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
-  },
-  paymentLabelRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    marginTop: 12,
   },
   paymentLabel: {
     fontSize: 14,
     color: '#9CA3AF',
   },
   paymentValue: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
     color: '#FFFFFF',
   },
   paymentDivider: {
     height: 1,
     backgroundColor: '#2A2A2A',
-    marginVertical: 20,
+    marginVertical: 14,
   },
   paymentRowFinal: {
     flexDirection: 'row',
@@ -1039,11 +936,11 @@ const styles = StyleSheet.create({
   paymentLabelFinal: {
     fontSize: 13,
     color: '#9CA3AF',
-    marginBottom: 6,
+    marginBottom: 4,
   },
   paymentValueFinal: {
-    fontSize: 28,
-    fontWeight: '900',
+    fontSize: 22,
+    fontWeight: '800',
     color: '#10B981',
   },
   insufficientFunds: {
@@ -1052,68 +949,53 @@ const styles = StyleSheet.create({
   warningBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 5,
     backgroundColor: '#DC262620',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: '#DC262640',
   },
   warningText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     color: '#DC2626',
   },
   successBadgeSmall: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 5,
     backgroundColor: '#10B98120',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: '#10B98140',
   },
   successBadgeSmallText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     color: '#10B981',
   },
+  // Compact Info Banner
   paymentInfoBanner: {
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#1A1A1A',
-    borderRadius: 20,
-    padding: 16,
+    borderRadius: 14,
+    padding: 14,
     marginBottom: 100,
     borderWidth: 1,
-    borderColor: '#3B82F640',
-    gap: 12,
-  },
-  paymentInfoIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#3B82F620',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paymentInfoContent: {
-    flex: 1,
-  },
-  paymentInfoTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 4,
+    borderColor: '#3B82F630',
+    gap: 10,
   },
   paymentInfoText: {
     fontSize: 12,
     color: '#9CA3AF',
-    lineHeight: 16,
+    flex: 1,
   },
-  // Bottom Bar (ENHANCED)
+  // Sleek Bottom Bar
   bottomBar: {
     position: 'absolute',
     bottom: 0,
@@ -1122,17 +1004,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#1A1A1A',
     borderTopWidth: 1,
     borderTopColor: '#2A2A2A',
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 32,
+    paddingHorizontal: 16,
+    paddingTop: 14,
+    paddingBottom: 28,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 20,
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 15,
   },
   bottomBarContent: {
-    gap: 16,
+    gap: 12,
   },
   priceColumn: {
     flexDirection: 'row',
@@ -1151,18 +1033,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   priceValue: {
-    fontSize: 28,
-    fontWeight: '900',
+    fontSize: 24,
+    fontWeight: '800',
     color: '#FFFFFF',
   },
   confirmBtn: {
-    borderRadius: 20,
+    borderRadius: 16,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 10,
   },
   confirmBtnDisabled: {
     opacity: 0.5,
@@ -1171,12 +1048,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
-    paddingVertical: 20,
+    gap: 8,
+    paddingVertical: 16,
   },
   confirmBtnText: {
-    fontSize: 17,
-    fontWeight: '800',
+    fontSize: 16,
+    fontWeight: '700',
     color: '#FFFFFF',
   },
 });
