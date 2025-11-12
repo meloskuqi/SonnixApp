@@ -7,8 +7,10 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWallet } from '../../context/WalletContext';
+import SexyBalanceCard from '../../components/SexyBalanceCard';
 
 // QR Code Placeholder Component (visual representation)
 const QRCodeDisplay = ({ code }) => {
@@ -44,31 +46,54 @@ const QRCodeDisplay = ({ code }) => {
 };
 
 const OfflineCodeScreen = ({ navigation }) => {
-  const { balance } = useWallet();
+  const { balance, tokens } = useWallet();
   const insets = useSafeAreaInsets();
   const [code, setCode] = useState('');
-  const [timeRemaining, setTimeRemaining] = useState(90);
-  const [isActive, setIsActive] = useState(false);
+  const [expiryTime, setExpiryTime] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState('');
 
   const generateCode = () => {
     const newCode = Math.floor(100000 + Math.random() * 900000).toString();
     setCode(newCode);
-    setTimeRemaining(90);
-    setIsActive(true);
+    
+    // Set expiry to midnight (end of night)
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    setExpiryTime(midnight);
+  };
+
+  const calculateTimeRemaining = () => {
+    if (!expiryTime) return '';
+    
+    const now = new Date();
+    const diff = expiryTime - now;
+    
+    if (diff <= 0) {
+      setCode('');
+      setExpiryTime(null);
+      return '';
+    }
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    return `${hours}h ${minutes}m`;
   };
 
   useEffect(() => {
-    let interval = null;
-    if (isActive && timeRemaining > 0) {
-      interval = setInterval(() => {
-        setTimeRemaining((time) => time - 1);
+    if (expiryTime) {
+      const interval = setInterval(() => {
+        const remaining = calculateTimeRemaining();
+        setTimeRemaining(remaining);
+        
+        if (!remaining) {
+          clearInterval(interval);
+        }
       }, 1000);
-    } else if (timeRemaining === 0) {
-      setIsActive(false);
-      setCode('');
+      
+      return () => clearInterval(interval);
     }
-    return () => clearInterval(interval);
-  }, [isActive, timeRemaining]);
+  }, [expiryTime]);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -88,16 +113,61 @@ const OfflineCodeScreen = ({ navigation }) => {
           <View style={{ width: 40 }} />
         </View>
 
-        {/* Balance Info */}
-        <View style={styles.balanceCard}>
-          <View style={styles.balanceHeader}>
-            <View style={styles.balanceIconContainer}>
-              <Ionicons name="wallet" size={18} color="#10B981" />
+        {/* Offline Balance Card */}
+        <LinearGradient
+          colors={['#F59E0B', '#D97706', '#B45309']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.offlineBalanceCard}
+        >
+          <View style={styles.offlineDecorativeCircle1} />
+          <View style={styles.offlineDecorativeCircle2} />
+          
+          <View style={styles.offlineCardContent}>
+            <View style={styles.offlineHeader}>
+              <View style={styles.offlineModeRow}>
+                <View style={styles.offlineIconBox}>
+                  <Ionicons name="wifi-off" size={24} color="#FFFFFF" />
+                </View>
+                <View style={styles.offlineModeInfo}>
+                  <Text style={styles.offlineModeLabel}>OFFLINE MODE</Text>
+                  <Text style={styles.offlineModeSubtext}>Valid Until Midnight</Text>
+                </View>
+              </View>
+              <View style={styles.moonBadge}>
+                <Ionicons name="moon" size={20} color="#F59E0B" />
+              </View>
             </View>
-            <Text style={styles.balanceLabel}>Available Balance</Text>
+            
+            <View style={styles.offlineBalanceRow}>
+              <View style={styles.offlineBalanceBlock}>
+                <Text style={styles.offlineBalanceLabel}>Available Tokens</Text>
+                <View style={styles.offlineAmountRow}>
+                  <Text style={styles.offlineAmount}>{tokens}</Text>
+                  <View style={styles.offlineTokenDot} />
+                </View>
+              </View>
+              
+              {expiryTime && (
+                <View style={styles.timeRemainingBox}>
+                  <Ionicons name="time" size={18} color="#FFFFFF" />
+                  <Text style={styles.timeRemainingText}>{timeRemaining}</Text>
+                </View>
+              )}
+            </View>
+            
+            <View style={styles.offlineFeatures}>
+              <View style={styles.offlineFeature}>
+                <Ionicons name="checkmark" size={14} color="#10B981" />
+                <Text style={styles.offlineFeatureText}>One-Time Use</Text>
+              </View>
+              <View style={styles.offlineFeature}>
+                <Ionicons name="checkmark" size={14} color="#10B981" />
+                <Text style={styles.offlineFeatureText}>Encrypted</Text>
+              </View>
+            </View>
           </View>
-          <Text style={styles.balanceAmount}>${balance.toFixed(2)}</Text>
-        </View>
+        </LinearGradient>
 
         {/* QR Code Display */}
         {code ? (
@@ -135,30 +205,44 @@ const OfflineCodeScreen = ({ navigation }) => {
               </View>
             </View>
 
-            {/* Timer & Info */}
-            <View style={styles.timerCard}>
-              <View style={styles.timerRow}>
-                <View style={styles.timerIconContainer}>
-                  <Ionicons name="time" size={20} color="#7B2CBF" />
+            {/* Validity Card */}
+            <LinearGradient
+              colors={['#10B981', '#059669']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.validityCard}
+            >
+              <View style={styles.validityContent}>
+                <View style={styles.validityLeft}>
+                  <View style={styles.validityIconContainer}>
+                    <Ionicons name="time" size={24} color="#FFFFFF" />
+                  </View>
+                  <View>
+                    <Text style={styles.validityLabel}>Valid Until</Text>
+                    <Text style={styles.validityValue}>Midnight</Text>
+                    <Text style={styles.validitySubtext}>
+                      {timeRemaining} remaining
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.timerContent}>
-                  <Text style={styles.timerLabel}>Expires in</Text>
-                  <Text style={styles.timerValue}>{timeRemaining} seconds</Text>
+                <View style={styles.validityBadge}>
+                  <Ionicons name="moon" size={20} color="#10B981" />
                 </View>
-                <View style={[
-                  styles.timerProgress,
-                  { width: `${(timeRemaining / 90) * 100}%` }
-                ]} />
               </View>
-            </View>
+            </LinearGradient>
 
-            <View style={styles.warningCard}>
-              <Ionicons name="shield-checkmark" size={24} color="#10B981" />
-              <View style={styles.warningContent}>
-                <Text style={styles.warningTitle}>Secure Payment</Text>
-                <Text style={styles.warningText}>
-                  This QR code is encrypted and can only be used once
-                </Text>
+            <View style={styles.infoCard}>
+              <View style={styles.infoRow}>
+                <Ionicons name="shield-checkmark" size={20} color="#10B981" />
+                <Text style={styles.infoText}>Encrypted & Secure</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Ionicons name="wifi-off" size={20} color="#3B82F6" />
+                <Text style={styles.infoText}>Works Offline</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Ionicons name="flash" size={20} color="#F59E0B" />
+                <Text style={styles.infoText}>One-Time Use</Text>
               </View>
             </View>
           </View>
@@ -170,23 +254,23 @@ const OfflineCodeScreen = ({ navigation }) => {
                   <Ionicons name="qr-code-outline" size={80} color="#7B2CBF" />
                 </View>
               </View>
-              <Text style={styles.emptyTitle}>Generate Offline QR Code</Text>
+              <Text style={styles.emptyTitle}>Offline Payment QR Code</Text>
               <Text style={styles.emptyDescription}>
-                Create a secure QR code that works without internet. Perfect for events with poor connectivity.
+                Generate a secure QR code valid until midnight. Perfect for events with poor internet connectivity.
               </Text>
               
               <View style={styles.featuresList}>
                 <View style={styles.featureItem}>
-                  <Ionicons name="checkmark-circle" size={20} color="#10B981" />
+                  <Ionicons name="wifi-off" size={20} color="#3B82F6" />
                   <Text style={styles.featureText}>Works offline</Text>
                 </View>
                 <View style={styles.featureItem}>
-                  <Ionicons name="checkmark-circle" size={20} color="#10B981" />
-                  <Text style={styles.featureText}>90-second validity</Text>
+                  <Ionicons name="moon" size={20} color="#7B2CBF" />
+                  <Text style={styles.featureText}>Valid until midnight</Text>
                 </View>
                 <View style={styles.featureItem}>
-                  <Ionicons name="checkmark-circle" size={20} color="#10B981" />
-                  <Text style={styles.featureText}>One-time use only</Text>
+                  <Ionicons name="flash" size={20} color="#F59E0B" />
+                  <Text style={styles.featureText}>One-time use</Text>
                 </View>
               </View>
             </View>
@@ -195,20 +279,26 @@ const OfflineCodeScreen = ({ navigation }) => {
 
         {/* Action Button */}
         <TouchableOpacity
-          onPress={generateCode}
-          disabled={isActive}
-          style={[styles.generateButton, isActive && styles.generateButtonDisabled]}
-          activeOpacity={0.8}
+          onPress={code ? () => { setCode(''); setExpiryTime(null); setTimeRemaining(''); } : generateCode}
+          style={styles.actionButtonContainer}
+          activeOpacity={0.9}
         >
-          <Ionicons 
-            name={code ? "refresh" : "qr-code"} 
-            size={22} 
-            color="#FFFFFF" 
-            style={{ marginRight: 8 }}
-          />
-          <Text style={styles.generateButtonText}>
-            {code ? 'Generate New QR' : 'Generate QR Code'}
-          </Text>
+          <LinearGradient
+            colors={['#7B2CBF', '#9333EA']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.generateButton}
+          >
+            <Ionicons 
+              name={code ? "refresh" : "qr-code"} 
+              size={22} 
+              color="#FFFFFF" 
+            />
+            <Text style={styles.generateButtonText}>
+              {code ? 'Generate New Code' : 'Generate QR Code'}
+            </Text>
+            <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
+          </LinearGradient>
         </TouchableOpacity>
 
         {/* How it Works */}
@@ -313,6 +403,149 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 13,
     color: '#9CA3AF',
+  },
+  // Offline Balance Card
+  offlineBalanceCard: {
+    borderRadius: 24,
+    marginBottom: 24,
+    shadowColor: '#F59E0B',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.5,
+    shadowRadius: 16,
+    elevation: 12,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  offlineDecorativeCircle1: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: '#FFFFFF08',
+    top: -70,
+    right: -50,
+  },
+  offlineDecorativeCircle2: {
+    position: 'absolute',
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: '#FFFFFF05',
+    bottom: -50,
+    left: -40,
+  },
+  offlineCardContent: {
+    padding: 22,
+    zIndex: 1,
+  },
+  offlineHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  offlineModeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  offlineIconBox: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#FFFFFF20',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#FFFFFF30',
+  },
+  offlineModeInfo: {
+    gap: 2,
+  },
+  offlineModeLabel: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
+  offlineModeSubtext: {
+    color: '#FFFFFFCC',
+    fontSize: 11,
+    fontWeight: '600',
+  },
+  moonBadge: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  offlineBalanceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginBottom: 16,
+  },
+  offlineBalanceBlock: {
+    flex: 1,
+  },
+  offlineBalanceLabel: {
+    color: '#FFFFFFCC',
+    fontSize: 11,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  offlineAmountRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  offlineAmount: {
+    color: '#FFFFFF',
+    fontSize: 38,
+    fontWeight: '900',
+    letterSpacing: -1,
+  },
+  offlineTokenDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#10B981',
+  },
+  timeRemainingBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#FFFFFF20',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+  },
+  timeRemainingText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  offlineFeatures: {
+    flexDirection: 'row',
+    gap: 16,
+    backgroundColor: '#FFFFFF10',
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#FFFFFF15',
+  },
+  offlineFeature: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  offlineFeatureText: {
+    color: '#FFFFFFCC',
+    fontSize: 11,
+    fontWeight: '700',
   },
   balanceCard: {
     backgroundColor: '#1A1A1A',
@@ -485,36 +718,77 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   // Timer Card
-  timerCard: {
+  validityCard: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 16,
+    shadowColor: '#10B981',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  validityContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  validityLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+  },
+  validityIconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#FFFFFF20',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  validityLabel: {
+    fontSize: 13,
+    color: '#FFFFFFCC',
+    marginBottom: 4,
+    fontWeight: '600',
+  },
+  validityValue: {
+    fontSize: 24,
+    color: '#FFFFFF',
+    fontWeight: '900',
+    marginBottom: 2,
+  },
+  validitySubtext: {
+    fontSize: 12,
+    color: '#FFFFFFAA',
+  },
+  validityBadge: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  infoCard: {
     backgroundColor: '#1A1A1A',
     borderRadius: 16,
-    overflow: 'hidden',
+    padding: 18,
     marginBottom: 16,
     borderWidth: 1,
     borderColor: '#2A2A2A',
+    gap: 14,
   },
-  timerRow: {
+  infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
-    position: 'relative',
+    gap: 12,
   },
-  timerIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#7B2CBF20',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  timerContent: {
-    flex: 1,
-  },
-  timerLabel: {
-    fontSize: 13,
-    color: '#9CA3AF',
-    marginBottom: 4,
+  infoText: {
+    fontSize: 14,
+    color: '#FFFFFF',
+    fontWeight: '600',
   },
   timerValue: {
     fontSize: 20,
@@ -605,26 +879,26 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   // Generate Button
-  generateButton: {
-    backgroundColor: '#7B2CBF',
-    borderRadius: 14,
-    paddingVertical: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
+  actionButtonContainer: {
     marginBottom: 24,
+    borderRadius: 20,
+    overflow: 'hidden',
     shadowColor: '#7B2CBF',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+    elevation: 8,
   },
-  generateButtonDisabled: {
-    opacity: 0.6,
+  generateButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    paddingVertical: 20,
   },
   generateButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 17,
+    fontWeight: '800',
     color: '#FFFFFF',
   },
   // How It Works

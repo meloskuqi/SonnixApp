@@ -43,7 +43,7 @@ const RefundScreen = ({ navigation }) => {
       alert('Please select a reason for refund');
       return;
     }
-    alert(`Refund request submitted for $${Math.abs(selectedTransaction.amount).toFixed(2)}. This feature will be connected to the backend soon!`);
+    alert(`Refund request submitted for ${Math.abs(selectedTransaction.amount).toFixed(0)} tokens. This feature will be connected to the backend soon!`);
   };
 
   return (
@@ -93,7 +93,7 @@ const RefundScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.transactionAmount}>
                   <Text style={styles.transactionAmountText}>
-                    ${Math.abs(transaction.amount).toFixed(2)}
+                    {Math.abs(transaction.amount).toFixed(0)} tokens
                   </Text>
                 </View>
               </TouchableOpacity>

@@ -10,9 +10,10 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWallet } from '../../context/WalletContext';
+import SexyBalanceCard from '../../components/SexyBalanceCard';
 
 const AddFundsScreen = ({ navigation }) => {
-  const { balance } = useWallet();
+  const { balance, tokens } = useWallet();
   const insets = useSafeAreaInsets();
   const [amount, setAmount] = useState('');
   const [selectedMethod, setSelectedMethod] = useState('card');
@@ -48,10 +49,16 @@ const AddFundsScreen = ({ navigation }) => {
         </View>
 
         {/* Current Balance */}
-        <View style={styles.balanceCard}>
-          <Text style={styles.balanceLabel}>Current Balance</Text>
-          <Text style={styles.balanceAmount}>${balance.toFixed(2)}</Text>
-        </View>
+        <SexyBalanceCard 
+          tokens={tokens} 
+          label="Current Balance" 
+          gradient={['#14B8A6', '#0D9488', '#0F766E']}
+          icon="add-circle"
+          badgeIcon="trending-up"
+          badgeText="Add Funds"
+          badgeColor="#10B981"
+          shadowColor="#14B8A6"
+        />
 
         {/* Amount Input */}
         <View style={styles.amountSection}>

@@ -176,8 +176,8 @@ const SettingsScreen = ({ navigation }) => {
                 <Ionicons name="wallet" size={18} color="#10B981" />
               </View>
               <View>
-                <Text style={styles.statValue}>${balance.toFixed(2)}</Text>
-                <Text style={styles.statLabel}>Balance</Text>
+                <Text style={styles.statValue}>{balance.toFixed(0)}</Text>
+                <Text style={styles.statLabel}>Tokens</Text>
               </View>
             </View>
             

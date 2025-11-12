@@ -74,7 +74,7 @@ const TransactionHistoryScreen = ({ navigation }) => {
             styles.dateTotalText,
             { color: item.total >= 0 ? '#10B981' : '#DC2626' }
           ]}>
-            {item.total >= 0 ? '+' : ''} ${Math.abs(item.total).toFixed(2)}
+            {item.total >= 0 ? '+' : ''}{Math.abs(item.total).toFixed(0)} tokens
           </Text>
         </View>
       </View>
@@ -118,7 +118,7 @@ const TransactionHistoryScreen = ({ navigation }) => {
                 <Ionicons name="arrow-down-circle" size={24} color="#10B981" />
               </View>
               <Text style={styles.summaryLabel}>Income</Text>
-              <Text style={styles.summaryAmount}>${summary.income.toFixed(2)}</Text>
+              <Text style={styles.summaryAmount}>{summary.income.toFixed(0)} tokens</Text>
             </View>
 
             <View style={[styles.summaryCard, styles.summaryCardExpense]}>
@@ -126,7 +126,7 @@ const TransactionHistoryScreen = ({ navigation }) => {
                 <Ionicons name="arrow-up-circle" size={24} color="#DC2626" />
               </View>
               <Text style={styles.summaryLabel}>Expense</Text>
-              <Text style={styles.summaryAmount}>${summary.expense.toFixed(2)}</Text>
+              <Text style={styles.summaryAmount}>{summary.expense.toFixed(0)} tokens</Text>
             </View>
           </View>
 
@@ -140,13 +140,13 @@ const TransactionHistoryScreen = ({ navigation }) => {
                 size={20} 
                 color={summary.netFlow >= 0 ? "#10B981" : "#DC2626"} 
               />
-              <Text style={styles.netFlowLabel}>Net Cash Flow</Text>
+              <Text style={styles.netFlowLabel}>Net Token Flow</Text>
             </View>
             <Text style={[
               styles.netFlowAmount,
               { color: summary.netFlow >= 0 ? '#10B981' : '#DC2626' }
             ]}>
-              {summary.netFlow >= 0 ? '+' : ''}${summary.netFlow.toFixed(2)}
+              {summary.netFlow >= 0 ? '+' : ''}{summary.netFlow.toFixed(0)} tokens
             </Text>
           </View>
         </View>

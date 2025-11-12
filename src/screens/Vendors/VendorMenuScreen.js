@@ -20,6 +20,48 @@ const VendorMenuScreen = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [cart, setCart] = useState([]);
+
+  // Cart functions
+  const addToCart = (item) => {
+    const existingItem = cart.find(cartItem => cartItem.id === item.id);
+    if (existingItem) {
+      setCart(cart.map(cartItem => 
+        cartItem.id === item.id 
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
+      ));
+    } else {
+      setCart([...cart, { ...item, quantity: 1 }]);
+    }
+  };
+
+  const removeFromCart = (itemId) => {
+    const existingItem = cart.find(cartItem => cartItem.id === itemId);
+    if (existingItem && existingItem.quantity > 1) {
+      setCart(cart.map(cartItem => 
+        cartItem.id === itemId 
+          ? { ...cartItem, quantity: cartItem.quantity - 1 }
+          : cartItem
+      ));
+    } else {
+      setCart(cart.filter(cartItem => cartItem.id !== itemId));
+    }
+  };
+
+  const getCartTotal = () => {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
+  const getCartItemCount = () => {
+    return cart.reduce((count, item) => count + item.quantity, 0);
+  };
+
+  const proceedToCheckout = () => {
+    if (cart.length > 0) {
+      navigation.navigate('OrderConfirm', { cart, vendor });
+    }
+  };
 
   // Filter items based on vendor specialties
   const vendorCategories = ['all', ...vendor.specialties];
@@ -137,35 +179,64 @@ const VendorMenuScreen = ({ navigation, route }) => {
 
         {/* Menu Items Grid */}
         <View style={styles.menuGrid}>
-          {filteredItems.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              style={styles.menuCard}
-              onPress={() => navigation.navigate('OrderConfirm', { item, vendor })}
-              activeOpacity={0.9}
-            >
-              <View style={styles.menuCardTop}>
-                <LinearGradient
-                  colors={[`${vendor.color}20`, `${vendor.color}10`]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={styles.itemImageContainer}
-                >
-                  <Text style={styles.itemEmoji}>{item.image}</Text>
-                </LinearGradient>
-              </View>
-              <View style={styles.menuCardBottom}>
-                <Text style={styles.itemName} numberOfLines={2}>{item.name}</Text>
-                <Text style={styles.itemCategory}>{item.category}</Text>
-                <View style={styles.itemFooter}>
-                  <Text style={[styles.itemPrice, { color: vendor.color }]}>${item.price}</Text>
-                  <View style={[styles.addButton, { backgroundColor: `${vendor.color}20` }]}>
-                    <Ionicons name="add" size={18} color={vendor.color} />
+          {filteredItems.map((item) => {
+            const cartItem = cart.find(c => c.id === item.id);
+            const inCart = !!cartItem;
+            
+            return (
+              <View key={item.id} style={styles.menuCard}>
+                <View style={styles.menuCardTop}>
+                  <LinearGradient
+                    colors={[`${vendor.color}20`, `${vendor.color}10`]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={styles.itemImageContainer}
+                  >
+                    <Text style={styles.itemEmoji}>{item.image}</Text>
+                  </LinearGradient>
+                  {inCart && (
+                    <View style={[styles.cartBadge, { backgroundColor: vendor.color }]}>
+                      <Text style={styles.cartBadgeText}>{cartItem.quantity}</Text>
+                    </View>
+                  )}
+                </View>
+                <View style={styles.menuCardBottom}>
+                  <Text style={styles.itemName} numberOfLines={2}>{item.name}</Text>
+                  <Text style={styles.itemCategory}>{item.category}</Text>
+                  <View style={styles.itemFooter}>
+                    <Text style={[styles.itemPrice, { color: vendor.color }]}>{item.price} tokens</Text>
+                    {inCart ? (
+                      <View style={styles.cartControls}>
+                        <TouchableOpacity
+                          onPress={() => removeFromCart(item.id)}
+                          style={[styles.cartControlButton, { backgroundColor: `${vendor.color}20` }]}
+                          activeOpacity={0.7}
+                        >
+                          <Ionicons name="remove" size={14} color={vendor.color} />
+                        </TouchableOpacity>
+                        <Text style={styles.cartQuantity}>{cartItem.quantity}</Text>
+                        <TouchableOpacity
+                          onPress={() => addToCart(item)}
+                          style={[styles.cartControlButton, { backgroundColor: `${vendor.color}20` }]}
+                          activeOpacity={0.7}
+                        >
+                          <Ionicons name="add" size={14} color={vendor.color} />
+                        </TouchableOpacity>
+                      </View>
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() => addToCart(item)}
+                        style={[styles.addButton, { backgroundColor: `${vendor.color}20` }]}
+                        activeOpacity={0.7}
+                      >
+                        <Ionicons name="add" size={16} color={vendor.color} />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
-          ))}
+            );
+          })}
         </View>
 
         {/* Info Card */}
@@ -182,6 +253,44 @@ const VendorMenuScreen = ({ navigation, route }) => {
         </View>
         </View>
       </ScrollView>
+
+      {/* Floating Cart Button */}
+      {cart.length > 0 && (
+        <View style={styles.floatingCartContainer}>
+          <LinearGradient
+            colors={vendor.gradient}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.floatingCart}
+          >
+            <TouchableOpacity
+              onPress={proceedToCheckout}
+              style={styles.floatingCartButton}
+              activeOpacity={0.9}
+            >
+              <View style={styles.cartInfo}>
+                <View style={styles.cartCountBadge}>
+                  <Ionicons name="cart" size={20} color="#FFFFFF" />
+                  <View style={styles.cartCountCircle}>
+                    <Text style={styles.cartCountText}>{getCartItemCount()}</Text>
+                  </View>
+                </View>
+                <Text style={styles.cartLabel}>View Cart</Text>
+              </View>
+              <View style={styles.cartTotal}>
+                <Text style={styles.cartTotalLabel}>Total</Text>
+                <View style={styles.cartTotalRow}>
+                  <Text style={styles.cartTotalAmount}>{getCartTotal()}</Text>
+                  <Text style={styles.cartTotalTokens}>tokens</Text>
+                </View>
+              </View>
+              <View style={styles.cartArrow}>
+                <Ionicons name="arrow-forward" size={24} color="#FFFFFF" />
+              </View>
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
+      )}
     </View>
   );
 };
@@ -331,14 +440,14 @@ const styles = StyleSheet.create({
   menuGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    gap: 12,
     marginBottom: 20,
   },
   menuCard: {
-    width: (width - 48) / 2,
+    width: (width - 52) / 2,
     backgroundColor: '#1A1A1A',
     borderRadius: 18,
-    marginBottom: 16,
+    marginBottom: 4,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: '#2A2A2A',
@@ -361,7 +470,7 @@ const styles = StyleSheet.create({
     fontSize: 56,
   },
   menuCardBottom: {
-    padding: 12,
+    padding: 14,
   },
   itemName: {
     fontSize: 15,
@@ -380,16 +489,143 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    gap: 8,
   },
   itemPrice: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     letterSpacing: 0.3,
+    flex: 1,
   },
   addButton: {
     width: 32,
     height: 32,
     borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  cartBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '900',
+  },
+  cartControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    flexShrink: 0,
+  },
+  cartControlButton: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cartQuantity: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    minWidth: 24,
+    textAlign: 'center',
+  },
+  // Floating Cart
+  floatingCartContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 16,
+    paddingBottom: 20,
+  },
+  floatingCart: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 12,
+  },
+  floatingCartButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+  },
+  cartInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  cartCountBadge: {
+    position: 'relative',
+  },
+  cartCountCircle: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
+    backgroundColor: '#FFFFFF',
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cartCountText: {
+    fontSize: 10,
+    fontWeight: '900',
+    color: '#7B2CBF',
+  },
+  cartLabel: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  cartTotal: {
+    alignItems: 'center',
+  },
+  cartTotalLabel: {
+    fontSize: 11,
+    color: '#FFFFFFCC',
+    marginBottom: 2,
+  },
+  cartTotalRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 4,
+  },
+  cartTotalAmount: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: '#FFFFFF',
+  },
+  cartTotalTokens: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFFFFFCC',
+  },
+  cartArrow: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF20',
     justifyContent: 'center',
     alignItems: 'center',
   },
