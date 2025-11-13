@@ -8,8 +8,10 @@ import {
   Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWallet } from '../../context/WalletContext';
+import SexyBalanceCard from '../../components/SexyBalanceCard';
 
 const { width } = Dimensions.get('window');
 
@@ -103,26 +105,72 @@ const PaymentOptionsScreen = ({ navigation }) => {
           <View style={{ width: 40 }} />
         </View>
 
-        {/* Balance Card */}
-        <View style={styles.balanceCard}>
-          <View style={styles.balanceHeader}>
-            <View style={styles.balanceIconContainer}>
-              <Ionicons name="wallet" size={20} color="#7B2CBF" />
+        {/* Payment Hub Balance Card - SEXY REDESIGN */}
+        <LinearGradient
+          colors={['#3B82F6', '#2563EB', '#1D4ED8']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.paymentBalanceCard}
+        >
+          <View style={styles.decorativeCircle1} />
+          <View style={styles.decorativeCircle2} />
+          <View style={styles.decorativeCircle3} />
+          
+          <View style={styles.balanceCardContent}>
+            {/* Top Badge */}
+            <View style={styles.paymentTopBadge}>
+              <View style={styles.paymentActiveDot} />
+              <Text style={styles.paymentBadgeText}>PAYMENT HUB</Text>
             </View>
-            <Text style={styles.balanceHeaderText}>Available Balance</Text>
+            
+            {/* Main Balance Display */}
+            <View style={styles.paymentBalanceSection}>
+              <Text style={styles.paymentLabel}>Available Balance</Text>
+              <View style={styles.paymentAmountRow}>
+                <View style={styles.paymentCardIconBox}>
+                  <Ionicons name="card" size={26} color="#FFFFFF" />
+                </View>
+                <View style={styles.paymentAmountBlock}>
+                  <View style={styles.paymentTokenRow}>
+                    <Text style={styles.paymentAmount}>{tokens}</Text>
+                    <View style={styles.paymentTokenBadge}>
+                      <Ionicons name="diamond" size={14} color="#3B82F6" />
+                      <Text style={styles.paymentTokenText}>tokens</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            
+            {/* Payment Methods Grid */}
+            <View style={styles.paymentMethodsGrid}>
+              <View style={styles.paymentMethodItem}>
+                <View style={styles.paymentMethodIconBox}>
+                  <Ionicons name="qr-code" size={18} color="#3B82F6" />
+                </View>
+                <Text style={styles.paymentMethodLabel}>QR</Text>
+              </View>
+              
+              <View style={styles.paymentMethodDivider} />
+              
+              <View style={styles.paymentMethodItem}>
+                <View style={styles.paymentMethodIconBox}>
+                  <Ionicons name="phone-portrait" size={18} color="#3B82F6" />
+                </View>
+                <Text style={styles.paymentMethodLabel}>NFC</Text>
+              </View>
+              
+              <View style={styles.paymentMethodDivider} />
+              
+              <View style={styles.paymentMethodItem}>
+                <View style={styles.paymentMethodIconBox}>
+                  <Ionicons name="wallet" size={18} color="#3B82F6" />
+                </View>
+                <Text style={styles.paymentMethodLabel}>Wallet</Text>
+              </View>
+            </View>
           </View>
-          <View style={styles.balanceRow}>
-            <View style={styles.balanceItem}>
-              <Text style={styles.balanceAmount}>${balance.toFixed(2)}</Text>
-              <Text style={styles.balanceLabel}>Cash Balance</Text>
-            </View>
-            <View style={styles.divider} />
-            <View style={styles.balanceItem}>
-              <Text style={styles.tokenAmount}>{tokens}</Text>
-              <Text style={styles.balanceLabel}>Sonnix Tokens</Text>
-            </View>
-          </View>
-        </View>
+        </LinearGradient>
 
         {/* Featured Payment Options */}
         <View style={styles.section}>
@@ -252,6 +300,165 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
+  // Payment Hub Balance Card
+  paymentBalanceCard: {
+    borderRadius: 24,
+    marginBottom: 24,
+    shadowColor: '#3B82F6',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.5,
+    shadowRadius: 16,
+    elevation: 12,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  decorativeCircle1: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: '#FFFFFF08',
+    top: -30,
+    right: -30,
+  },
+  decorativeCircle2: {
+    position: 'absolute',
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#FFFFFF05',
+    bottom: -30,
+    left: -30,
+  },
+  decorativeCircle3: {
+    position: 'absolute',
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: '#FFFFFF03',
+    top: '45%',
+    right: -20,
+  },
+  balanceCardContent: {
+    padding: 22,
+    zIndex: 1,
+  },
+  paymentTopBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#FFFFFF18',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    borderRadius: 20,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#FFFFFF25',
+  },
+  paymentActiveDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#10B981',
+  },
+  paymentBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '900',
+    letterSpacing: 0.8,
+  },
+  paymentBalanceSection: {
+    marginBottom: 20,
+  },
+  paymentLabel: {
+    color: '#FFFFFFCC',
+    fontSize: 11,
+    fontWeight: '600',
+    marginBottom: 14,
+    letterSpacing: 0.5,
+  },
+  paymentAmountRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+  },
+  paymentCardIconBox: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#FFFFFF18',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#FFFFFF25',
+  },
+  paymentAmountBlock: {
+    flex: 1,
+  },
+  paymentTokenRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  paymentAmount: {
+    color: '#FFFFFF',
+    fontSize: 40,
+    fontWeight: '900',
+    letterSpacing: -1.5,
+    lineHeight: 44,
+  },
+  paymentTokenBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  paymentTokenText: {
+    color: '#3B82F6',
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  paymentMethodsGrid: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF15',
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: '#FFFFFF20',
+  },
+  paymentMethodItem: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 8,
+  },
+  paymentMethodIconBox: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  paymentMethodLabel: {
+    color: '#FFFFFFCC',
+    fontSize: 10,
+    fontWeight: '700',
+  },
+  paymentMethodDivider: {
+    width: 1,
+    backgroundColor: '#FFFFFF25',
+    marginHorizontal: 8,
+  },
   headerContent: {
     flex: 1,
     alignItems: 'center',
@@ -297,8 +504,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  balanceRowSingle: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
   balanceItem: {
     flex: 1,
+    alignItems: 'center',
+  },
+  balanceItemCentered: {
     alignItems: 'center',
   },
   divider: {

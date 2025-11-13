@@ -3,13 +3,23 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const WalletBalanceCard = ({ balance, tokens }) => {
+const SexyBalanceCard = ({ 
+  tokens, 
+  label = "Available Balance", 
+  showFooter = true,
+  gradient = ['#7B2CBF', '#9333EA', '#6B21A8'],
+  icon = 'wallet',
+  badgeIcon = 'flash',
+  badgeText = 'Active',
+  badgeColor = '#F59E0B',
+  shadowColor = '#7B2CBF'
+}) => {
   return (
     <LinearGradient
-      colors={['#7B2CBF', '#9333EA', '#6B21A8']}
+      colors={gradient}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
-      style={styles.card}
+      style={[styles.card, { shadowColor }]}
     >
       {/* Decorative Elements */}
       <View style={styles.decorativeCircle1} />
@@ -18,16 +28,16 @@ const WalletBalanceCard = ({ balance, tokens }) => {
       <View style={styles.cardContent}>
         <View style={styles.header}>
           <View style={styles.iconContainer}>
-            <Ionicons name="wallet" size={28} color="#FFFFFF" />
+            <Ionicons name={icon} size={28} color="#FFFFFF" />
           </View>
           <View style={styles.badgeContainer}>
-            <Ionicons name="flash" size={14} color="#F59E0B" />
-            <Text style={styles.badgeText}>Active</Text>
+            <Ionicons name={badgeIcon} size={14} color={badgeColor} />
+            <Text style={styles.badgeText}>{badgeText}</Text>
           </View>
         </View>
         
         <View style={styles.balanceSection}>
-          <Text style={styles.label}>Available Balance</Text>
+          <Text style={styles.label}>{label}</Text>
           <View style={styles.amountRow}>
             <Text style={styles.tokenAmount}>{tokens}</Text>
             <View style={styles.tokenBadge}>
@@ -37,17 +47,19 @@ const WalletBalanceCard = ({ balance, tokens }) => {
           </View>
         </View>
 
-        <View style={styles.footer}>
-          <View style={styles.footerItem}>
-            <Ionicons name="checkmark-circle" size={16} color="#10B981" />
-            <Text style={styles.footerText}>Verified</Text>
+        {showFooter && (
+          <View style={styles.footer}>
+            <View style={styles.footerItem}>
+              <Ionicons name="checkmark-circle" size={16} color="#10B981" />
+              <Text style={styles.footerText}>Verified</Text>
+            </View>
+            <View style={styles.footerDivider} />
+            <View style={styles.footerItem}>
+              <Ionicons name="shield-checkmark" size={16} color="#10B981" />
+              <Text style={styles.footerText}>Secured</Text>
+            </View>
           </View>
-          <View style={styles.footerDivider} />
-          <View style={styles.footerItem}>
-            <Ionicons name="shield-checkmark" size={16} color="#10B981" />
-            <Text style={styles.footerText}>Secured</Text>
-          </View>
-        </View>
+        )}
       </View>
     </LinearGradient>
   );
@@ -189,5 +201,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WalletBalanceCard;
+export default SexyBalanceCard;
 

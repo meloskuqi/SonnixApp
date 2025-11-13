@@ -16,13 +16,24 @@ import { useWallet } from '../../context/WalletContext';
 const { width } = Dimensions.get('window');
 
 const OrderConfirmScreen = ({ route, navigation }) => {
-  const { item, vendor } = route.params;
+  const { item, cart, vendor } = route.params;
   const { balance, tokens } = useWallet();
   const insets = useSafeAreaInsets();
-  const [quantity, setQuantity] = useState(1);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
 
-  const totalPrice = item.price * quantity;
+  // Support both single item and cart
+  const isCart = !!cart;
+  const orderItems = isCart ? cart : [{ ...item, quantity: 1 }];
+  
+  const calculateTotal = () => {
+    return orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  };
+  
+  const getTotalItems = () => {
+    return orderItems.reduce((sum, item) => sum + item.quantity, 0);
+  };
+
+  const totalPrice = calculateTotal();
   const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
 
   const confirmOrder = () => {
@@ -135,27 +146,35 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               </View>
             </View>
 
-            <View style={styles.itemRow}>
-              <LinearGradient
-                colors={vendor ? [`${vendor.color}20`, `${vendor.color}10`] : ['#7B2CBF20', '#7B2CBF10']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.itemIconBox}
-              >
-                <Text style={styles.itemIconEmoji}>{item.image}</Text>
-              </LinearGradient>
-              <View style={styles.itemDetails}>
-                <Text style={styles.itemNameText}>{item.name}</Text>
-                <Text style={styles.itemQtyText}>{quantity}x ${item.price}</Text>
+            {orderItems.map((orderItem, index) => (
+              <View key={index}>
+                <View style={styles.itemRow}>
+                  <LinearGradient
+                    colors={vendor ? [`${vendor.color}20`, `${vendor.color}10`] : ['#7B2CBF20', '#7B2CBF10']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={styles.itemIconBox}
+                  >
+                    <Text style={styles.itemIconEmoji}>{orderItem.image}</Text>
+                  </LinearGradient>
+                  <View style={styles.itemDetails}>
+                    <Text style={styles.itemNameText}>{orderItem.name}</Text>
+                    <Text style={styles.itemQtyText}>{orderItem.quantity}x {orderItem.price} tokens</Text>
+                  </View>
+                  <Text style={styles.itemTotal}>{(orderItem.price * orderItem.quantity).toFixed(0)} tokens</Text>
+                </View>
+                {index < orderItems.length - 1 && <View style={styles.itemDivider} />}
               </View>
-              <Text style={styles.itemTotal}>${totalPrice.toFixed(2)}</Text>
-            </View>
+            ))}
 
             <View style={styles.divider} />
 
             <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>Total Paid</Text>
-              <Text style={styles.totalValue}>${totalPrice.toFixed(2)}</Text>
+              <View>
+                <Text style={styles.totalLabel}>Total Paid</Text>
+                <Text style={styles.totalSubtext}>{getTotalItems()} item{getTotalItems() > 1 ? 's' : ''}</Text>
+              </View>
+              <Text style={styles.totalValue}>{totalPrice.toFixed(0)} tokens</Text>
             </View>
           </View>
 
@@ -225,76 +244,58 @@ const OrderConfirmScreen = ({ route, navigation }) => {
       </LinearGradient>
 
       <ScrollView style={styles.preOrderContent} showsVerticalScrollIndicator={false}>
-        {/* Compact Item Card */}
+        {/* Items List Card */}
         <View style={styles.itemDisplayCard}>
-          <View style={styles.itemCardRow}>
-            <LinearGradient
-              colors={vendor ? [`${vendor.color}30`, `${vendor.color}15`] : ['#7B2CBF30', '#7B2CBF15']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.itemImageBox}
-            >
-              <Text style={styles.itemDisplayEmoji}>{item.image}</Text>
-            </LinearGradient>
-            <View style={styles.itemInfo}>
-              <View style={styles.itemTopRow}>
-                <Text style={styles.itemDisplayName} numberOfLines={2}>{item.name}</Text>
-                <View style={styles.itemBadge}>
-                  <Ionicons name="star" size={10} color="#F59E0B" />
-                </View>
-              </View>
-              <Text style={styles.itemDisplayCategory}>{item.category}</Text>
-              <Text style={[styles.itemDisplayPrice, vendor && { color: vendor.color }]}>
-                ${item.price} <Text style={styles.itemPriceLabel}>each</Text>
-              </Text>
-            </View>
+          <View style={styles.cartItemsHeader}>
+            <Ionicons name="cart" size={20} color={vendor?.color || '#7B2CBF'} />
+            <Text style={styles.cartItemsHeaderText}>
+              {getTotalItems()} Item{getTotalItems() > 1 ? 's' : ''}
+            </Text>
           </View>
+          
+          {orderItems.map((orderItem, index) => (
+            <View key={index}>
+              <View style={styles.itemCardRow}>
+                <LinearGradient
+                  colors={vendor ? [`${vendor.color}30`, `${vendor.color}15`] : ['#7B2CBF30', '#7B2CBF15']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.itemImageBox}
+                >
+                  <Text style={styles.itemDisplayEmoji}>{orderItem.image}</Text>
+                </LinearGradient>
+                <View style={styles.itemInfo}>
+                  <Text style={styles.itemDisplayName} numberOfLines={2}>{orderItem.name}</Text>
+                  <View style={styles.itemPriceRow}>
+                    <Text style={[styles.itemDisplayPrice, vendor && { color: vendor.color }]}>
+                      {orderItem.quantity}x {orderItem.price} tokens
+                    </Text>
+                  </View>
+                </View>
+                <Text style={[styles.itemTotalPrice, vendor && { color: vendor.color }]}>
+                  {(orderItem.price * orderItem.quantity).toFixed(0)}
+                </Text>
+              </View>
+              {index < orderItems.length - 1 && <View style={styles.cartItemDivider} />}
+            </View>
+          ))}
         </View>
 
-        {/* Inline Quantity & Payment Card */}
+        {/* Payment Card */}
         <View style={styles.paymentCard}>
-          {/* Quantity Section */}
-          <View style={styles.quantitySection}>
-            <View style={styles.quantityHeader}>
-              <Text style={styles.sectionLabel}>Quantity</Text>
-            </View>
-            <View style={styles.quantityControls}>
-              <TouchableOpacity
-                onPress={() => setQuantity(Math.max(1, quantity - 1))}
-                style={[styles.quantityBtn, quantity === 1 && styles.quantityBtnDisabled]}
-                activeOpacity={0.7}
-                disabled={quantity === 1}
-              >
-                <Ionicons name="remove" size={20} color={quantity === 1 ? "#666666" : "#FFFFFF"} />
-              </TouchableOpacity>
-              <View style={styles.quantityDisplay}>
-                <Text style={styles.quantityNumber}>{quantity}</Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setQuantity(quantity + 1)}
-                style={styles.quantityBtn}
-                activeOpacity={0.7}
-              >
-                <Ionicons name="add" size={20} color="#FFFFFF" />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.sectionDivider} />
-
           {/* Payment Section */}
           <View style={styles.paymentSection}>
             <Text style={styles.sectionLabel}>Payment Summary</Text>
             
             <View style={styles.paymentRow}>
               <Text style={styles.paymentLabel}>Your Balance</Text>
-              <Text style={styles.paymentValue}>${balance.toFixed(2)}</Text>
+              <Text style={styles.paymentValue}>{balance.toFixed(0)} tokens</Text>
             </View>
             
             <View style={styles.paymentRow}>
-              <Text style={styles.paymentLabel}>Subtotal ({quantity}x ${item.price})</Text>
+              <Text style={styles.paymentLabel}>Order Total</Text>
               <Text style={[styles.paymentValue, vendor && { color: vendor.color }]}>
-                ${totalPrice.toFixed(2)}
+                {totalPrice.toFixed(0)} tokens
               </Text>
             </View>
 
@@ -307,7 +308,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
                   styles.paymentValueFinal,
                   balance < totalPrice && styles.insufficientFunds
                 ]}>
-                  ${(balance - totalPrice).toFixed(2)}
+                  {(balance - totalPrice).toFixed(0)} tokens
                 </Text>
               </View>
               {balance < totalPrice ? (
@@ -339,7 +340,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
         <View style={styles.bottomBarContent}>
           <View style={styles.priceColumn}>
             <Text style={styles.priceLabel}>Total</Text>
-            <Text style={styles.priceValue}>${totalPrice.toFixed(2)}</Text>
+            <Text style={styles.priceValue}>{totalPrice.toFixed(0)} tokens</Text>
           </View>
           <LinearGradient
             colors={vendor ? vendor.gradient : ['#7B2CBF', '#9333EA']}
@@ -354,7 +355,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               activeOpacity={0.9}
             >
               <Text style={styles.confirmBtnText}>
-                {balance < totalPrice ? 'Add Funds' : 'Confirm & Pay'}
+                {balance < totalPrice ? 'Add Tokens' : 'Confirm & Pay'}
               </Text>
               <Ionicons 
                 name={balance < totalPrice ? "wallet" : "arrow-forward"} 
@@ -663,10 +664,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFFFFF',
   },
+  totalSubtext: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    marginTop: 2,
+  },
   totalValue: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#10B981',
+  },
+  itemDivider: {
+    height: 1,
+    backgroundColor: '#2A2A2A',
+    marginVertical: 12,
   },
   // Instructions
   instructionsCard: {
@@ -793,10 +804,38 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#2A2A2A',
   },
+  cartItemsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2A2A2A',
+  },
+  cartItemsHeaderText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
   itemCardRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 14,
+  },
+  cartItemDivider: {
+    height: 1,
+    backgroundColor: '#2A2A2A',
+    marginVertical: 12,
+  },
+  itemPriceRow: {
+    marginTop: 4,
+  },
+  itemTotalPrice: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: '#FFFFFF',
+    marginLeft: 'auto',
   },
   itemImageBox: {
     width: 80,

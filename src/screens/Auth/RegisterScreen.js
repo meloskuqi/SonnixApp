@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '../../context/AuthContext';
 
 const RegisterScreen = ({ navigation }) => {
@@ -39,30 +40,51 @@ const RegisterScreen = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+        {/* Decorative Background Elements */}
+        <View style={styles.decorativeCircle1} />
+        <View style={styles.decorativeCircle2} />
+        <View style={styles.decorativeCircle3} />
+        
         <View style={styles.content}>
-          {/* Logo */}
+          {/* Logo Section with Gradient */}
           <View style={styles.logoContainer}>
-            <View style={styles.logoIcon}>
-              <Ionicons name="musical-notes" size={48} color="white" />
-            </View>
+            <LinearGradient
+              colors={['#9333EA', '#7B2CBF', '#6B21A8']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.logoIcon}
+            >
+              <Ionicons name="musical-notes" size={52} color="white" />
+            </LinearGradient>
             <Text style={styles.logoText}>Sonnix</Text>
+            <View style={styles.newBadge}>
+              <Ionicons name="sparkles" size={12} color="#F59E0B" />
+              <Text style={styles.newBadgeText}>NEW ACCOUNT</Text>
+            </View>
           </View>
 
-          {/* Header */}
+          {/* Header with Badge */}
           <View style={styles.headerContainer}>
-            <Text style={styles.title}>Create Account</Text>
-            <Text style={styles.subtitle}>Sign up to get started</Text>
+            <View style={styles.headerRow}>
+              <Text style={styles.title}>Create Account ✨</Text>
+              <View style={styles.stepBadge}>
+                <Text style={styles.stepBadgeText}>1/1</Text>
+              </View>
+            </View>
+            <Text style={styles.subtitle}>Join thousands enjoying amazing events</Text>
           </View>
 
           {/* Name Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Full Name</Text>
             <View style={styles.inputContainer}>
-              <Ionicons name="person-outline" size={20} color="#7B2CBF" />
+              <View style={styles.iconBox}>
+                <Ionicons name="person" size={20} color="#9333EA" />
+              </View>
               <TextInput
                 style={styles.input}
-                placeholder="Enter your name"
+                placeholder="John Doe"
                 placeholderTextColor="#6B7280"
                 value={name}
                 onChangeText={setName}
@@ -72,12 +94,14 @@ const RegisterScreen = ({ navigation }) => {
 
           {/* Email Input */}
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Email</Text>
+            <Text style={styles.label}>Email Address</Text>
             <View style={styles.inputContainer}>
-              <Ionicons name="mail-outline" size={20} color="#7B2CBF" />
+              <View style={styles.iconBox}>
+                <Ionicons name="mail" size={20} color="#9333EA" />
+              </View>
               <TextInput
                 style={styles.input}
-                placeholder="Enter your email"
+                placeholder="your.email@example.com"
                 placeholderTextColor="#6B7280"
                 value={email}
                 onChangeText={setEmail}
@@ -91,18 +115,23 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Password</Text>
             <View style={styles.inputContainer}>
-              <Ionicons name="lock-closed-outline" size={20} color="#7B2CBF" />
+              <View style={styles.iconBox}>
+                <Ionicons name="lock-closed" size={20} color="#9333EA" />
+              </View>
               <TextInput
                 style={styles.input}
-                placeholder="Create a password"
+                placeholder="Create a strong password"
                 placeholderTextColor="#6B7280"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
               />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <TouchableOpacity 
+                onPress={() => setShowPassword(!showPassword)}
+                style={styles.eyeButton}
+              >
                 <Ionicons
-                  name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                  name={showPassword ? 'eye' : 'eye-off'}
                   size={20}
                   color="#9CA3AF"
                 />
@@ -114,10 +143,12 @@ const RegisterScreen = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Confirm Password</Text>
             <View style={styles.inputContainer}>
-              <Ionicons name="lock-closed-outline" size={20} color="#7B2CBF" />
+              <View style={styles.iconBox}>
+                <Ionicons name="shield-checkmark" size={20} color="#9333EA" />
+              </View>
               <TextInput
                 style={styles.input}
-                placeholder="Confirm your password"
+                placeholder="Re-enter your password"
                 placeholderTextColor="#6B7280"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
@@ -126,22 +157,61 @@ const RegisterScreen = ({ navigation }) => {
             </View>
           </View>
 
-          {/* Register Button */}
-          <TouchableOpacity
-            onPress={handleRegister}
+          {/* Features Grid */}
+          <View style={styles.featuresGrid}>
+            <View style={styles.featureItem}>
+              <Ionicons name="ticket" size={16} color="#10B981" />
+              <Text style={styles.featureText}>Easy Tickets</Text>
+            </View>
+            <View style={styles.featureItem}>
+              <Ionicons name="flash" size={16} color="#F59E0B" />
+              <Text style={styles.featureText}>Instant Access</Text>
+            </View>
+            <View style={styles.featureItem}>
+              <Ionicons name="shield" size={16} color="#3B82F6" />
+              <Text style={styles.featureText}>Secure</Text>
+            </View>
+          </View>
+
+          {/* Gradient Register Button */}
+          <LinearGradient
+            colors={['#9333EA', '#7B2CBF']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
             style={styles.registerButton}
           >
-            <Text style={styles.registerButtonText}>
-              Create Account
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleRegister}
+              style={styles.registerButtonInner}
+            >
+              <Text style={styles.registerButtonText}>
+                Create My Account
+              </Text>
+              <Ionicons name="arrow-forward-circle" size={22} color="#FFFFFF" />
+            </TouchableOpacity>
+          </LinearGradient>
+
+          {/* Divider */}
+          <View style={styles.dividerContainer}>
+            <View style={styles.divider} />
+            <Text style={styles.dividerText}>or</Text>
+            <View style={styles.divider} />
+          </View>
 
           {/* Sign In Link */}
           <View style={styles.signInContainer}>
             <Text style={styles.signInText}>Already have an account? </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.signInLink}>Sign In</Text>
+              <Text style={styles.signInLink}>Sign In →</Text>
             </TouchableOpacity>
+          </View>
+
+          {/* Terms Badge */}
+          <View style={styles.termsBadge}>
+            <Ionicons name="information-circle" size={14} color="#6B7280" />
+            <Text style={styles.termsText}>
+              By signing up, you agree to our Terms & Privacy
+            </Text>
           </View>
         </View>
       </ScrollView>
@@ -157,9 +227,38 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
   },
+  decorativeCircle1: {
+    position: 'absolute',
+    width: 320,
+    height: 320,
+    borderRadius: 160,
+    backgroundColor: '#9333EA12',
+    top: -160,
+    left: -100,
+  },
+  decorativeCircle2: {
+    position: 'absolute',
+    width: 220,
+    height: 220,
+    borderRadius: 110,
+    backgroundColor: '#7B2CBF10',
+    bottom: -80,
+    right: -60,
+  },
+  decorativeCircle3: {
+    position: 'absolute',
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    backgroundColor: '#9333EA08',
+    top: '35%',
+    right: -80,
+  },
   content: {
     flex: 1,
     padding: 24,
+    paddingTop: 50,
+    paddingBottom: 30,
     justifyContent: 'center',
   },
   logoContainer: {
@@ -167,39 +266,81 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   logoIcon: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#7B2CBF',
+    width: 90,
+    height: 90,
+    borderRadius: 45,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 18,
+    shadowColor: '#9333EA',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.6,
+    shadowRadius: 16,
+    elevation: 12,
   },
   logoText: {
-    fontSize: 32,
-    fontWeight: 'bold',
+    fontSize: 38,
+    fontWeight: '900',
     color: '#FFFFFF',
+    marginBottom: 10,
+    letterSpacing: -1,
+  },
+  newBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: '#1A1A1A',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#2A2A2A',
+  },
+  newBadgeText: {
+    color: '#FFFFFFCC',
+    fontSize: 11,
+    fontWeight: '900',
+    letterSpacing: 0.5,
   },
   headerContainer: {
+    marginBottom: 28,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 10,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 26,
+    fontWeight: '900',
     color: '#FFFFFF',
-    marginBottom: 8,
+    flex: 1,
+  },
+  stepBadge: {
+    backgroundColor: '#9333EA20',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#9333EA40',
+  },
+  stepBadgeText: {
+    color: '#9333EA',
+    fontSize: 11,
+    fontWeight: '900',
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#9CA3AF',
+    lineHeight: 20,
   },
   inputGroup: {
-    marginBottom: 20,
+    marginBottom: 16,
   },
   label: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
     color: '#FFFFFF',
     marginBottom: 8,
   },
@@ -207,9 +348,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#1A1A1A',
-    borderRadius: 12,
+    borderRadius: 16,
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: 16,
+    borderWidth: 1,
+    borderColor: '#2A2A2A',
+  },
+  iconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: '#9333EA15',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     flex: 1,
@@ -217,32 +368,101 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 12,
   },
-  registerButton: {
-    backgroundColor: '#7B2CBF',
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginTop: 12,
+  eyeButton: {
+    padding: 4,
+  },
+  featuresGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 16,
     marginBottom: 24,
+    backgroundColor: '#1A1A1A',
+    padding: 14,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#2A2A2A',
+  },
+  featureItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  featureText: {
+    color: '#FFFFFFCC',
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  registerButton: {
+    borderRadius: 16,
+    overflow: 'hidden',
+    marginBottom: 20,
+    shadowColor: '#9333EA',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+    elevation: 10,
+  },
+  registerButtonInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    paddingVertical: 18,
   },
   registerButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 17,
+    fontWeight: '900',
     color: '#FFFFFF',
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#2A2A2A',
+  },
+  dividerText: {
+    color: '#6B7280',
+    fontSize: 13,
+    fontWeight: '600',
+    paddingHorizontal: 16,
   },
   signInContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 20,
   },
   signInText: {
-    fontSize: 14,
+    fontSize: 15,
     color: '#9CA3AF',
   },
   signInLink: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#7B2CBF',
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#9333EA',
+  },
+  termsBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#1A1A1A',
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#2A2A2A',
+  },
+  termsText: {
+    color: '#6B7280',
+    fontSize: 11,
+    fontWeight: '600',
+    textAlign: 'center',
+    flex: 1,
   },
 });
 

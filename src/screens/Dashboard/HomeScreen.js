@@ -8,6 +8,7 @@ import {
   Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
 import { useWallet } from '../../context/WalletContext';
@@ -57,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
 
   const stats = [
     { label: 'Active Tickets', value: tickets?.length || 0, icon: 'ticket', color: '#7B2CBF' },
-    { label: 'This Month', value: `$${balance.toFixed(0)}`, icon: 'trending-up', color: '#10B981' },
+    { label: 'This Month', value: `${balance.toFixed(0)} tokens`, icon: 'trending-up', color: '#10B981' },
   ];
 
   return (
@@ -69,55 +70,113 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.avatarContainer}>
               <Text style={styles.avatarText}>{user?.name?.charAt(0)}</Text>
             </View>
-            <View>
+          <View>
               <Text style={styles.welcomeText}>Welcome back 👋</Text>
-              <Text style={styles.userName}>{user?.name}</Text>
+            <Text style={styles.userName}>{user?.name}</Text>
             </View>
           </View>
           <View style={styles.headerRight}>
-            <TouchableOpacity
+          <TouchableOpacity
               style={styles.headerButton}
               onPress={() => navigation.navigate('Notifications')}
-            >
+          >
               <Ionicons name="notifications-outline" size={24} color="#FFFFFF" />
               <View style={styles.notificationBadge}>
                 <Text style={styles.notificationBadgeText}>3</Text>
               </View>
-            </TouchableOpacity>
+          </TouchableOpacity>
           </View>
         </View>
 
-        {/* Balance Card */}
-        <TouchableOpacity 
-          style={styles.balanceCard}
+        {/* Premium Home Balance Card */}
+        <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
           activeOpacity={0.9}
         >
-          <View style={styles.balanceHeader}>
-            <View>
-              <Text style={styles.balanceLabel}>Total Balance</Text>
-              <View style={styles.balanceAmountRow}>
-                <Text style={styles.balanceAmount}>${balance.toFixed(2)}</Text>
-                <View style={styles.balanceChange}>
-                  <Ionicons name="trending-up" size={14} color="#10B981" />
-                  <Text style={styles.balanceChangeText}>+12.5%</Text>
+          <LinearGradient
+            colors={['#6366F1', '#8B5CF6', '#6366F1']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.premiumBalanceCard}
+          >
+            {/* Animated-style decorative elements */}
+            <View style={styles.premiumDecorCircle1} />
+            <View style={styles.premiumDecorCircle2} />
+            <View style={styles.premiumDecorCircle3} />
+            
+            <View style={styles.premiumCardContent}>
+              {/* Top Row with Badge */}
+              <View style={styles.premiumTopRow}>
+                <View style={styles.premiumBadge}>
+                  <View style={styles.premiumPulse} />
+                  <Text style={styles.premiumBadgeText}>LIVE BALANCE</Text>
+                </View>
+                <View style={styles.premiumHomeBadge}>
+                  <Ionicons name="home" size={18} color="#FFFFFF" />
+                </View>
+              </View>
+              
+              {/* Center Balance - Big & Beautiful */}
+              <View style={styles.premiumBalanceSection}>
+                <View style={styles.premiumBalanceDisplay}>
+                  <View style={styles.premiumDiamondBox}>
+                    <Ionicons name="diamond" size={30} color="#F59E0B" />
+                  </View>
+                  <View style={styles.premiumAmountBlock}>
+                    <Text style={styles.premiumAmount}>{tokens}</Text>
+                    <Text style={styles.premiumTokensLabel}>TOKENS</Text>
+                  </View>
+                </View>
+                
+                {/* Value Bar */}
+                <View style={styles.premiumValueBar}>
+                  <LinearGradient
+                    colors={['#10B981', '#059669']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.premiumValueFill}
+                  />
+                </View>
+              </View>
+              
+              {/* Bottom Info Grid */}
+              <View style={styles.premiumInfoGrid}>
+                <View style={styles.premiumInfoBox}>
+                  <View style={styles.premiumInfoIconBox}>
+                    <Ionicons name="ticket" size={16} color="#8B5CF6" />
+                  </View>
+                  <View style={styles.premiumInfoTextBlock}>
+                    <Text style={styles.premiumInfoValue}>{tickets?.length || 0}</Text>
+                    <Text style={styles.premiumInfoLabel}>Active</Text>
+                  </View>
+                </View>
+                
+                <View style={styles.premiumInfoDivider} />
+                
+                <View style={styles.premiumInfoBox}>
+                  <View style={styles.premiumInfoIconBox}>
+                    <Ionicons name="shield-checkmark" size={16} color="#10B981" />
+                  </View>
+                  <View style={styles.premiumInfoTextBlock}>
+                    <Text style={styles.premiumInfoValue}>100%</Text>
+                    <Text style={styles.premiumInfoLabel}>Secure</Text>
+                  </View>
+                </View>
+                
+                <View style={styles.premiumInfoDivider} />
+                
+                <View style={styles.premiumInfoBox}>
+                  <View style={styles.premiumInfoIconBox}>
+                    <Ionicons name="flash" size={16} color="#F59E0B" />
+                  </View>
+                  <View style={styles.premiumInfoTextBlock}>
+                    <Text style={styles.premiumInfoValue}>Live</Text>
+                    <Text style={styles.premiumInfoLabel}>Status</Text>
+                  </View>
                 </View>
               </View>
             </View>
-            <View style={styles.walletIconContainer}>
-              <Ionicons name="wallet" size={28} color="white" />
-            </View>
-          </View>
-          
-          <View style={styles.tokenSection}>
-            <View style={styles.tokenInfo}>
-              <Ionicons name="flash" size={16} color="#E9D5FF" />
-              <Text style={styles.tokenLabel}>{tokens} Tokens Available</Text>
-            </View>
-            <TouchableOpacity onPress={() => navigation.navigate('WalletTab')}>
-              <Ionicons name="arrow-forward-circle" size={24} color="#FFFFFF" />
-            </TouchableOpacity>
-          </View>
+          </LinearGradient>
         </TouchableOpacity>
 
         {/* Stats Row */}
@@ -136,7 +195,7 @@ const HomeScreen = ({ navigation }) => {
         {/* Quick Actions */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Quick Actions</Text>
+          <Text style={styles.sectionTitle}>Quick Actions</Text>
           </View>
           <View style={styles.quickActionsGrid}>
             {quickActions.map((action) => (
@@ -371,69 +430,197 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
-  balanceCard: {
-    backgroundColor: '#7B2CBF',
-    borderRadius: 20,
-    padding: 20,
+  // Premium Home Balance Card - SEXY & COMPELLING
+  premiumBalanceCard: {
+    borderRadius: 26,
     marginBottom: 20,
-    shadowColor: '#7B2CBF',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 8,
+    shadowColor: '#6366F1',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.6,
+    shadowRadius: 18,
+    elevation: 14,
+    overflow: 'hidden',
+    position: 'relative',
   },
-  balanceHeader: {
+  premiumDecorCircle1: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: '#FFFFFF10',
+    top: -50,
+    right: -50,
+  },
+  premiumDecorCircle2: {
+    position: 'absolute',
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: '#FFFFFF08',
+    bottom: -40,
+    left: -40,
+  },
+  premiumDecorCircle3: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#FFFFFF05',
+    top: '40%',
+    right: -20,
+  },
+  premiumCardContent: {
+    padding: 22,
+    zIndex: 1,
+  },
+  premiumTopRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 20,
+    alignItems: 'center',
+    marginBottom: 18,
   },
-  balanceLabel: {
-    fontSize: 13,
-    color: '#E9D5FF',
-    marginBottom: 8,
-    textTransform: 'uppercase',
+  premiumBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+    backgroundColor: '#FFFFFF18',
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#FFFFFF25',
+  },
+  premiumPulse: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#10B981',
+  },
+  premiumBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '900',
     letterSpacing: 0.5,
   },
-  balanceAmountRow: {
-    flexDirection: 'row',
+  premiumHomeBadge: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: '#FFFFFF20',
     alignItems: 'center',
-  },
-  balanceAmount: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginRight: 12,
-  },
-  balanceChange: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(16, 185, 129, 0.2)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  balanceChangeText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#10B981',
-    marginLeft: 4,
-  },
-  walletIconContainer: {
-    width: 56,
-    height: 56,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 28,
     justifyContent: 'center',
-    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#FFFFFF30',
   },
-  tokenSection: {
+  premiumBalanceSection: {
+    marginBottom: 18,
+  },
+  premiumBalanceDisplay: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    borderRadius: 12,
-    padding: 12,
+    gap: 14,
+    marginBottom: 14,
+  },
+  premiumDiamondBox: {
+    width: 66,
+    height: 66,
+    borderRadius: 33,
+    backgroundColor: '#FFFFFF20',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#FFFFFF30',
+    shadowColor: '#F59E0B',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  premiumAmountBlock: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  premiumAmount: {
+    color: '#FFFFFF',
+    fontSize: 44,
+    fontWeight: '900',
+    letterSpacing: -1.5,
+    textShadowColor: '#00000040',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+    lineHeight: 48,
+  },
+  premiumTokensLabel: {
+    color: '#FFFFFFCC',
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 1.2,
+    marginTop: 2,
+  },
+  premiumValueBar: {
+    height: 6,
+    backgroundColor: '#FFFFFF20',
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  premiumValueFill: {
+    height: '100%',
+    width: '85%',
+    borderRadius: 3,
+  },
+  premiumInfoGrid: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF15',
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#FFFFFF20',
+  },
+  premiumInfoBox: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    justifyContent: 'center',
+  },
+  premiumInfoIconBox: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  premiumInfoTextBlock: {
+    alignItems: 'flex-start',
+  },
+  premiumInfoValue: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontWeight: '900',
+    lineHeight: 18,
+  },
+  premiumInfoLabel: {
+    color: '#FFFFFFBB',
+    fontSize: 9,
+    fontWeight: '700',
+    marginTop: 1,
+  },
+  premiumInfoDivider: {
+    width: 1,
+    height: 32,
+    backgroundColor: '#FFFFFF25',
+    marginHorizontal: 4,
+  },
+  hiddenTokenSection: {
+    display: 'none',
   },
   tokenInfo: {
     flexDirection: 'row',
@@ -704,3 +891,4 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+
