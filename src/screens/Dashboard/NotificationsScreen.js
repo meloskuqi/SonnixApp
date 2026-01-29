@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const NotificationsScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -20,7 +21,7 @@ const NotificationsScreen = ({ navigation }) => {
       time: '5 min ago',
       read: false,
       icon: 'checkmark-circle',
-      iconColor: '#10B981',
+      iconColor: colors.success,
     },
     {
       id: 2,
@@ -30,7 +31,7 @@ const NotificationsScreen = ({ navigation }) => {
       time: '1 hour ago',
       read: false,
       icon: 'calendar',
-      iconColor: '#7B2CBF',
+      iconColor: colors.primary,
     },
     {
       id: 3,
@@ -40,7 +41,7 @@ const NotificationsScreen = ({ navigation }) => {
       time: '3 hours ago',
       read: false,
       icon: 'gift',
-      iconColor: '#F59E0B',
+      iconColor: colors.warning,
     },
     {
       id: 4,
@@ -50,7 +51,7 @@ const NotificationsScreen = ({ navigation }) => {
       time: '1 day ago',
       read: true,
       icon: 'shield-checkmark',
-      iconColor: '#3B82F6',
+      iconColor: colors.info,
     },
     {
       id: 5,
@@ -60,7 +61,7 @@ const NotificationsScreen = ({ navigation }) => {
       time: '2 days ago',
       read: true,
       icon: 'receipt',
-      iconColor: '#8B5CF6',
+      iconColor: colors.primaryDark,
     },
   ]);
 
@@ -87,7 +88,7 @@ const NotificationsScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color={colors.white} />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle}>Notifications</Text>
@@ -99,7 +100,7 @@ const NotificationsScreen = ({ navigation }) => {
         </View>
         {unreadCount > 0 && (
           <TouchableOpacity onPress={markAllAsRead} style={styles.markAllButton}>
-            <Ionicons name="checkmark-done" size={22} color="#7B2CBF" />
+            <Ionicons name="checkmark-done" size={22} color={colors.primary} />
           </TouchableOpacity>
         )}
         {unreadCount === 0 && <View style={{ width: 40 }} />}
@@ -137,7 +138,7 @@ const NotificationsScreen = ({ navigation }) => {
                       onPress={() => deleteNotification(notification.id)}
                       style={styles.deleteButton}
                     >
-                      <Ionicons name="close-circle" size={20} color="#6B7280" />
+                      <Ionicons name="close-circle" size={20} color={colors.textMuted} />
                     </TouchableOpacity>
                   </TouchableOpacity>
                 ))}
@@ -165,7 +166,7 @@ const NotificationsScreen = ({ navigation }) => {
                       onPress={() => deleteNotification(notification.id)}
                       style={styles.deleteButton}
                     >
-                      <Ionicons name="close-circle" size={20} color="#6B7280" />
+                      <Ionicons name="close-circle" size={20} color={colors.textMuted} />
                     </TouchableOpacity>
                   </TouchableOpacity>
                 ))}
@@ -175,7 +176,7 @@ const NotificationsScreen = ({ navigation }) => {
         ) : (
           <View style={styles.emptyState}>
             <View style={styles.emptyIconContainer}>
-              <Ionicons name="notifications-off-outline" size={80} color="#6B7280" />
+              <Ionicons name="notifications-off-outline" size={80} color={colors.textMuted} />
             </View>
             <Text style={styles.emptyTitle}>No Notifications</Text>
             <Text style={styles.emptyDescription}>
@@ -191,7 +192,7 @@ const NotificationsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -216,10 +217,10 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   unreadBadge: {
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     borderRadius: 10,
     paddingHorizontal: 8,
     paddingVertical: 2,
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
   unreadBadgeText: {
     fontSize: 12,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   markAllButton: {
     width: 40,
@@ -250,21 +251,21 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   notificationCard: {
     flexDirection: 'row',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 14,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   unreadCard: {
-    backgroundColor: '#7B2CBF08',
-    borderColor: '#7B2CBF30',
+    backgroundColor: colors.primary08,
+    borderColor: colors.primary30,
   },
   iconContainer: {
     width: 48,
@@ -285,24 +286,24 @@ const styles = StyleSheet.create({
   notificationTitle: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   unreadDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     marginLeft: 8,
   },
   notificationMessage: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     lineHeight: 20,
     marginBottom: 6,
   },
   notificationTime: {
     fontSize: 12,
-    color: '#6B7280',
+    color: colors.textMuted,
   },
   deleteButton: {
     padding: 4,
@@ -317,12 +318,12 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   emptyDescription: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     textAlign: 'center',
     lineHeight: 22,
     paddingHorizontal: 40,

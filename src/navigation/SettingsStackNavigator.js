@@ -9,6 +9,7 @@ import SupportScreen from '../screens/Settings/SupportScreen';
 import RateAppScreen from '../screens/Settings/RateAppScreen';
 import TermsScreen from '../screens/Settings/TermsScreen';
 import PrivacyScreen from '../screens/Settings/PrivacyScreen';
+import { colors } from '../constants/colors';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +18,7 @@ const SettingsStackNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: '#0D0D0D' },
+        cardStyle: { backgroundColor: colors.background },
       }}
     >
       <Stack.Screen name="Settings" component={SettingsScreen} />

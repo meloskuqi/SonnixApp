@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,361 +7,430 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWallet } from '../../context/WalletContext';
 import WalletBalanceCard from '../../components/WalletBalanceCard';
 import TransactionItem from '../../components/TransactionItem';
+import QuickPaymentModal from '../../components/QuickPaymentModal';
+import FloatingPayButton from '../../components/FloatingPayButton';
+import { colors, gradients, shadows } from '../../constants/colors';
+import { spacing, borderRadius } from '../../constants/design';
 
 const WalletScreen = ({ navigation }) => {
   const { balance, tokens, transactions, tickets } = useWallet();
   const insets = useSafeAreaInsets();
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  const recentTransactions = transactions.slice(0, 3);
+  const recentTransactions = transactions.slice(0, 5);
 
   const quickActions = [
     {
       id: 1,
       icon: 'add-circle',
       label: 'Add Funds',
-      color: '#10B981',
+      gradient: [colors.success, '#059669'],
       onPress: () => navigation.navigate('AddFunds'),
     },
     {
       id: 2,
       icon: 'send',
       label: 'Send',
-      color: '#3B82F6',
+      gradient: [colors.info, '#2563EB'],
       onPress: () => navigation.navigate('SendMoney'),
     },
     {
       id: 3,
-      icon: 'cash',
+      icon: 'arrow-down-circle',
       label: 'Request',
-      color: '#8B5CF6',
+      gradient: [colors.warning, '#D97706'],
       onPress: () => navigation.navigate('RequestMoney'),
     },
     {
       id: 4,
       icon: 'qr-code',
       label: 'QR Pay',
-      color: '#7B2CBF',
+      gradient: gradients.primary,
       onPress: () => navigation.navigate('QrPayment'),
     },
   ];
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={[styles.content, { paddingTop: insets.top + 16 }]}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.greeting}>My Wallet</Text>
-            <Text style={styles.subtitle}>Manage your funds & tickets</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('TransactionHistory')}
-            style={styles.historyButton}
-          >
-            <Ionicons name="time-outline" size={24} color="#7B2CBF" />
-          </TouchableOpacity>
-        </View>
-
-        {/* Balance Card */}
-        <WalletBalanceCard balance={balance} tokens={tokens} />
-
-        {/* Quick Actions */}
-        <View style={styles.quickActionsContainer}>
-          {quickActions.map((action) => (
-            <TouchableOpacity
-              key={action.id}
-              onPress={action.onPress}
-              style={styles.quickActionButton}
-            >
-              <View style={[styles.quickActionIcon, { backgroundColor: `${action.color}15` }]}>
-                <Ionicons name={action.icon} size={24} color={action.color} />
-              </View>
-              <Text style={styles.quickActionLabel}>{action.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* My Tickets Section */}
-        {tickets.length > 0 && (
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <View style={styles.sectionTitleContainer}>
-                <Ionicons name="ticket" size={20} color="#7B2CBF" />
-                <Text style={styles.sectionTitle}>My Tickets</Text>
-                <View style={styles.badge}>
-                  <Text style={styles.badgeText}>{tickets.length}</Text>
-                </View>
-              </View>
-            </View>
-
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.ticketsScroll}
-            >
-              {tickets.map((ticket) => (
-                <TouchableOpacity
-                  key={ticket.id}
-                  onPress={() => navigation.navigate('TicketDetails', { ticket })}
-                  style={styles.ticketCardHorizontal}
-                >
-                  <View style={styles.ticketCardContent}>
-                    <View style={styles.ticketIconSmall}>
-                      <Ionicons name="musical-notes" size={20} color="#7B2CBF" />
-                    </View>
-                    <Text style={styles.ticketTitleSmall} numberOfLines={2}>
-                      {ticket.eventTitle}
-                    </Text>
-                    <Text style={styles.ticketDateSmall}>{ticket.date}</Text>
-                    <View style={styles.ticketViewButton}>
-                      <Text style={styles.ticketViewText}>View Ticket</Text>
-                      <Ionicons name="arrow-forward" size={14} color="#7B2CBF" />
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-        )}
-
-        {/* Recent Activity */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <View style={styles.sectionTitleContainer}>
-              <Ionicons name="receipt" size={20} color="#7B2CBF" />
-              <Text style={styles.sectionTitle}>Recent Activity</Text>
+    <View style={styles.container}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        <View style={[styles.content, { paddingTop: insets.top + spacing.md }]}>
+          {/* Header */}
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.greeting}>My Wallet</Text>
+              <Text style={styles.subtitle}>Manage your funds & tickets</Text>
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate('TransactionHistory')}
+              style={styles.historyButton}
             >
-              <Text style={styles.viewAllText}>See All</Text>
+              <Ionicons name="time-outline" size={22} color={colors.primary} />
             </TouchableOpacity>
           </View>
 
-          {recentTransactions.length > 0 ? (
-            <View style={styles.transactionsContainer}>
-              {recentTransactions.map((transaction) => (
-                <TransactionItem
-                  key={transaction.id}
-                  transaction={transaction}
-                  onPress={() => alert(`Transaction ID: ${transaction.id}`)}
-                />
-              ))}
-            </View>
-          ) : (
-            <View style={styles.emptyContainer}>
-              <Ionicons name="receipt-outline" size={48} color="#6B7280" />
-              <Text style={styles.emptyText}>No transactions yet</Text>
+          {/* Balance Card */}
+          <WalletBalanceCard balance={balance} tokens={tokens} />
+
+          {/* Quick Actions */}
+          <View style={styles.quickActionsContainer}>
+            {quickActions.map((action) => (
+              <TouchableOpacity
+                key={action.id}
+                onPress={action.onPress}
+                style={styles.quickActionItem}
+                activeOpacity={0.7}
+              >
+                <LinearGradient
+                  colors={action.gradient}
+                  style={styles.quickActionGradient}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                >
+                  <Ionicons name={action.icon} size={24} color={colors.white} />
+                </LinearGradient>
+                <Text style={styles.quickActionLabel}>{action.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* My Tickets Section */}
+          {tickets.length > 0 && (
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <View style={styles.sectionTitleRow}>
+                  <Ionicons name="ticket" size={20} color={colors.primary} />
+                  <Text style={styles.sectionTitle}>My Tickets</Text>
+                  <View style={styles.badge}>
+                    <Text style={styles.badgeText}>{tickets.length}</Text>
+                  </View>
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('WalletTab')}>
+                  <Text style={styles.viewAllText}>View All</Text>
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.ticketsScroll}
+              >
+                {tickets.map((ticket) => (
+                  <TouchableOpacity
+                    key={ticket.id}
+                    onPress={() => navigation.navigate('TicketDetails', { ticket })}
+                    style={styles.ticketCard}
+                    activeOpacity={0.8}
+                  >
+                    <View style={styles.ticketCardContent}>
+                      <View style={styles.ticketIconContainer}>
+                        <Ionicons name="ticket" size={24} color={colors.primary} />
+                      </View>
+                      <Text style={styles.ticketTitle} numberOfLines={2}>
+                        {ticket.eventTitle || ticket.event?.title || 'Event Ticket'}
+                      </Text>
+                      <Text style={styles.ticketDate}>{ticket.date || ticket.event?.date || 'Date TBD'}</Text>
+                      <View style={styles.ticketViewButton}>
+                        <Text style={styles.ticketViewText}>View</Text>
+                        <Ionicons name="arrow-forward" size={14} color={colors.primary} />
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
             </View>
           )}
-        </View>
 
-        {/* Quick Links */}
-        <View style={styles.quickLinksSection}>
-          <TouchableOpacity
-            style={styles.quickLinkCard}
-            onPress={() => navigation.navigate('PaymentOptions')}
-          >
-            <Ionicons name="card-outline" size={24} color="#7B2CBF" />
-            <Text style={styles.quickLinkText}>Payment Methods</Text>
-            <Ionicons name="chevron-forward" size={20} color="#6B7280" />
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            style={styles.quickLinkCard}
-            onPress={() => navigation.navigate('Refund')}
-          >
-            <Ionicons name="return-up-back-outline" size={24} color="#F59E0B" />
-            <Text style={styles.quickLinkText}>Request Refund</Text>
-            <Ionicons name="chevron-forward" size={20} color="#6B7280" />
-          </TouchableOpacity>
+          {/* Recent Activity */}
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <View style={styles.sectionTitleRow}>
+                <Ionicons name="receipt" size={20} color={colors.primary} />
+                <Text style={styles.sectionTitle}>Recent Activity</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('TransactionHistory')}
+              >
+                <Text style={styles.viewAllText}>See All</Text>
+              </TouchableOpacity>
+            </View>
+
+            {recentTransactions.length > 0 ? (
+              <View style={styles.transactionsContainer}>
+                {recentTransactions.map((transaction) => (
+                  <TransactionItem
+                    key={transaction.id}
+                    transaction={transaction}
+                    onPress={() => {}}
+                  />
+                ))}
+              </View>
+            ) : (
+              <View style={styles.emptyContainer}>
+                <Ionicons name="receipt-outline" size={48} color={colors.textMuted} />
+                <Text style={styles.emptyText}>No transactions yet</Text>
+                <Text style={styles.emptySubtext}>Your transaction history will appear here</Text>
+              </View>
+            )}
+          </View>
+
+          {/* Quick Links */}
+          <View style={styles.quickLinksSection}>
+            <TouchableOpacity
+              style={styles.quickLinkCard}
+              onPress={() => navigation.navigate('PaymentOptions')}
+              activeOpacity={0.7}
+            >
+              <View style={styles.quickLinkIconContainer}>
+                <Ionicons name="card" size={22} color={colors.primary} />
+              </View>
+              <Text style={styles.quickLinkText}>Payment Methods</Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+              style={styles.quickLinkCard}
+              onPress={() => navigation.navigate('Refund')}
+              activeOpacity={0.7}
+            >
+              <View style={styles.quickLinkIconContainer}>
+                <Ionicons name="return-up-back" size={22} color={colors.warning} />
+              </View>
+              <Text style={styles.quickLinkText}>Request Refund</Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+
+      {/* Floating Quick Pay Button */}
+      <FloatingPayButton onPress={() => setShowPaymentModal(true)} />
+
+      {/* Quick Payment Modal */}
+      <QuickPaymentModal
+        visible={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        navigation={navigation}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   content: {
-    paddingHorizontal: 20,
-    paddingBottom: 24,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.xl,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: spacing.lg,
   },
   greeting: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontWeight: '800',
+    color: colors.text,
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
+    fontWeight: '500',
   },
   historyButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   quickActionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 24,
-    marginBottom: 28,
+    marginTop: spacing.lg,
+    marginBottom: spacing.xl,
+    gap: spacing.sm,
   },
-  quickActionButton: {
+  quickActionItem: {
     flex: 1,
     alignItems: 'center',
-    marginHorizontal: 4,
   },
-  quickActionIcon: {
+  quickActionGradient: {
     width: 56,
     height: 56,
-    borderRadius: 28,
+    borderRadius: borderRadius.lg,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
+    ...shadows.medium,
   },
   quickActionLabel: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: colors.text,
     textAlign: 'center',
   },
   section: {
-    marginBottom: 28,
+    marginBottom: spacing.xl,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: spacing.md,
   },
-  sectionTitleContainer: {
+  sectionTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: spacing.sm,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginLeft: 8,
+    fontWeight: '700',
+    color: colors.text,
   },
   badge: {
-    backgroundColor: '#7B2CBF',
-    borderRadius: 10,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.sm,
     paddingHorizontal: 8,
     paddingVertical: 2,
-    marginLeft: 8,
+    minWidth: 24,
+    alignItems: 'center',
   },
   badgeText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: 11,
+    fontWeight: '800',
+    color: colors.white,
   },
   viewAllText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#7B2CBF',
+    color: colors.primary,
   },
   ticketsScroll: {
-    paddingRight: 20,
+    paddingRight: spacing.md,
   },
-  ticketCardHorizontal: {
+  ticketCard: {
     width: 160,
-    marginRight: 12,
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
+    marginRight: spacing.md,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.lg,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.medium,
   },
   ticketCardContent: {
-    padding: 16,
+    padding: spacing.md,
   },
-  ticketIconSmall: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#7B2CBF20',
+  ticketIconContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: borderRadius.md,
+    backgroundColor: colors.primaryAlpha['15'],
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.primaryAlpha['25'],
   },
-  ticketTitleSmall: {
+  ticketTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
-    marginBottom: 8,
-    height: 36,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: spacing.sm,
+    lineHeight: 20,
+    minHeight: 40,
   },
-  ticketDateSmall: {
+  ticketDate: {
     fontSize: 12,
-    color: '#9CA3AF',
-    marginBottom: 12,
+    color: colors.textTertiary,
+    marginBottom: spacing.md,
+    fontWeight: '500',
   },
   ticketViewButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 8,
-    backgroundColor: '#7B2CBF15',
-    borderRadius: 8,
+    paddingVertical: spacing.sm,
+    backgroundColor: colors.primaryAlpha['15'],
+    borderRadius: borderRadius.sm,
+    gap: 4,
   },
   ticketViewText: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#7B2CBF',
-    marginRight: 4,
+    fontWeight: '700',
+    color: colors.primary,
   },
   transactionsContainer: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.lg,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   emptyContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 40,
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
+    paddingVertical: spacing.xxl,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   emptyText: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginTop: 12,
+    fontSize: 16,
+    color: colors.text,
+    marginTop: spacing.md,
+    fontWeight: '600',
+  },
+  emptySubtext: {
+    fontSize: 13,
+    color: colors.textMuted,
+    marginTop: spacing.xs,
   },
   quickLinksSection: {
-    marginTop: 8,
-    marginBottom: 16,
+    marginTop: spacing.sm,
   },
   quickLinkCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
+    marginBottom: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  quickLinkIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: borderRadius.md,
+    backgroundColor: colors.primaryAlpha['15'],
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   quickLinkText: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
-    color: '#FFFFFF',
-    marginLeft: 16,
+    color: colors.text,
+    marginLeft: spacing.md,
   },
 });
 

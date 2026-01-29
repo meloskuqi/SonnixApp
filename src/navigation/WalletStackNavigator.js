@@ -8,6 +8,7 @@ import AddFundsScreen from '../screens/Transactions/AddFundsScreen';
 import SendMoneyScreen from '../screens/Transactions/SendMoneyScreen';
 import RequestMoneyScreen from '../screens/Transactions/RequestMoneyScreen';
 import RefundScreen from '../screens/Transactions/RefundScreen';
+import { colors } from '../constants/colors';
 
 const Stack = createStackNavigator();
 
@@ -16,7 +17,7 @@ const WalletStackNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: '#0D0D0D' },
+        cardStyle: { backgroundColor: colors.background },
       }}
     >
       <Stack.Screen name="Wallet" component={WalletScreen} />

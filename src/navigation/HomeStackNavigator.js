@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/Dashboard/HomeScreen';
 import NotificationsScreen from '../screens/Dashboard/NotificationsScreen';
+import { colors } from '../constants/colors';
 
 const Stack = createStackNavigator();
 
@@ -10,7 +11,7 @@ const HomeStackNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: '#0D0D0D' },
+        cardStyle: { backgroundColor: colors.background },
       }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />

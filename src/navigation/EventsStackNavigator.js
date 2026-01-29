@@ -4,6 +4,7 @@ import EventsScreen from '../screens/Events/EventsScreen';
 import EventDetailsScreen from '../screens/Events/EventDetailsScreen';
 import MerchScreen from '../screens/Events/MerchScreen';
 import TablePurchaseScreen from '../screens/Events/TablePurchaseScreen';
+import { colors } from '../constants/colors';
 
 const Stack = createStackNavigator();
 
@@ -12,7 +13,7 @@ const EventsStackNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: '#0D0D0D' },
+        cardStyle: { backgroundColor: colors.background },
       }}
     >
       <Stack.Screen name="Events" component={EventsScreen} />

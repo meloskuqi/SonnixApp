@@ -10,9 +10,12 @@ import {
   Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { dummyEvents } from '../../services/dummyData';
 import EventCard from '../../components/EventCard';
+import { colors, gradients, shadows } from '../../constants/colors';
+import { spacing, borderRadius } from '../../constants/design';
 
 const EventsScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,38 +38,35 @@ const EventsScreen = ({ navigation }) => {
     return matchesSearch && matchesCategory;
   });
 
-  // Get featured event (first event)
   const featuredEvent = dummyEvents[0];
-  
-  // Get trending events (exclude featured)
   const trendingEvents = dummyEvents.slice(1, 4);
 
   const renderHeader = () => (
-    <View style={[styles.headerContainer, { paddingTop: insets.top + 16 }]}>
+    <View style={[styles.headerContainer, { paddingTop: insets.top + spacing.md }]}>
       {/* Header */}
       <View style={styles.topHeader}>
         <View>
           <Text style={styles.title}>Discover Events</Text>
           <Text style={styles.subtitle}>Find amazing experiences near you</Text>
         </View>
-        <TouchableOpacity style={styles.filterIconButton}>
-          <Ionicons name="options-outline" size={24} color="#7B2CBF" />
+        <TouchableOpacity style={styles.filterButton}>
+          <Ionicons name="options-outline" size={22} color={colors.primary} />
         </TouchableOpacity>
       </View>
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#7B2CBF" style={styles.searchIcon} />
+        <Ionicons name="search" size={20} color={colors.primary} style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search events, venues, artists..."
-          placeholderTextColor="#6B7280"
+          placeholderTextColor={colors.textMuted}
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
         {searchQuery.length > 0 && (
           <TouchableOpacity onPress={() => setSearchQuery('')}>
-            <Ionicons name="close-circle" size={20} color="#6B7280" />
+            <Ionicons name="close-circle" size={20} color={colors.textMuted} />
           </TouchableOpacity>
         )}
       </View>
@@ -76,25 +76,29 @@ const EventsScreen = ({ navigation }) => {
         <TouchableOpacity
           style={styles.featuredBanner}
           onPress={() => navigation.navigate('EventDetails', { event: featuredEvent })}
+          activeOpacity={0.9}
         >
           <Image
             source={{ uri: featuredEvent.image }}
             style={styles.featuredImage}
             resizeMode="cover"
           />
-          <View style={styles.featuredOverlay}>
+          <LinearGradient
+            colors={['transparent', 'rgba(0,0,0,0.8)']}
+            style={styles.featuredOverlay}
+          >
             <View style={styles.featuredBadge}>
-              <Ionicons name="star" size={14} color="#FFD700" />
+              <Ionicons name="star" size={14} color={colors.warning} />
               <Text style={styles.featuredBadgeText}>Featured</Text>
             </View>
             <Text style={styles.featuredTitle}>{featuredEvent.title}</Text>
             <View style={styles.featuredInfo}>
-              <Ionicons name="calendar-outline" size={14} color="#FFFFFF" />
+              <Ionicons name="calendar-outline" size={14} color={colors.white} />
               <Text style={styles.featuredInfoText}>{featuredEvent.date}</Text>
-              <Ionicons name="location-outline" size={14} color="#FFFFFF" style={{ marginLeft: 12 }} />
+              <Ionicons name="location-outline" size={14} color={colors.white} style={styles.featuredInfoIcon} />
               <Text style={styles.featuredInfoText}>{featuredEvent.venue}</Text>
             </View>
-          </View>
+          </LinearGradient>
         </TouchableOpacity>
       )}
 
@@ -110,10 +114,8 @@ const EventsScreen = ({ navigation }) => {
             <TouchableOpacity
               key={item}
               onPress={() => setSelectedCategory(item)}
-              style={[
-                styles.categoryButton,
-                selectedCategory === item && styles.categoryButtonActive
-              ]}
+              style={styles.categoryButton}
+              activeOpacity={0.7}
             >
               <View style={[
                 styles.categoryIconContainer,
@@ -122,7 +124,7 @@ const EventsScreen = ({ navigation }) => {
                 <Ionicons
                   name={categoryIcons[item]}
                   size={20}
-                  color={selectedCategory === item ? '#FFFFFF' : '#7B2CBF'}
+                  color={selectedCategory === item ? colors.white : colors.primary}
                 />
               </View>
               <Text
@@ -147,16 +149,14 @@ const EventsScreen = ({ navigation }) => {
         <View style={styles.vendorsAccessContent}>
           <View style={styles.vendorsAccessLeft}>
             <View style={styles.vendorsAccessIcon}>
-              <Ionicons name="restaurant" size={24} color="#EA580C" />
+              <Ionicons name="restaurant" size={24} color={colors.softOrange} />
             </View>
             <View>
               <Text style={styles.vendorsAccessTitle}>Event Food & Drinks</Text>
               <Text style={styles.vendorsAccessSubtitle}>Order from vendors • Skip the line</Text>
             </View>
           </View>
-          <View style={styles.vendorsAccessArrow}>
-            <Ionicons name="arrow-forward-circle" size={28} color="#EA580C" />
-          </View>
+          <Ionicons name="arrow-forward-circle" size={28} color={colors.softOrange} />
         </View>
       </TouchableOpacity>
 
@@ -165,7 +165,7 @@ const EventsScreen = ({ navigation }) => {
         <View style={styles.trendingSection}>
           <View style={styles.sectionHeaderRow}>
             <View style={styles.sectionTitleWithIcon}>
-              <Ionicons name="flame" size={20} color="#FF6B35" />
+              <Ionicons name="flame" size={20} color={colors.softOrange} />
               <Text style={styles.sectionTitle}>Trending Now</Text>
             </View>
             <TouchableOpacity>
@@ -182,20 +182,25 @@ const EventsScreen = ({ navigation }) => {
                 key={event.id}
                 style={styles.trendingCard}
                 onPress={() => navigation.navigate('EventDetails', { event })}
+                activeOpacity={0.9}
               >
                 <Image
                   source={{ uri: event.image }}
                   style={styles.trendingImage}
                   resizeMode="cover"
                 />
-                <View style={styles.trendingOverlay}>
+                <LinearGradient
+                  colors={['transparent', 'rgba(0,0,0,0.8)']}
+                  style={styles.trendingOverlay}
+                >
                   <Text style={styles.trendingTitle} numberOfLines={2}>
                     {event.title}
                   </Text>
                   <View style={styles.trendingPrice}>
-                    <Text style={styles.trendingPriceText}>{event.price} tokens</Text>
+                    <Ionicons name="flash" size={12} color={colors.white} />
+                    <Text style={styles.trendingPriceText}>{event.price}</Text>
                   </View>
-                </View>
+                </LinearGradient>
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -205,7 +210,7 @@ const EventsScreen = ({ navigation }) => {
       {/* All Events Header */}
       <View style={styles.allEventsHeader}>
         <View style={styles.sectionTitleWithIcon}>
-          <Ionicons name="grid" size={18} color="#7B2CBF" />
+          <Ionicons name="grid" size={18} color={colors.primary} />
           <Text style={styles.sectionTitle}>
             {selectedCategory === 'all' ? 'All Events' : `${selectedCategory} Events`}
           </Text>
@@ -233,13 +238,13 @@ const EventsScreen = ({ navigation }) => {
         ListHeaderComponent={renderHeader}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Ionicons name="calendar-outline" size={64} color="#6B7280" />
-            <Text style={styles.emptyText}>
-              No events found
-            </Text>
+            <Ionicons name="calendar-outline" size={64} color={colors.textMuted} />
+            <Text style={styles.emptyText}>No events found</Text>
+            <Text style={styles.emptySubtext}>Try adjusting your search or filters</Text>
           </View>
         }
         contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -248,60 +253,67 @@ const EventsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   headerContainer: {
-    paddingBottom: 16,
+    paddingBottom: spacing.md,
   },
   topHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingHorizontal: spacing.md,
+    marginBottom: spacing.md,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: 28,
+    fontWeight: '800',
+    color: colors.text,
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
+    fontWeight: '500',
   },
-  filterIconButton: {
+  filterButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    marginHorizontal: 20,
-    marginBottom: 24,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.lg,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 2,
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   searchIcon: {
-    marginRight: 12,
+    marginRight: spacing.sm,
   },
   searchInput: {
     flex: 1,
-    color: '#FFFFFF',
-    fontSize: 16,
+    color: colors.text,
+    fontSize: 15,
+    fontWeight: '500',
   },
   featuredBanner: {
     height: 200,
-    marginHorizontal: 20,
-    marginBottom: 24,
-    borderRadius: 20,
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.lg,
+    borderRadius: borderRadius.xl,
     overflow: 'hidden',
+    ...shadows.large,
   },
   featuredImage: {
     width: '100%',
@@ -312,96 +324,100 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    padding: 20,
-    background: 'linear-gradient(transparent, rgba(0,0,0,0.9))',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: spacing.md,
   },
   featuredBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: colors.black + 'CC',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
-    marginBottom: 12,
+    borderRadius: borderRadius.round,
+    marginBottom: spacing.sm,
+    gap: 4,
   },
   featuredBadgeText: {
-    color: '#FFD700',
+    color: colors.warning,
     fontSize: 12,
-    fontWeight: 'bold',
-    marginLeft: 4,
+    fontWeight: '700',
   },
   featuredTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 8,
+    fontSize: 22,
+    fontWeight: '800',
+    color: colors.white,
+    marginBottom: spacing.sm,
   },
   featuredInfo: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexWrap: 'wrap',
   },
   featuredInfoText: {
     fontSize: 13,
-    color: '#FFFFFF',
-    marginLeft: 6,
+    color: colors.white,
+    marginLeft: 4,
+    marginRight: spacing.sm,
+    fontWeight: '500',
+  },
+  featuredInfoIcon: {
+    marginLeft: spacing.sm,
   },
   categorySection: {
-    marginBottom: 24,
+    marginBottom: spacing.lg,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginLeft: 8,
+    fontWeight: '700',
+    color: colors.text,
+    marginLeft: spacing.sm,
   },
   categoryContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 12,
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.sm,
   },
   categoryButton: {
     alignItems: 'center',
-    marginRight: 16,
-  },
-  categoryButtonActive: {
-    opacity: 1,
+    marginRight: spacing.md,
   },
   categoryIconContainer: {
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   categoryIconActive: {
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   categoryText: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     textTransform: 'capitalize',
   },
   categoryTextActive: {
-    color: '#FFFFFF',
+    color: colors.text,
   },
-  // Vendors Quick Access Styles
   vendorsQuickAccess: {
-    backgroundColor: '#1A1A1A',
-    marginHorizontal: 20,
-    marginBottom: 24,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: '#EA580C30',
+    backgroundColor: colors.card,
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.lg,
+    borderRadius: borderRadius.lg,
+    borderWidth: 1,
+    borderColor: colors.softOrange + '40',
+    ...shadows.medium,
   },
   vendorsAccessContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
+    padding: spacing.md,
   },
   vendorsAccessLeft: {
     flexDirection: 'row',
@@ -412,33 +428,30 @@ const styles = StyleSheet.create({
     width: 52,
     height: 52,
     borderRadius: 26,
-    backgroundColor: '#EA580C20',
+    backgroundColor: colors.softOrange + '20',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 14,
+    marginRight: spacing.md,
   },
   vendorsAccessTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: colors.text,
     marginBottom: 4,
   },
   vendorsAccessSubtitle: {
     fontSize: 13,
-    color: '#9CA3AF',
-  },
-  vendorsAccessArrow: {
-    marginLeft: 12,
+    color: colors.textTertiary,
   },
   trendingSection: {
-    marginBottom: 24,
+    marginBottom: spacing.lg,
   },
   sectionHeaderRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    marginBottom: 16,
+    paddingHorizontal: spacing.md,
+    marginBottom: spacing.md,
   },
   sectionTitleWithIcon: {
     flexDirection: 'row',
@@ -447,17 +460,18 @@ const styles = StyleSheet.create({
   viewAllText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#7B2CBF',
+    color: colors.primary,
   },
   trendingScroll: {
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.md,
   },
   trendingCard: {
     width: 180,
     height: 240,
-    marginRight: 16,
-    borderRadius: 16,
+    marginRight: spacing.md,
+    borderRadius: borderRadius.lg,
     overflow: 'hidden',
+    ...shadows.medium,
   },
   trendingImage: {
     width: '100%',
@@ -468,62 +482,74 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    padding: 12,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    padding: spacing.sm + 2,
   },
   trendingTitle: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 8,
+    fontWeight: '700',
+    color: colors.white,
+    marginBottom: spacing.sm,
+    lineHeight: 18,
   },
   trendingPrice: {
+    flexDirection: 'row',
+    alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: borderRadius.sm,
+    gap: 4,
   },
   trendingPriceText: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: colors.white,
   },
   allEventsHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    marginBottom: 8,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    marginBottom: spacing.sm,
   },
   resultCount: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 12,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   resultCountText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   eventCardContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 16,
+    paddingHorizontal: spacing.md,
+    marginBottom: spacing.md,
   },
   emptyContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 60,
+    paddingVertical: spacing.xxl,
+    paddingHorizontal: spacing.xl,
   },
   emptyText: {
-    color: '#6B7280',
-    fontSize: 16,
-    marginTop: 16,
+    color: colors.text,
+    fontSize: 18,
+    fontWeight: '700',
+    marginTop: spacing.md,
+  },
+  emptySubtext: {
+    color: colors.textMuted,
+    fontSize: 14,
+    marginTop: spacing.xs,
   },
   listContent: {
-    paddingBottom: 20,
+    paddingBottom: spacing.xl,
   },
 });
 

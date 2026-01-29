@@ -8,9 +8,11 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWallet } from '../../context/WalletContext';
-import SexyBalanceCard from '../../components/SexyBalanceCard';
+import { colors, gradients, shadows } from '../../constants/colors';
+import { spacing, borderRadius } from '../../constants/design';
 
 const SendMoneyScreen = ({ navigation }) => {
   const { balance, tokens } = useWallet();
@@ -35,298 +37,408 @@ const SendMoneyScreen = ({ navigation }) => {
       alert('Please enter a valid amount');
       return;
     }
-    if (parseFloat(amount) > balance) {
+    if (parseFloat(amount) > tokens) {
       alert('Insufficient balance');
       return;
     }
-    alert(`Sending $${amount} to ${recipient}. This feature will be connected to the backend soon!`);
+    alert(`Sending ${amount} tokens to ${recipient}. This feature will be connected to the backend soon!`);
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={[styles.content, { paddingTop: insets.top + 20 }]}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <Ionicons name="arrow-back" size={24} color="white" />
-          </TouchableOpacity>
-          <Text style={styles.title}>Send Money</Text>
-          <View style={{ width: 40 }} />
-        </View>
-
-        {/* Available Balance */}
-        <SexyBalanceCard 
-          tokens={tokens} 
-          gradient={['#EC4899', '#DB2777', '#BE185D']}
-          icon="paper-plane"
-          badgeIcon="arrow-forward"
-          badgeText="Send"
-          badgeColor="#F59E0B"
-          shadowColor="#EC4899"
-        />
-
-        {/* Recipient Input */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recipient</Text>
-          <View style={styles.inputContainer}>
-            <Ionicons name="person-outline" size={20} color="#7B2CBF" />
-            <TextInput
-              style={styles.input}
-              placeholder="Username, email or phone"
-              placeholderTextColor="#6B7280"
-              value={recipient}
-              onChangeText={setRecipient}
-              autoCapitalize="none"
-            />
+    <View style={styles.container}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: spacing.xxl }}
+      >
+        <View style={[styles.content, { paddingTop: insets.top + spacing.md }]}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}
+            >
+              <Ionicons name="arrow-back" size={24} color={colors.text} />
+            </TouchableOpacity>
+            <Text style={styles.title}>Send Money</Text>
+            <View style={{ width: 40 }} />
           </View>
-        </View>
 
-        {/* Recent Contacts */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recent Contacts</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.contactsScroll}
-          >
-            {recentContacts.map((contact) => (
-              <TouchableOpacity
-                key={contact.id}
-                onPress={() => setRecipient(contact.username)}
-                style={styles.contactCard}
-              >
-                <View style={styles.contactAvatar}>
-                  <Text style={styles.contactAvatarText}>{contact.avatar}</Text>
+          {/* Balance Card */}
+          <View style={styles.balanceCard}>
+            <LinearGradient
+              colors={[colors.info, '#2563EB']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.balanceGradient}
+            >
+              <View style={styles.balanceContent}>
+                <View style={styles.balanceHeader}>
+                  <Ionicons name="send" size={24} color={colors.white} />
+                  <Text style={styles.balanceLabel}>Available Balance</Text>
                 </View>
-                <Text style={styles.contactName}>{contact.name.split(' ')[0]}</Text>
+                <View style={styles.balanceAmountRow}>
+                  <Text style={styles.balanceAmount}>{tokens}</Text>
+                  <View style={styles.tokenBadge}>
+                    <Ionicons name="diamond" size={16} color={colors.warning} />
+                    <Text style={styles.tokenLabel}>TOKENS</Text>
+                  </View>
+                </View>
+              </View>
+            </LinearGradient>
+          </View>
+
+          {/* Recipient Input */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Recipient</Text>
+            <View style={styles.inputContainer}>
+              <Ionicons name="person-outline" size={20} color={colors.primary} />
+              <TextInput
+                style={styles.input}
+                placeholder="Username, email or phone"
+                placeholderTextColor={colors.textMuted}
+                value={recipient}
+                onChangeText={setRecipient}
+                autoCapitalize="none"
+              />
+            </View>
+          </View>
+
+          {/* Recent Contacts */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Recent Contacts</Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.contactsScroll}
+            >
+              {recentContacts.map((contact) => (
+                <TouchableOpacity
+                  key={contact.id}
+                  onPress={() => setRecipient(contact.username)}
+                  style={styles.contactCard}
+                  activeOpacity={0.7}
+                >
+                  <View style={styles.contactAvatar}>
+                    <Text style={styles.contactAvatarText}>{contact.avatar}</Text>
+                  </View>
+                  <Text style={styles.contactName}>{contact.name.split(' ')[0]}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+
+          {/* Amount Input */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Amount</Text>
+            <View style={styles.amountInputContainer}>
+              <TextInput
+                style={styles.amountInput}
+                placeholder="0"
+                placeholderTextColor={colors.textMuted}
+                value={amount}
+                onChangeText={setAmount}
+                keyboardType="number-pad"
+              />
+              <View style={styles.tokensBadge}>
+                <Ionicons name="diamond" size={18} color={colors.primary} />
+                <Text style={styles.tokensBadgeText}>Tokens</Text>
+              </View>
+            </View>
+          </View>
+
+          {/* Quick Amount Buttons */}
+          <View style={styles.quickAmountGrid}>
+            {[10, 25, 50, 100].map((value) => (
+              <TouchableOpacity
+                key={value}
+                onPress={() => setAmount(value.toString())}
+                style={[
+                  styles.quickAmountButton,
+                  amount === value.toString() && styles.quickAmountButtonActive
+                ]}
+                activeOpacity={0.7}
+              >
+                <Text style={[
+                  styles.quickAmountText,
+                  amount === value.toString() && styles.quickAmountTextActive
+                ]}>{value}</Text>
               </TouchableOpacity>
             ))}
-          </ScrollView>
-        </View>
-
-        {/* Amount Input */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Amount</Text>
-          <View style={styles.amountInputContainer}>
-            <Text style={styles.dollarSign}>$</Text>
-            <TextInput
-              style={styles.amountInput}
-              placeholder="0.00"
-              placeholderTextColor="#6B7280"
-              value={amount}
-              onChangeText={setAmount}
-              keyboardType="decimal-pad"
-            />
           </View>
-        </View>
 
-        {/* Quick Amount Buttons */}
-        <View style={styles.quickAmountGrid}>
-          {['5', '10', '25', '50'].map((value) => (
-            <TouchableOpacity
-              key={value}
-              onPress={() => setAmount(value)}
-              style={styles.quickAmountButton}
+          {/* Note Input */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Note (Optional)</Text>
+            <View style={styles.inputContainer}>
+              <Ionicons name="chatbox-outline" size={20} color={colors.primary} />
+              <TextInput
+                style={styles.input}
+                placeholder="What's this for?"
+                placeholderTextColor={colors.textMuted}
+                value={note}
+                onChangeText={setNote}
+              />
+            </View>
+          </View>
+
+          {/* Info Banner */}
+          <View style={styles.infoBanner}>
+            <Ionicons name="information-circle" size={20} color={colors.info} />
+            <Text style={styles.infoBannerText}>
+              Money will be instantly transferred to the recipient's Sonnix wallet. This transaction cannot be reversed.
+            </Text>
+          </View>
+
+          {/* Send Button */}
+          <TouchableOpacity
+            onPress={handleSendMoney}
+            style={styles.sendButton}
+            activeOpacity={0.9}
+            disabled={!amount || parseFloat(amount) <= 0 || !recipient}
+          >
+            <LinearGradient
+              colors={[colors.info, '#2563EB']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.sendButtonGradient}
             >
-              <Text style={styles.quickAmountText}>${value}</Text>
-            </TouchableOpacity>
-          ))}
+              <Ionicons name="send" size={20} color={colors.white} />
+              <Text style={styles.sendButtonText}>
+                Send {amount || '0'} Tokens
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
-
-        {/* Note Input */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Note (Optional)</Text>
-          <View style={styles.inputContainer}>
-            <Ionicons name="chatbox-outline" size={20} color="#7B2CBF" />
-            <TextInput
-              style={styles.input}
-              placeholder="What's this for?"
-              placeholderTextColor="#6B7280"
-              value={note}
-              onChangeText={setNote}
-            />
-          </View>
-        </View>
-
-        {/* Info Banner */}
-        <View style={styles.infoBanner}>
-          <Ionicons name="information-circle" size={24} color="#3B82F6" />
-          <Text style={styles.infoBannerText}>
-            Money will be instantly transferred to the recipient's Sonnix wallet. This transaction cannot be reversed.
-          </Text>
-        </View>
-
-        {/* Send Button */}
-        <TouchableOpacity
-          onPress={handleSendMoney}
-          style={styles.sendButton}
-        >
-          <Text style={styles.sendButtonText}>
-            Send ${amount || '0.00'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   content: {
-    padding: 16,
-    paddingTop: 50,
+    paddingHorizontal: spacing.md,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginBottom: spacing.lg,
   },
   backButton: {
-    width: 40,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.card,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: '800',
+    color: colors.text,
   },
   balanceCard: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: borderRadius.xl,
+    marginBottom: spacing.lg,
+    overflow: 'hidden',
+    ...shadows.large,
+  },
+  balanceGradient: {
+    padding: spacing.lg,
+  },
+  balanceContent: {
+    gap: spacing.md,
+  },
+  balanceHeader: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    gap: spacing.sm,
   },
   balanceLabel: {
     fontSize: 14,
-    color: '#9CA3AF',
-    marginBottom: 8,
+    fontWeight: '600',
+    color: colors.whiteAlpha['CC'],
+  },
+  balanceAmountRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
   },
   balanceAmount: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#10B981',
+    fontSize: 36,
+    fontWeight: '900',
+    color: colors.white,
+    letterSpacing: -1,
+  },
+  tokenBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.whiteAlpha['20'],
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    borderColor: colors.whiteAlpha['30'],
+  },
+  tokenLabel: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: colors.white,
+    letterSpacing: 0.5,
   },
   section: {
-    marginBottom: 24,
+    marginBottom: spacing.lg,
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 12,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: spacing.sm,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 2,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   input: {
     flex: 1,
-    color: '#FFFFFF',
+    color: colors.text,
     fontSize: 16,
-    marginLeft: 12,
+    marginLeft: spacing.sm,
+    fontWeight: '500',
   },
   contactsScroll: {
-    marginBottom: 8,
+    paddingRight: spacing.md,
   },
   contactCard: {
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: spacing.md,
     width: 70,
   },
   contactAvatar: {
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
+    ...shadows.small,
   },
   contactAvatarText: {
     fontSize: 28,
   },
   contactName: {
     fontSize: 12,
-    color: '#FFFFFF',
+    color: colors.text,
     textAlign: 'center',
+    fontWeight: '600',
   },
   amountInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-  },
-  dollarSign: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#7B2CBF',
-    marginRight: 8,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
+    borderWidth: 2,
+    borderColor: colors.primary,
   },
   amountInput: {
     flex: 1,
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: 40,
+    fontWeight: '900',
+    color: colors.text,
+    letterSpacing: -1,
+  },
+  tokensBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.primaryAlpha['15'],
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: borderRadius.sm,
+  },
+  tokensBadgeText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.primary,
   },
   quickAmountGrid: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 24,
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.lg,
   },
   quickAmountButton: {
     width: '23%',
-    backgroundColor: '#1A1A1A',
-    borderRadius: 12,
-    paddingVertical: 12,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.md,
+    paddingVertical: spacing.md,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  quickAmountButtonActive: {
+    backgroundColor: colors.primaryAlpha['15'],
+    borderColor: colors.primary,
+    borderWidth: 2,
   },
   quickAmountText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: colors.text,
+  },
+  quickAmountTextActive: {
+    color: colors.primary,
   },
   infoBanner: {
     flexDirection: 'row',
-    backgroundColor: '#1A2A3A',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 24,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.md,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.info + '30',
+    gap: spacing.sm,
+    alignItems: 'center',
+    marginBottom: spacing.lg,
   },
   infoBannerText: {
     flex: 1,
-    color: '#9CA3AF',
-    fontSize: 14,
-    marginLeft: 12,
-    lineHeight: 20,
+    color: colors.textTertiary,
+    fontSize: 13,
+    lineHeight: 18,
   },
   sendButton: {
-    backgroundColor: '#7B2CBF',
-    borderRadius: 12,
-    paddingVertical: 16,
+    borderRadius: borderRadius.lg,
+    overflow: 'hidden',
+    ...shadows.large,
+  },
+  sendButtonGradient: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    justifyContent: 'center',
+    gap: spacing.sm,
+    paddingVertical: spacing.lg,
   },
   sendButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: 17,
+    fontWeight: '800',
+    color: colors.white,
   },
 });
 
 export default SendMoneyScreen;
-
-
-

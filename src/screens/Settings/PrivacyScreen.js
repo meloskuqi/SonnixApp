@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const PrivacyScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -195,7 +196,7 @@ const PrivacyScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   content: {
     padding: 16,
@@ -213,17 +214,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   contentSection: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 20,
     marginBottom: 20,
   },
   lastUpdated: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 24,
     textAlign: 'center',
   },
@@ -233,12 +234,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   sectionText: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     lineHeight: 22,
   },
   bulletPoints: {
@@ -246,13 +247,13 @@ const styles = StyleSheet.create({
   },
   bulletPoint: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     lineHeight: 24,
     paddingLeft: 8,
   },
   contactEmail: {
     fontSize: 14,
-    color: '#7B2CBF',
+    color: colors.primary,
     marginTop: 8,
     fontWeight: '600',
   },

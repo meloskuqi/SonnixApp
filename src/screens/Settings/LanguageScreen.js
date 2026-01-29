@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const LanguageScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -33,7 +34,7 @@ const LanguageScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color={colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Language</Text>
         <View style={{ width: 40 }} />
@@ -61,13 +62,13 @@ const LanguageScreen = ({ navigation }) => {
             <Text style={styles.flag}>{language.flag}</Text>
             <Text style={styles.languageName}>{language.name}</Text>
             {selectedLanguage === language.name && (
-              <Ionicons name="checkmark-circle" size={24} color="#7B2CBF" />
+              <Ionicons name="checkmark-circle" size={24} color={colors.primary} />
             )}
           </TouchableOpacity>
         ))}
 
         <View style={styles.infoCard}>
-          <Ionicons name="information-circle" size={24} color="#3B82F6" />
+          <Ionicons name="information-circle" size={24} color={colors.info} />
           <Text style={styles.infoText}>
             Language changes will take effect after restarting the app
           </Text>
@@ -80,7 +81,7 @@ const LanguageScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   content: {
     flex: 1,
@@ -111,23 +112,23 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 20,
     lineHeight: 20,
   },
   languageCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
     borderWidth: 2,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   languageCardSelected: {
-    borderColor: '#7B2CBF',
-    backgroundColor: '#7B2CBF10',
+    borderColor: colors.primary,
+    backgroundColor: colors.primary10,
   },
   flag: {
     fontSize: 28,
@@ -137,21 +138,21 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     fontWeight: '500',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   infoCard: {
     flexDirection: 'row',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginTop: 10,
     borderWidth: 1,
-    borderColor: '#3B82F630',
+    borderColor: colors.info30,
   },
   infoText: {
     flex: 1,
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginLeft: 12,
     lineHeight: 20,
   },

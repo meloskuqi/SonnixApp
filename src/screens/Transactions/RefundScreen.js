@@ -10,6 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useWallet } from '../../context/WalletContext';
+import { colors } from '../../constants/colors';
 
 const RefundScreen = ({ navigation }) => {
   const { transactions } = useWallet();
@@ -63,7 +64,7 @@ const RefundScreen = ({ navigation }) => {
 
         {/* Info Banner */}
         <View style={styles.infoBanner}>
-          <Ionicons name="information-circle" size={24} color="#F59E0B" />
+          <Ionicons name="information-circle" size={24} color={colors.warning} />
           <Text style={styles.infoBannerText}>
             Select a recent transaction to request a refund. Refunds are typically processed within 3-5 business days.
           </Text>
@@ -83,7 +84,7 @@ const RefundScreen = ({ navigation }) => {
                 ]}
               >
                 <View style={styles.transactionIcon}>
-                  <Ionicons name="receipt-outline" size={24} color="#7B2CBF" />
+                  <Ionicons name="receipt-outline" size={24} color={colors.primary} />
                 </View>
                 <View style={styles.transactionInfo}>
                   <Text style={styles.transactionDescription}>
@@ -100,7 +101,7 @@ const RefundScreen = ({ navigation }) => {
             ))
           ) : (
             <View style={styles.emptyState}>
-              <Ionicons name="receipt-outline" size={48} color="#6B7280" />
+              <Ionicons name="receipt-outline" size={48} color={colors.textMuted} />
               <Text style={styles.emptyStateText}>
                 No recent purchases available for refund
               </Text>
@@ -147,7 +148,7 @@ const RefundScreen = ({ navigation }) => {
                 <TextInput
                   style={styles.textArea}
                   placeholder="Provide more information about your refund request..."
-                  placeholderTextColor="#6B7280"
+                  placeholderTextColor={colors.textMuted}
                   multiline
                   numberOfLines={4}
                 />
@@ -158,19 +159,19 @@ const RefundScreen = ({ navigation }) => {
             <View style={styles.policyCard}>
               <Text style={styles.policyTitle}>Refund Policy</Text>
               <View style={styles.policyItem}>
-                <Ionicons name="checkmark-circle" size={16} color="#10B981" />
+                <Ionicons name="checkmark-circle" size={16} color={colors.success} />
                 <Text style={styles.policyText}>
                   Event tickets: Full refund up to 48 hours before event
                 </Text>
               </View>
               <View style={styles.policyItem}>
-                <Ionicons name="checkmark-circle" size={16} color="#10B981" />
+                <Ionicons name="checkmark-circle" size={16} color={colors.success} />
                 <Text style={styles.policyText}>
                   Food & Drinks: Refund available within 15 minutes
                 </Text>
               </View>
               <View style={styles.policyItem}>
-                <Ionicons name="checkmark-circle" size={16} color="#10B981" />
+                <Ionicons name="checkmark-circle" size={16} color={colors.success} />
                 <Text style={styles.policyText}>
                   Merchandise: Return within 30 days for full refund
                 </Text>
@@ -204,7 +205,7 @@ const RefundScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   content: {
     padding: 16,
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   infoBanner: {
     flexDirection: 'row',
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
   },
   infoBannerText: {
     flex: 1,
-    color: '#F59E0B',
+    color: colors.warning,
     fontSize: 14,
     marginLeft: 12,
     lineHeight: 20,
@@ -244,13 +245,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   transactionCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   transactionCardSelected: {
-    borderColor: '#7B2CBF',
+    borderColor: colors.primary,
   },
   transactionIcon: {
     width: 48,
@@ -275,12 +276,12 @@ const styles = StyleSheet.create({
   transactionDescription: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 4,
   },
   transactionDate: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   transactionAmount: {
     alignItems: 'flex-end',
@@ -288,17 +289,17 @@ const styles = StyleSheet.create({
   transactionAmountText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#DC2626',
+    color: colors.error,
   },
   emptyState: {
     alignItems: 'center',
     padding: 40,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
   },
   emptyStateText: {
     fontSize: 14,
-    color: '#6B7280',
+    color: colors.textMuted,
     marginTop: 12,
     textAlign: 'center',
   },
@@ -306,7 +307,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -314,11 +315,11 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   reasonCardSelected: {
-    borderColor: '#7B2CBF',
+    borderColor: colors.primary,
   },
   reasonText: {
     fontSize: 16,
-    color: '#FFFFFF',
+    color: colors.white,
   },
   reasonTextSelected: {
     fontWeight: '600',
@@ -328,32 +329,32 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: '#6B7280',
+    borderColor: colors.textMuted,
     justifyContent: 'center',
     alignItems: 'center',
   },
   radioButtonSelected: {
-    borderColor: '#7B2CBF',
+    borderColor: colors.primary,
   },
   radioButtonInner: {
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
   },
   textAreaContainer: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
   },
   textArea: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
     minHeight: 80,
     textAlignVertical: 'top',
   },
   policyCard: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 24,
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
   policyTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   policyItem: {
@@ -371,12 +372,12 @@ const styles = StyleSheet.create({
   },
   policyText: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginLeft: 8,
     flex: 1,
   },
   submitButton: {
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
@@ -385,10 +386,10 @@ const styles = StyleSheet.create({
   submitButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   cancelButton: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
@@ -397,7 +398,7 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
 });
 

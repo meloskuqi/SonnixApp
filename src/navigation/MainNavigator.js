@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,24 +7,29 @@ import WalletStackNavigator from './WalletStackNavigator';
 import PaymentStackNavigator from './PaymentStackNavigator';
 import EventsStackNavigator from './EventsStackNavigator';
 import SettingsStackNavigator from './SettingsStackNavigator';
+import PaymentOptionsModal from '../components/PaymentOptionsModal';
+import { colors } from '../constants/colors';
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
   return (
+    <>
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#1A1A1A',
+          backgroundColor: colors.card,
           borderTopWidth: 1,
-          borderTopColor: '#2A2A2A',
+          borderTopColor: colors.border,
           height: 70,
           paddingBottom: 10,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: '#7B2CBF',
-        tabBarInactiveTintColor: '#6B7280',
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -72,10 +77,8 @@ const MainNavigator = () => {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
-            // Always navigate to the root PaymentOptions screen when pressing the button
-            navigation.navigate('PayTab', {
-              screen: 'PaymentOptions',
-            });
+            // Show payment modal instead of navigating
+            setShowPaymentModal(true);
           },
         })}
         options={{
@@ -112,6 +115,11 @@ const MainNavigator = () => {
         options={{ tabBarLabel: 'Account' }}
       />
     </Tab.Navigator>
+    <PaymentOptionsModal
+      visible={showPaymentModal}
+      onClose={() => setShowPaymentModal(false)}
+    />
+    </>
   );
 };
 
@@ -125,10 +133,10 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#7B2CBF',
+    shadowColor: colors.primary,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -137,10 +145,10 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 8,
     borderWidth: 4,
-    borderColor: '#0D0D0D',
+    borderColor: colors.background,
   },
   payButtonFocused: {
-    backgroundColor: '#9333EA',
+    backgroundColor: colors.primaryLight,
     transform: [{ scale: 1.1 }],
   },
 });

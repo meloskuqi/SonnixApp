@@ -12,6 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const { width } = Dimensions.get('window');
 
@@ -28,8 +29,8 @@ const VendorsListScreen = ({ navigation }) => {
       rating: 4.8,
       reviews: 324,
       image: '🍹',
-      color: '#7B2CBF',
-      gradient: ['#7B2CBF', '#9333EA'],
+      color: colors.primary,
+      gradient: ['colors.primary', 'colors.primaryDark'],
       specialties: ['Cocktails', 'Beer', 'Wine'],
       distance: '50m',
       popular: true,
@@ -42,8 +43,8 @@ const VendorsListScreen = ({ navigation }) => {
       rating: 4.6,
       reviews: 189,
       image: '🍔',
-      color: '#EA580C',
-      gradient: ['#EA580C', '#DC2626'],
+      color: colors.softOrange,
+      gradient: ['colors.softOrange', 'colors.error'],
       specialties: ['Burgers', 'Hot Dogs', 'Fries'],
       distance: '75m',
     },
@@ -55,8 +56,8 @@ const VendorsListScreen = ({ navigation }) => {
       rating: 4.7,
       reviews: 156,
       image: '⚡',
-      color: '#F59E0B',
-      gradient: ['#F59E0B', '#EAB308'],
+      color: colors.warning,
+      gradient: ['colors.warning', '#EAB308'],
       specialties: ['Energy Drinks', 'Soft Drinks'],
       distance: '30m',
       popular: true,
@@ -69,8 +70,8 @@ const VendorsListScreen = ({ navigation }) => {
       rating: 4.9,
       reviews: 412,
       image: '🍕',
-      color: '#DC2626',
-      gradient: ['#DC2626', '#B91C1C'],
+      color: colors.error,
+      gradient: ['colors.error', '#B91C1C'],
       specialties: ['Pizza', 'Pasta', 'Salads'],
       distance: '100m',
     },
@@ -95,8 +96,8 @@ const VendorsListScreen = ({ navigation }) => {
       rating: 4.7,
       reviews: 267,
       image: '☕',
-      color: '#8B5CF6',
-      gradient: ['#8B5CF6', '#7C3AED'],
+      color: colors.primaryDark,
+      gradient: ['colors.primaryDark', '#7C3AED'],
       specialties: ['Coffee', 'Tea', 'Pastries'],
       distance: '45m',
     },
@@ -116,7 +117,7 @@ const VendorsListScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color={colors.white} />
         </TouchableOpacity>
         <View style={styles.headerContent}>
           <Text style={styles.title}>Event Vendors</Text>
@@ -132,17 +133,17 @@ const VendorsListScreen = ({ navigation }) => {
       >
         {/* Search Bar */}
         <View style={styles.searchContainer}>
-          <Ionicons name="search" size={20} color="#7B2CBF" style={styles.searchIcon} />
+          <Ionicons name="search" size={20} color={colors.primary} style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
             placeholder="Search vendors..."
-            placeholderTextColor="#6B7280"
+            placeholderTextColor={colors.textMuted}
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <Ionicons name="close-circle" size={20} color="#6B7280" />
+              <Ionicons name="close-circle" size={20} color={colors.textMuted} />
             </TouchableOpacity>
           )}
         </View>
@@ -150,7 +151,7 @@ const VendorsListScreen = ({ navigation }) => {
         {/* Info Banner */}
         <View style={styles.infoBanner}>
           <View style={styles.infoIconContainer}>
-            <Ionicons name="information-circle" size={24} color="#3B82F6" />
+            <Ionicons name="information-circle" size={24} color={colors.info} />
           </View>
           <View style={styles.infoContent}>
             <Text style={styles.infoTitle}>Quick & Easy</Text>
@@ -164,7 +165,7 @@ const VendorsListScreen = ({ navigation }) => {
         {filteredVendors.length > 0 && filteredVendors[0].popular && (
           <View style={styles.featuredSection}>
             <View style={styles.sectionHeaderRow}>
-              <Ionicons name="star" size={18} color="#F59E0B" />
+              <Ionicons name="star" size={18} color={colors.warning} />
               <Text style={styles.sectionTitle}>Featured</Text>
             </View>
             <TouchableOpacity
@@ -181,19 +182,19 @@ const VendorsListScreen = ({ navigation }) => {
                 <View style={styles.featuredContent}>
                   <View style={styles.featuredLeft}>
                     <View style={styles.featuredBadge}>
-                      <Ionicons name="flame" size={14} color="#FFFFFF" />
+                      <Ionicons name="flame" size={14} color={colors.white} />
                       <Text style={styles.featuredBadgeText}>Most Popular</Text>
                     </View>
                     <Text style={styles.featuredName}>{filteredVendors[0].name}</Text>
                     <Text style={styles.featuredDescription}>{filteredVendors[0].description}</Text>
                     <View style={styles.featuredStats}>
                       <View style={styles.featuredStatItem}>
-                        <Ionicons name="star" size={14} color="#FFFFFF" />
+                        <Ionicons name="star" size={14} color={colors.white} />
                         <Text style={styles.featuredStatText}>{filteredVendors[0].rating}</Text>
                       </View>
                       <View style={styles.featuredStatDivider} />
                       <View style={styles.featuredStatItem}>
-                        <Ionicons name="location" size={14} color="#FFFFFF" />
+                        <Ionicons name="location" size={14} color={colors.white} />
                         <Text style={styles.featuredStatText}>{filteredVendors[0].distance}</Text>
                       </View>
                     </View>
@@ -210,7 +211,7 @@ const VendorsListScreen = ({ navigation }) => {
         {/* All Vendors Grid */}
         <View style={styles.vendorsSection}>
           <View style={styles.sectionHeaderRow}>
-            <Ionicons name="restaurant" size={18} color="#7B2CBF" />
+            <Ionicons name="restaurant" size={18} color={colors.primary} />
             <Text style={styles.sectionTitle}>All Vendors</Text>
           </View>
           <View style={styles.vendorsGrid}>
@@ -244,7 +245,7 @@ const VendorsListScreen = ({ navigation }) => {
                   <Text style={styles.gridType}>{vendor.type}</Text>
                   <View style={styles.gridFooter}>
                     <View style={styles.gridRating}>
-                      <Ionicons name="star" size={12} color="#F59E0B" />
+                      <Ionicons name="star" size={12} color={colors.warning} />
                       <Text style={styles.gridRatingText}>{vendor.rating}</Text>
                     </View>
                     <Text style={styles.gridDistance}>{vendor.distance}</Text>
@@ -257,7 +258,7 @@ const VendorsListScreen = ({ navigation }) => {
 
         {filteredVendors.length === 0 && (
           <View style={styles.emptyState}>
-            <Ionicons name="search-outline" size={64} color="#6B7280" />
+            <Ionicons name="search-outline" size={64} color={colors.textMuted} />
             <Text style={styles.emptyTitle}>No vendors found</Text>
             <Text style={styles.emptyDescription}>
               Try adjusting your search terms
@@ -272,7 +273,7 @@ const VendorsListScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -281,17 +282,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 44,
     height: 44,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 22,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   headerContent: {
     flex: 1,
@@ -300,13 +301,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 5,
     letterSpacing: 0.5,
   },
   subtitle: {
     fontSize: 13,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     fontWeight: '500',
   },
   content: {
@@ -320,13 +321,13 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 18,
     paddingHorizontal: 18,
     paddingVertical: 16,
     marginBottom: 24,
     borderWidth: 1.5,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -338,19 +339,19 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
     fontWeight: '500',
   },
   infoBanner: {
     flexDirection: 'row',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 18,
     padding: 18,
     marginBottom: 28,
     borderWidth: 1.5,
-    borderColor: '#3B82F640',
-    shadowColor: '#3B82F6',
+    borderColor: colors.info40,
+    shadowColor: colors.info,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
@@ -360,7 +361,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#3B82F625',
+    backgroundColor: colors.info25,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
@@ -371,7 +372,7 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#3B82F6',
+    color: colors.info,
     marginBottom: 5,
     letterSpacing: 0.3,
   },
@@ -393,7 +394,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginLeft: 8,
     letterSpacing: 0.3,
   },
@@ -422,7 +423,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: '#FFFFFF25',
+    backgroundColor: colors.white25,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
@@ -431,19 +432,19 @@ const styles = StyleSheet.create({
   featuredBadgeText: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
     marginLeft: 6,
   },
   featuredName: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 8,
     letterSpacing: 0.5,
   },
   featuredDescription: {
     fontSize: 14,
-    color: '#FFFFFFCC',
+    color: colors.whiteCC,
     marginBottom: 14,
     lineHeight: 20,
   },
@@ -458,20 +459,20 @@ const styles = StyleSheet.create({
   featuredStatText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginLeft: 6,
   },
   featuredStatDivider: {
     width: 1,
     height: 14,
-    backgroundColor: '#FFFFFF40',
+    backgroundColor: colors.white40,
     marginHorizontal: 12,
   },
   featuredIconContainer: {
     width: 90,
     height: 90,
     borderRadius: 45,
-    backgroundColor: '#FFFFFF20',
+    backgroundColor: colors.white20,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -511,7 +512,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -534,7 +535,7 @@ const styles = StyleSheet.create({
   gridName: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     textAlign: 'center',
     marginBottom: 4,
     letterSpacing: 0.3,
@@ -556,7 +557,7 @@ const styles = StyleSheet.create({
   gridRating: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A80',
+    backgroundColor: colors.card80,
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 10,
@@ -564,13 +565,13 @@ const styles = StyleSheet.create({
   gridRatingText: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
     marginLeft: 4,
   },
   gridDistance: {
     fontSize: 11,
     fontWeight: '600',
-    color: '#10B981',
+    color: colors.success,
   },
   emptyState: {
     alignItems: 'center',
@@ -579,13 +580,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginTop: 16,
     marginBottom: 8,
   },
   emptyDescription: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     textAlign: 'center',
   },
 });

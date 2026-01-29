@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const HelpScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -45,21 +46,21 @@ const HelpScreen = ({ navigation }) => {
       icon: 'chatbubble-ellipses',
       title: 'Live Chat',
       description: 'Chat with our team',
-      color: '#10B981',
+      color: colors.success,
       onPress: () => navigation.navigate('Support'),
     },
     {
       icon: 'call',
       title: 'Call Us',
       description: '1-800-SONNIX-1',
-      color: '#3B82F6',
+      color: colors.info,
       onPress: () => {},
     },
     {
       icon: 'mail',
       title: 'Email Support',
       description: 'support@sonnix.app',
-      color: '#F59E0B',
+      color: colors.warning,
       onPress: () => {},
     },
   ];
@@ -71,7 +72,7 @@ const HelpScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color={colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Help Center</Text>
         <View style={{ width: 40 }} />
@@ -118,7 +119,7 @@ const HelpScreen = ({ navigation }) => {
                 <Ionicons 
                   name={expandedIndex === index ? 'chevron-up' : 'chevron-down'} 
                   size={20} 
-                  color="#7B2CBF" 
+                  color={colors.primary} 
                 />
               </View>
               {expandedIndex === index && (
@@ -132,19 +133,19 @@ const HelpScreen = ({ navigation }) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>More Resources</Text>
           <TouchableOpacity style={styles.resourceCard}>
-            <Ionicons name="book" size={24} color="#7B2CBF" />
+            <Ionicons name="book" size={24} color={colors.primary} />
             <Text style={styles.resourceText}>User Guide</Text>
-            <Ionicons name="chevron-forward" size={20} color="#6B7280" />
+            <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.resourceCard}>
-            <Ionicons name="videocam" size={24} color="#3B82F6" />
+            <Ionicons name="videocam" size={24} color={colors.info} />
             <Text style={styles.resourceText}>Video Tutorials</Text>
-            <Ionicons name="chevron-forward" size={20} color="#6B7280" />
+            <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.resourceCard}>
-            <Ionicons name="globe" size={24} color="#10B981" />
+            <Ionicons name="globe" size={24} color={colors.success} />
             <Text style={styles.resourceText}>Visit Our Website</Text>
-            <Ionicons name="chevron-forward" size={20} color="#6B7280" />
+            <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -155,7 +156,7 @@ const HelpScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   content: {
     flex: 1,
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 14,
   },
   quickHelpGrid: {
@@ -200,13 +201,13 @@ const styles = StyleSheet.create({
   },
   quickHelpCard: {
     width: '31%',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginHorizontal: 6,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
     alignItems: 'center',
   },
   quickHelpIcon: {
@@ -220,22 +221,22 @@ const styles = StyleSheet.create({
   quickHelpTitle: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     textAlign: 'center',
     marginBottom: 4,
   },
   quickHelpDescription: {
     fontSize: 11,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     textAlign: 'center',
   },
   faqCard: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   faqHeader: {
     flexDirection: 'row',
@@ -246,33 +247,33 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginRight: 12,
   },
   faqAnswer: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     lineHeight: 22,
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: colors.border,
   },
   resourceCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   resourceText: {
     flex: 1,
     fontSize: 15,
     fontWeight: '500',
-    color: '#FFFFFF',
+    color: colors.white,
     marginLeft: 14,
   },
 });

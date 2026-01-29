@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const EventDetailsScreen = ({ route, navigation }) => {
   const { event } = route.params;
@@ -54,7 +55,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
           <View style={styles.infoSection}>
             <View style={styles.infoItem}>
               <View style={styles.infoIcon}>
-                <Ionicons name="calendar" size={24} color="#7B2CBF" />
+                <Ionicons name="calendar" size={24} color={colors.primary} />
               </View>
               <View style={styles.infoText}>
                 <Text style={styles.infoLabel}>Date & Time</Text>
@@ -66,7 +67,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
 
             <View style={styles.infoItem}>
               <View style={styles.infoIcon}>
-                <Ionicons name="location" size={24} color="#7B2CBF" />
+                <Ionicons name="location" size={24} color={colors.primary} />
               </View>
               <View style={styles.infoText}>
                 <Text style={styles.infoLabel}>Venue</Text>
@@ -78,7 +79,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
 
             <View style={styles.infoItem}>
               <View style={styles.infoIcon}>
-                <Ionicons name="pricetag" size={24} color="#7B2CBF" />
+                <Ionicons name="pricetag" size={24} color={colors.primary} />
               </View>
               <View style={styles.infoText}>
                 <Text style={styles.infoLabel}>Price</Text>
@@ -107,14 +108,14 @@ const EventDetailsScreen = ({ route, navigation }) => {
                 onPress={() => navigation.navigate('Merch', { eventId: event.id })}
                 style={styles.quickLinkButton}
               >
-                <Ionicons name="shirt-outline" size={28} color="#7B2CBF" />
+                <Ionicons name="shirt-outline" size={28} color={colors.primary} />
                 <Text style={styles.quickLinkText}>Merch</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => navigation.navigate('TablePurchase', { eventId: event.id })}
                 style={styles.quickLinkButton}
               >
-                <Ionicons name="restaurant-outline" size={28} color="#7B2CBF" />
+                <Ionicons name="restaurant-outline" size={28} color={colors.primary} />
                 <Text style={styles.quickLinkText}>Tables</Text>
               </TouchableOpacity>
             </View>
@@ -142,7 +143,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   imageContainer: {
     height: 300,
@@ -183,11 +184,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   categoryBadge: {
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -196,10 +197,10 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   infoSection: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginBottom: 24,
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#252525',
+    backgroundColor: colors.primaryAlpha['15'],
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 16,
@@ -223,13 +224,13 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 4,
   },
   infoValue: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   section: {
     marginBottom: 24,
@@ -237,13 +238,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   description: {
     fontSize: 15,
     lineHeight: 24,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   quickLinksGrid: {
     flexDirection: 'row',
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
   },
   quickLinkButton: {
     width: '48%',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 20,
     alignItems: 'center',
@@ -259,30 +260,30 @@ const styles = StyleSheet.create({
   quickLinkText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginTop: 8,
   },
   bottomBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     padding: 20,
     borderTopWidth: 1,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: colors.border,
   },
   priceLabel: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 4,
   },
   priceText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#7B2CBF',
+    color: colors.primary,
   },
   buyButton: {
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 32,
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
   buyButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
 });
 

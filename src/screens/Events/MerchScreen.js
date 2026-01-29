@@ -10,6 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { dummyMerch } from '../../services/dummyData';
+import { colors } from '../../constants/colors';
 
 const MerchScreen = ({ route, navigation }) => {
   const { eventId } = route.params;
@@ -28,7 +29,7 @@ const MerchScreen = ({ route, navigation }) => {
           </TouchableOpacity>
           <Text style={styles.title}>Merchandise</Text>
           <TouchableOpacity>
-            <Ionicons name="cart-outline" size={24} color="#7B2CBF" />
+            <Ionicons name="cart-outline" size={24} color={colors.primary} />
           </TouchableOpacity>
         </View>
 
@@ -91,7 +92,7 @@ const MerchScreen = ({ route, navigation }) => {
 
         {/* Info Banner */}
         <View style={styles.infoBanner}>
-          <Ionicons name="information-circle" size={24} color="#3B82F6" />
+          <Ionicons name="information-circle" size={24} color={colors.info} />
           <Text style={styles.infoBannerText}>
             All merchandise will be available for pickup at the event venue or shipped to your address.
           </Text>
@@ -104,7 +105,7 @@ const MerchScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   content: {
     padding: 16,
@@ -121,13 +122,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   merchList: {
     marginBottom: 20,
   },
   merchCard: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     overflow: 'hidden',
     marginBottom: 20,
@@ -142,12 +143,12 @@ const styles = StyleSheet.create({
   merchName: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 8,
   },
   merchDescription: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 16,
     lineHeight: 20,
   },
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   sizesLabel: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 8,
   },
   sizesRow: {
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   sizeButton: {
-    backgroundColor: '#252525',
+    backgroundColor: colors.card,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
@@ -175,28 +176,28 @@ const styles = StyleSheet.create({
   sizeText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   actionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: colors.border,
     paddingTop: 16,
   },
   priceLabel: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 4,
   },
   priceAmount: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#7B2CBF',
+    color: colors.primary,
   },
   addToCartButton: {
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 12,
@@ -204,18 +205,18 @@ const styles = StyleSheet.create({
   addToCartText: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   infoBanner: {
     flexDirection: 'row',
-    backgroundColor: '#1A2A3A',
+    backgroundColor: colors.primaryAlpha['15'],
     borderRadius: 12,
     padding: 16,
     marginBottom: 20,
   },
   infoBannerText: {
     flex: 1,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     fontSize: 14,
     marginLeft: 12,
     lineHeight: 20,

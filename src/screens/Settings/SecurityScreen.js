@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const SecurityScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -24,7 +25,7 @@ const SecurityScreen = ({ navigation }) => {
       type: 'switch',
       value: biometricEnabled,
       onToggle: setBiometricEnabled,
-      color: '#7B2CBF',
+      color: colors.primary,
     },
     {
       icon: 'shield-checkmark',
@@ -33,35 +34,35 @@ const SecurityScreen = ({ navigation }) => {
       type: 'switch',
       value: twoFactorEnabled,
       onToggle: setTwoFactorEnabled,
-      color: '#10B981',
+      color: colors.success,
     },
     {
       icon: 'key',
       title: 'Change Password',
       description: 'Update your password',
       onPress: () => Alert.alert('Change Password', 'Password change coming soon!'),
-      color: '#3B82F6',
+      color: colors.info,
     },
     {
       icon: 'lock-closed',
       title: 'Change PIN',
       description: 'Update your 4-digit PIN',
       onPress: () => Alert.alert('Change PIN', 'PIN change coming soon!'),
-      color: '#F59E0B',
+      color: colors.warning,
     },
     {
       icon: 'phone-portrait',
       title: 'Trusted Devices',
       description: 'Manage logged-in devices',
       onPress: () => Alert.alert('Trusted Devices', 'Device management coming soon!'),
-      color: '#8B5CF6',
+      color: colors.primaryDark,
     },
     {
       icon: 'time',
       title: 'Login History',
       description: 'View recent login activity',
       onPress: () => Alert.alert('Login History', 'Login history coming soon!'),
-      color: '#6B7280',
+      color: colors.textMuted,
     },
   ];
 
@@ -72,7 +73,7 @@ const SecurityScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color={colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Security</Text>
         <View style={{ width: 40 }} />
@@ -86,7 +87,7 @@ const SecurityScreen = ({ navigation }) => {
         {/* Security Status */}
         <View style={styles.statusCard}>
           <View style={styles.statusIconContainer}>
-            <Ionicons name="shield-checkmark" size={32} color="#10B981" />
+            <Ionicons name="shield-checkmark" size={32} color={colors.success} />
           </View>
           <View style={styles.statusContent}>
             <Text style={styles.statusTitle}>Account Secured</Text>
@@ -118,8 +119,8 @@ const SecurityScreen = ({ navigation }) => {
                 <Switch
                   value={option.value}
                   onValueChange={option.onToggle}
-                  trackColor={{ false: '#2A2A2A', true: option.color }}
-                  thumbColor={option.value ? '#FFFFFF' : '#9CA3AF'}
+                  trackColor={{ false: colors.border, true: option.color }}
+                  thumbColor={option.value ? 'colors.white' : colors.textTertiary}
                 />
               </View>
             ) : (
@@ -136,7 +137,7 @@ const SecurityScreen = ({ navigation }) => {
                   <Text style={styles.optionTitle}>{option.title}</Text>
                   <Text style={styles.optionDescription}>{option.description}</Text>
                 </View>
-                <Ionicons name="chevron-forward" size={20} color="#6B7280" />
+                <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
               </TouchableOpacity>
             )
           ))}
@@ -144,7 +145,7 @@ const SecurityScreen = ({ navigation }) => {
 
         {/* Info Banner */}
         <View style={styles.infoBanner}>
-          <Ionicons name="information-circle" size={24} color="#3B82F6" />
+          <Ionicons name="information-circle" size={24} color={colors.info} />
           <Text style={styles.infoBannerText}>
             We recommend enabling two-factor authentication for maximum account security.
           </Text>
@@ -157,7 +158,7 @@ const SecurityScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   content: {
     flex: 1,
@@ -188,18 +189,18 @@ const styles = StyleSheet.create({
   },
   statusCard: {
     flexDirection: 'row',
-    backgroundColor: '#10B98115',
+    backgroundColor: colors.success15,
     borderRadius: 16,
     padding: 18,
     marginBottom: 24,
     borderWidth: 1,
-    borderColor: '#10B98130',
+    borderColor: colors.success30,
   },
   statusIconContainer: {
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: '#10B98125',
+    backgroundColor: colors.success25,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
@@ -210,12 +211,12 @@ const styles = StyleSheet.create({
   statusTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#10B981',
+    color: colors.success,
     marginBottom: 6,
   },
   statusDescription: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     lineHeight: 20,
   },
   section: {
@@ -224,19 +225,19 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   optionCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     paddingVertical: 16,
     paddingHorizontal: 16,
   },
   optionCardBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   optionIcon: {
     width: 48,
@@ -252,25 +253,25 @@ const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 4,
   },
   optionDescription: {
     fontSize: 13,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   infoBanner: {
     flexDirection: 'row',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#3B82F630',
+    borderColor: colors.info30,
   },
   infoBannerText: {
     flex: 1,
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginLeft: 12,
     lineHeight: 20,
   },

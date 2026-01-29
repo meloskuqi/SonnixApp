@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { dummyVendorItems } from '../../services/dummyData';
+import { colors } from '../../constants/colors';
 
 const { width } = Dimensions.get('window');
 
@@ -87,7 +88,7 @@ const VendorMenuScreen = ({ navigation, route }) => {
       <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         {/* Big Beautiful Header - Scrollable */}
         <LinearGradient
-          colors={[...vendor.gradient, '#0D0D0D']}
+          colors={[...vendor.gradient, 'colors.background']}
           start={{ x: 0, y: 0 }}
           end={{ x: 0, y: 1 }}
           style={[styles.headerGradient, { paddingTop: insets.top + 16 }]}
@@ -109,17 +110,17 @@ const VendorMenuScreen = ({ navigation, route }) => {
             <Text style={styles.vendorSubtitle}>{vendor.description}</Text>
             <View style={styles.vendorMetaRow}>
               <View style={styles.metaItem}>
-                <Ionicons name="star" size={14} color="#FFFFFF" />
+                <Ionicons name="star" size={14} color={colors.white} />
                 <Text style={styles.metaText}>{vendor.rating}</Text>
               </View>
               <View style={styles.metaDivider} />
               <View style={styles.metaItem}>
-                <Ionicons name="location" size={14} color="#FFFFFF" />
+                <Ionicons name="location" size={14} color={colors.white} />
                 <Text style={styles.metaText}>{vendor.distance}</Text>
               </View>
               <View style={styles.metaDivider} />
               <View style={styles.metaItem}>
-                <Ionicons name="time" size={14} color="#FFFFFF" />
+                <Ionicons name="time" size={14} color={colors.white} />
                 <Text style={styles.metaText}>5-10 min</Text>
               </View>
             </View>
@@ -133,13 +134,13 @@ const VendorMenuScreen = ({ navigation, route }) => {
           <TextInput
             style={styles.searchInput}
             placeholder="Search menu..."
-            placeholderTextColor="#6B7280"
+            placeholderTextColor={colors.textMuted}
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <Ionicons name="close-circle" size={20} color="#6B7280" />
+              <Ionicons name="close-circle" size={20} color={colors.textMuted} />
             </TouchableOpacity>
           )}
         </View>
@@ -242,7 +243,7 @@ const VendorMenuScreen = ({ navigation, route }) => {
         {/* Info Card */}
         <View style={styles.infoCard}>
           <View style={styles.infoIconContainer}>
-            <Ionicons name="flash" size={24} color="#F59E0B" />
+            <Ionicons name="flash" size={24} color={colors.warning} />
           </View>
           <View style={styles.infoContent}>
             <Text style={styles.infoTitle}>Instant Payment</Text>
@@ -270,7 +271,7 @@ const VendorMenuScreen = ({ navigation, route }) => {
             >
               <View style={styles.cartInfo}>
                 <View style={styles.cartCountBadge}>
-                  <Ionicons name="cart" size={20} color="#FFFFFF" />
+                  <Ionicons name="cart" size={20} color={colors.white} />
                   <View style={styles.cartCountCircle}>
                     <Text style={styles.cartCountText}>{getCartItemCount()}</Text>
                   </View>
@@ -285,7 +286,7 @@ const VendorMenuScreen = ({ navigation, route }) => {
                 </View>
               </View>
               <View style={styles.cartArrow}>
-                <Ionicons name="arrow-forward" size={24} color="#FFFFFF" />
+                <Ionicons name="arrow-forward" size={24} color={colors.white} />
               </View>
             </TouchableOpacity>
           </LinearGradient>
@@ -298,7 +299,7 @@ const VendorMenuScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   scrollContainer: {
     flex: 1,
@@ -330,7 +331,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#FFFFFF20',
+    backgroundColor: colors.white20,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
@@ -341,13 +342,13 @@ const styles = StyleSheet.create({
   vendorNameLarge: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 6,
     letterSpacing: 0.5,
   },
   vendorSubtitle: {
     fontSize: 14,
-    color: '#FFFFFFCC',
+    color: colors.whiteCC,
     marginBottom: 16,
   },
   vendorMetaRow: {
@@ -365,13 +366,13 @@ const styles = StyleSheet.create({
   metaText: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginLeft: 6,
   },
   metaDivider: {
     width: 1,
     height: 14,
-    backgroundColor: '#FFFFFF30',
+    backgroundColor: colors.white30,
     marginHorizontal: 12,
   },
   // Content
@@ -381,21 +382,21 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 14,
     marginTop: 20,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   searchIcon: {
     marginRight: 12,
   },
   searchInput: {
     flex: 1,
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
     fontWeight: '500',
   },
@@ -419,21 +420,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     marginRight: 10,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   categoryTextActive: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
     textTransform: 'capitalize',
   },
   categoryTextInactive: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     textTransform: 'capitalize',
   },
   // Menu Grid
@@ -445,12 +446,12 @@ const styles = StyleSheet.create({
   },
   menuCard: {
     width: (width - 52) / 2,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 18,
     marginBottom: 4,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
@@ -475,13 +476,13 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 4,
     letterSpacing: 0.2,
   },
   itemCategory: {
     fontSize: 11,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 10,
     fontWeight: '500',
   },
@@ -520,7 +521,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   cartBadgeText: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 13,
     fontWeight: '900',
   },
@@ -540,7 +541,7 @@ const styles = StyleSheet.create({
   cartQuantity: {
     fontSize: 14,
     fontWeight: '800',
-    color: '#FFFFFF',
+    color: colors.white,
     minWidth: 24,
     textAlign: 'center',
   },
@@ -581,7 +582,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -4,
     right: -4,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     width: 18,
     height: 18,
     borderRadius: 9,
@@ -591,19 +592,19 @@ const styles = StyleSheet.create({
   cartCountText: {
     fontSize: 10,
     fontWeight: '900',
-    color: '#7B2CBF',
+    color: colors.primary,
   },
   cartLabel: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   cartTotal: {
     alignItems: 'center',
   },
   cartTotalLabel: {
     fontSize: 11,
-    color: '#FFFFFFCC',
+    color: colors.whiteCC,
     marginBottom: 2,
   },
   cartTotalRow: {
@@ -614,36 +615,36 @@ const styles = StyleSheet.create({
   cartTotalAmount: {
     fontSize: 22,
     fontWeight: '900',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   cartTotalTokens: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#FFFFFFCC',
+    color: colors.whiteCC,
   },
   cartArrow: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#FFFFFF20',
+    backgroundColor: colors.white20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   // Info Card
   infoCard: {
     flexDirection: 'row',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginBottom: 30,
     borderWidth: 1,
-    borderColor: '#F59E0B30',
+    borderColor: colors.warning30,
   },
   infoIconContainer: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#F59E0B20',
+    backgroundColor: colors.warning20,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
@@ -654,7 +655,7 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#F59E0B',
+    color: colors.warning,
     marginBottom: 4,
   },
   infoText: {

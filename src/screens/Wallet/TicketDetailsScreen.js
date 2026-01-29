@@ -9,6 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import QRCode from 'react-native-qrcode-svg';
+import { colors } from '../../constants/colors';
 
 const TicketDetailsScreen = ({ route, navigation }) => {
   const { ticket } = route.params;
@@ -27,7 +28,7 @@ const TicketDetailsScreen = ({ route, navigation }) => {
           </TouchableOpacity>
           <Text style={styles.title}>Ticket Details</Text>
           <TouchableOpacity>
-            <Ionicons name="share-social-outline" size={24} color="#7B2CBF" />
+            <Ionicons name="share-social-outline" size={24} color={colors.primary} />
           </TouchableOpacity>
         </View>
 
@@ -86,17 +87,17 @@ const TicketDetailsScreen = ({ route, navigation }) => {
 
         {/* Action Buttons */}
         <TouchableOpacity style={styles.actionButton}>
-          <Ionicons name="download-outline" size={20} color="#7B2CBF" />
+          <Ionicons name="download-outline" size={20} color={colors.primary} />
           <Text style={styles.actionButtonText}>Download Ticket</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionButton}>
-          <Ionicons name="calendar-outline" size={20} color="#7B2CBF" />
+          <Ionicons name="calendar-outline" size={20} color={colors.primary} />
           <Text style={styles.actionButtonText}>Add to Calendar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionButton}>
-          <Ionicons name="map-outline" size={20} color="#7B2CBF" />
+          <Ionicons name="map-outline" size={20} color={colors.primary} />
           <Text style={styles.actionButtonText}>Get Directions</Text>
         </TouchableOpacity>
       </View>
@@ -107,7 +108,7 @@ const TicketDetailsScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   content: {
     padding: 16,
@@ -125,10 +126,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   ticketCard: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 24,
     marginBottom: 20,
@@ -138,13 +139,13 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     paddingBottom: 24,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   ticketIcon: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
@@ -152,13 +153,13 @@ const styles = StyleSheet.create({
   ticketEventTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 8,
     textAlign: 'center',
   },
   ticketVenue: {
     fontSize: 16,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     textAlign: 'center',
   },
   ticketDetails: {
@@ -174,29 +175,29 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 4,
   },
   detailValue: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   purchaseDateContainer: {
     paddingTop: 16,
     borderTopWidth: 1,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: colors.border,
   },
   qrContainer: {
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     padding: 20,
     borderRadius: 12,
     marginBottom: 16,
   },
   qrCodeText: {
     fontSize: 12,
-    color: '#6B7280',
+    color: colors.textMuted,
     marginTop: 12,
     letterSpacing: 2,
   },
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     paddingVertical: 14,
     marginBottom: 12,
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
   actionButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#7B2CBF',
+    color: colors.primary,
     marginLeft: 8,
   },
 });

@@ -12,6 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import QRCode from 'react-native-qrcode-svg';
 import { useWallet } from '../../context/WalletContext';
+import { colors } from '../../constants/colors';
 
 const { width } = Dimensions.get('window');
 
@@ -50,7 +51,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
         <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
           {/* Sexy Success Header - Scrollable */}
           <LinearGradient
-            colors={['#10B981', '#059669', '#047857', '#0D0D0D']}
+            colors={['colors.success', 'colors.success', '#047857', 'colors.background']}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 0.5 }}
             style={[styles.successHeader, { paddingTop: insets.top + 20 }]}
@@ -70,7 +71,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
             <View style={styles.successContent}>
               {/* Success Badge */}
               <View style={styles.successBadge}>
-                <Ionicons name="flash" size={16} color="#10B981" />
+                <Ionicons name="flash" size={16} color={colors.success} />
                 <Text style={styles.successBadgeText}>Instant</Text>
               </View>
               
@@ -78,12 +79,12 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               <View style={styles.successIconWrapper}>
                 <View style={styles.successIconOuter}>
                   <LinearGradient
-                    colors={['#FFFFFF', '#F0FDF4']}
+                    colors={['colors.white', '#F0FDF4']}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.successIconCircle}
                   >
-                    <Ionicons name="checkmark" size={64} color="#10B981" />
+                    <Ionicons name="checkmark" size={64} color={colors.success} />
                   </LinearGradient>
                 </View>
               </View>
@@ -102,17 +103,17 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               {/* Success Features */}
               <View style={styles.successFeatures}>
                 <View style={styles.featureItem}>
-                  <Ionicons name="time-outline" size={20} color="#FFFFFFCC" />
+                  <Ionicons name="time-outline" size={20} color={colors.whiteCC} />
                   <Text style={styles.featureText}>5-10 min</Text>
                 </View>
                 <View style={styles.featureDivider} />
                 <View style={styles.featureItem}>
-                  <Ionicons name="shield-checkmark-outline" size={20} color="#FFFFFFCC" />
+                  <Ionicons name="shield-checkmark-outline" size={20} color={colors.whiteCC} />
                   <Text style={styles.featureText}>Secured</Text>
                 </View>
                 <View style={styles.featureDivider} />
                 <View style={styles.featureItem}>
-                  <Ionicons name="wallet-outline" size={20} color="#FFFFFFCC" />
+                  <Ionicons name="wallet-outline" size={20} color={colors.whiteCC} />
                   <Text style={styles.featureText}>Paid</Text>
                 </View>
               </View>
@@ -141,7 +142,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
             <View style={styles.summaryHeader}>
               <Text style={styles.summaryTitle}>Order Summary</Text>
               <View style={styles.statusBadge}>
-                <Ionicons name="time" size={14} color="#F59E0B" />
+                <Ionicons name="time" size={14} color={colors.warning} />
                 <Text style={styles.statusText}>Pending Pickup</Text>
               </View>
             </View>
@@ -150,7 +151,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               <View key={index}>
                 <View style={styles.itemRow}>
                   <LinearGradient
-                    colors={vendor ? [`${vendor.color}20`, `${vendor.color}10`] : ['#7B2CBF20', '#7B2CBF10']}
+                    colors={vendor ? [`${vendor.color}20`, `${vendor.color}10`] : ['colors.primary20', 'colors.primary10']}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                     style={styles.itemIconBox}
@@ -181,7 +182,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
           {/* Instructions Banner */}
           <View style={styles.instructionsCard}>
             <View style={styles.instructionIcon}>
-              <Ionicons name="information-circle" size={24} color="#3B82F6" />
+              <Ionicons name="information-circle" size={24} color={colors.info} />
             </View>
             <View style={styles.instructionContent}>
               <Text style={styles.instructionTitle}>Pickup Instructions</Text>
@@ -193,7 +194,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
 
           {/* Action Buttons */}
           <LinearGradient
-            colors={vendor ? vendor.gradient : ['#7B2CBF', '#9333EA']}
+            colors={vendor ? vendor.gradient : ['colors.primary', 'colors.primaryDark']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.actionButton}
@@ -202,7 +203,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               onPress={() => navigation.navigate('PayTab', { screen: 'VendorsList' })}
               style={styles.actionButtonInner}
             >
-              <Ionicons name="restaurant" size={20} color="#FFFFFF" />
+              <Ionicons name="restaurant" size={20} color={colors.white} />
               <Text style={styles.actionButtonText}>Browse Vendors</Text>
             </TouchableOpacity>
           </LinearGradient>
@@ -223,7 +224,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       {/* Compact Gradient Header */}
       <LinearGradient
-        colors={vendor ? [...vendor.gradient, '#0D0D0D'] : ['#7B2CBF', '#9333EA', '#0D0D0D']}
+        colors={vendor ? [...vendor.gradient, 'colors.background'] : ['colors.primary', 'colors.primaryDark', 'colors.background']}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 0.25 }}
         style={[styles.preOrderHeader, { paddingTop: insets.top + 12 }]}
@@ -247,7 +248,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
         {/* Items List Card */}
         <View style={styles.itemDisplayCard}>
           <View style={styles.cartItemsHeader}>
-            <Ionicons name="cart" size={20} color={vendor?.color || '#7B2CBF'} />
+            <Ionicons name="cart" size={20} color={vendor?.color || 'colors.primary'} />
             <Text style={styles.cartItemsHeaderText}>
               {getTotalItems()} Item{getTotalItems() > 1 ? 's' : ''}
             </Text>
@@ -257,7 +258,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
             <View key={index}>
               <View style={styles.itemCardRow}>
                 <LinearGradient
-                  colors={vendor ? [`${vendor.color}30`, `${vendor.color}15`] : ['#7B2CBF30', '#7B2CBF15']}
+                  colors={vendor ? [`${vendor.color}30`, `${vendor.color}15`] : ['colors.primary30', 'colors.primary15']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   style={styles.itemImageBox}
@@ -313,12 +314,12 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               </View>
               {balance < totalPrice ? (
                 <View style={styles.warningBadge}>
-                  <Ionicons name="alert-circle" size={14} color="#DC2626" />
+                  <Ionicons name="alert-circle" size={14} color={colors.error} />
                   <Text style={styles.warningText}>Low Balance</Text>
                 </View>
               ) : (
                 <View style={styles.successBadgeSmall}>
-                  <Ionicons name="checkmark-circle" size={14} color="#10B981" />
+                  <Ionicons name="checkmark-circle" size={14} color={colors.success} />
                   <Text style={styles.successBadgeSmallText}>Ready</Text>
                 </View>
               )}
@@ -328,7 +329,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
 
         {/* Compact Info Banner */}
         <View style={styles.paymentInfoBanner}>
-          <Ionicons name="shield-checkmark" size={18} color="#3B82F6" />
+          <Ionicons name="shield-checkmark" size={18} color={colors.info} />
           <Text style={styles.paymentInfoText}>
             Secure instant payment with Sonnix tokens
           </Text>
@@ -343,7 +344,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
             <Text style={styles.priceValue}>{totalPrice.toFixed(0)} tokens</Text>
           </View>
           <LinearGradient
-            colors={vendor ? vendor.gradient : ['#7B2CBF', '#9333EA']}
+            colors={vendor ? vendor.gradient : ['colors.primary', 'colors.primaryDark']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={[styles.confirmBtn, balance < totalPrice && styles.confirmBtnDisabled]}
@@ -360,7 +361,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
               <Ionicons 
                 name={balance < totalPrice ? "wallet" : "arrow-forward"} 
                 size={20} 
-                color="#FFFFFF" 
+                color={colors.white} 
               />
             </TouchableOpacity>
           </LinearGradient>
@@ -373,7 +374,7 @@ const OrderConfirmScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   scrollContainer: {
     flex: 1,
@@ -392,7 +393,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 100,
-    backgroundColor: '#FFFFFF08',
+    backgroundColor: colors.white08,
   },
   decorativeCircle2: {
     position: 'absolute',
@@ -401,7 +402,7 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 80,
-    backgroundColor: '#FFFFFF05',
+    backgroundColor: colors.white05,
   },
   decorativeCircle3: {
     position: 'absolute',
@@ -410,7 +411,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: '#FFFFFF06',
+    backgroundColor: colors.white06,
   },
   closeButton: {
     width: 44,
@@ -423,7 +424,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#FFFFFF20',
+    borderColor: colors.white20,
   },
   successContent: {
     alignItems: 'center',
@@ -435,7 +436,7 @@ const styles = StyleSheet.create({
   successBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -449,7 +450,7 @@ const styles = StyleSheet.create({
   successBadgeText: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#10B981',
+    color: colors.success,
     marginLeft: 6,
     letterSpacing: 0.5,
   },
@@ -460,7 +461,7 @@ const styles = StyleSheet.create({
   successIconOuter: {
     padding: 6,
     borderRadius: 70,
-    backgroundColor: '#FFFFFF15',
+    backgroundColor: colors.white15,
   },
   successIconCircle: {
     width: 120,
@@ -468,7 +469,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#10B981',
+    shadowColor: colors.success,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.4,
     shadowRadius: 16,
@@ -477,7 +478,7 @@ const styles = StyleSheet.create({
   successTitle: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 8,
     letterSpacing: 0.5,
     textShadowColor: '#00000030',
@@ -486,24 +487,24 @@ const styles = StyleSheet.create({
   },
   successSubtitle: {
     fontSize: 16,
-    color: '#FFFFFFCC',
+    color: colors.whiteCC,
     textAlign: 'center',
     marginBottom: 24,
     fontWeight: '500',
   },
   // Order Badge
   orderBadge: {
-    backgroundColor: '#FFFFFF15',
+    backgroundColor: colors.white15,
     paddingHorizontal: 24,
     paddingVertical: 14,
     borderRadius: 16,
     marginBottom: 24,
     borderWidth: 1,
-    borderColor: '#FFFFFF20',
+    borderColor: colors.white20,
   },
   orderBadgeLabel: {
     fontSize: 12,
-    color: '#FFFFFFAA',
+    color: colors.whiteAA,
     textAlign: 'center',
     marginBottom: 4,
     fontWeight: '600',
@@ -513,7 +514,7 @@ const styles = StyleSheet.create({
   orderBadgeNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     textAlign: 'center',
     letterSpacing: 2,
   },
@@ -521,12 +522,12 @@ const styles = StyleSheet.create({
   successFeatures: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF10',
+    backgroundColor: colors.white10,
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#FFFFFF15',
+    borderColor: colors.white15,
   },
   featureItem: {
     flexDirection: 'row',
@@ -537,13 +538,13 @@ const styles = StyleSheet.create({
   featureText: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#FFFFFFCC',
+    color: colors.whiteCC,
     marginLeft: 6,
   },
   featureDivider: {
     width: 1,
     height: 20,
-    backgroundColor: '#FFFFFF20',
+    backgroundColor: colors.white20,
     marginHorizontal: 8,
   },
   scrollContent: {
@@ -558,14 +559,14 @@ const styles = StyleSheet.create({
   qrLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 16,
   },
   qrContainer: {
     alignItems: 'center',
   },
   qrCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.white,
     padding: 20,
     borderRadius: 20,
     marginBottom: 16,
@@ -578,17 +579,17 @@ const styles = StyleSheet.create({
   orderIdText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     letterSpacing: 2,
   },
   // Summary Card
   summaryCard: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 18,
     padding: 20,
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   summaryHeader: {
     flexDirection: 'row',
@@ -599,12 +600,12 @@ const styles = StyleSheet.create({
   summaryTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F59E0B20',
+    backgroundColor: colors.warning20,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
@@ -612,7 +613,7 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#F59E0B',
+    color: colors.warning,
     marginLeft: 6,
   },
   itemRow: {
@@ -637,21 +638,21 @@ const styles = StyleSheet.create({
   itemNameText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 4,
   },
   itemQtyText: {
     fontSize: 13,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   itemTotal: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#10B981',
+    color: colors.success,
   },
   divider: {
     height: 1,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
     marginVertical: 16,
   },
   totalRow: {
@@ -662,38 +663,38 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   totalSubtext: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginTop: 2,
   },
   totalValue: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#10B981',
+    color: colors.success,
   },
   itemDivider: {
     height: 1,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
     marginVertical: 12,
   },
   // Instructions
   instructionsCard: {
     flexDirection: 'row',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginBottom: 24,
     borderWidth: 1,
-    borderColor: '#3B82F630',
+    borderColor: colors.info30,
   },
   instructionIcon: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#3B82F620',
+    backgroundColor: colors.info20,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
@@ -704,7 +705,7 @@ const styles = StyleSheet.create({
   instructionTitle: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#3B82F6',
+    color: colors.info,
     marginBottom: 6,
   },
   instructionText: {
@@ -732,21 +733,21 @@ const styles = StyleSheet.create({
   actionButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   secondaryActionButton: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     paddingVertical: 16,
     alignItems: 'center',
     marginBottom: 30,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   secondaryActionText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   // Pre-Order Screen (COMPACT & SEXY)
   preOrderHeader: {
@@ -763,11 +764,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#FFFFFF15',
+    backgroundColor: colors.white15,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#FFFFFF20',
+    borderColor: colors.white20,
   },
   headerTitleContainer: {
     alignItems: 'center',
@@ -775,18 +776,18 @@ const styles = StyleSheet.create({
   preOrderTitle: {
     fontSize: 19,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   preOrderSubtitle: {
     fontSize: 12,
-    color: '#FFFFFFAA',
+    color: colors.whiteAA,
     marginTop: 2,
   },
   backButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -797,12 +798,12 @@ const styles = StyleSheet.create({
   },
   // Item Display (COMPACT HORIZONTAL)
   itemDisplayCard: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 18,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   cartItemsHeader: {
     flexDirection: 'row',
@@ -811,12 +812,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   cartItemsHeaderText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   itemCardRow: {
     flexDirection: 'row',
@@ -825,7 +826,7 @@ const styles = StyleSheet.create({
   },
   cartItemDivider: {
     height: 1,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
     marginVertical: 12,
   },
   itemPriceRow: {
@@ -834,7 +835,7 @@ const styles = StyleSheet.create({
   itemTotalPrice: {
     fontSize: 18,
     fontWeight: '900',
-    color: '#FFFFFF',
+    color: colors.white,
     marginLeft: 'auto',
   },
   itemImageBox: {
@@ -860,22 +861,22 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: '#F59E0B20',
+    backgroundColor: colors.warning20,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#F59E0B40',
+    borderColor: colors.warning40,
   },
   itemDisplayName: {
     fontSize: 17,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
     flex: 1,
     marginRight: 8,
   },
   itemDisplayCategory: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 6,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -883,21 +884,21 @@ const styles = StyleSheet.create({
   itemDisplayPrice: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#7B2CBF',
+    color: colors.primary,
   },
   itemPriceLabel: {
     fontSize: 12,
-    color: '#6B7280',
+    color: colors.textMuted,
     fontWeight: '500',
   },
   // Unified Payment Card
   paymentCard: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 18,
     padding: 18,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   // Quantity Section
   quantitySection: {
@@ -909,7 +910,7 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   quantityControls: {
     flexDirection: 'row',
@@ -921,7 +922,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -937,11 +938,11 @@ const styles = StyleSheet.create({
   quantityNumber: {
     fontSize: 32,
     fontWeight: '800',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   sectionDivider: {
     height: 1,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
     marginBottom: 20,
   },
   // Payment Section
@@ -955,16 +956,16 @@ const styles = StyleSheet.create({
   },
   paymentLabel: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   paymentValue: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   paymentDivider: {
     height: 1,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
     marginVertical: 14,
   },
   paymentRowFinal: {
@@ -974,64 +975,64 @@ const styles = StyleSheet.create({
   },
   paymentLabelFinal: {
     fontSize: 13,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 4,
   },
   paymentValueFinal: {
     fontSize: 22,
     fontWeight: '800',
-    color: '#10B981',
+    color: colors.success,
   },
   insufficientFunds: {
-    color: '#DC2626',
+    color: colors.error,
   },
   warningBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: '#DC262620',
+    backgroundColor: colors.error20,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#DC262640',
+    borderColor: colors.error40,
   },
   warningText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#DC2626',
+    color: colors.error,
   },
   successBadgeSmall: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: '#10B98120',
+    backgroundColor: colors.success20,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#10B98140',
+    borderColor: colors.success40,
   },
   successBadgeSmallText: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#10B981',
+    color: colors.success,
   },
   // Compact Info Banner
   paymentInfoBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 14,
     padding: 14,
     marginBottom: 100,
     borderWidth: 1,
-    borderColor: '#3B82F630',
+    borderColor: colors.info30,
     gap: 10,
   },
   paymentInfoText: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     flex: 1,
   },
   // Sleek Bottom Bar
@@ -1040,9 +1041,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderTopWidth: 1,
-    borderTopColor: '#2A2A2A',
+    borderTopColor: colors.border,
     paddingHorizontal: 16,
     paddingTop: 14,
     paddingBottom: 28,
@@ -1068,13 +1069,13 @@ const styles = StyleSheet.create({
   },
   priceLabel: {
     fontSize: 13,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     fontWeight: '600',
   },
   priceValue: {
     fontSize: 24,
     fontWeight: '800',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   confirmBtn: {
     borderRadius: 16,
@@ -1093,7 +1094,7 @@ const styles = StyleSheet.create({
   confirmBtnText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
   },
 });
 

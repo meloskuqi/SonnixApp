@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const SupportScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -18,11 +19,11 @@ const SupportScreen = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const categories = [
-    { label: 'Account Issue', icon: 'person', color: '#7B2CBF' },
-    { label: 'Payment Problem', icon: 'card', color: '#10B981' },
-    { label: 'Technical Issue', icon: 'bug', color: '#DC2626' },
-    { label: 'Event Question', icon: 'calendar', color: '#3B82F6' },
-    { label: 'Other', icon: 'help-circle', color: '#F59E0B' },
+    { label: 'Account Issue', icon: 'person', color: colors.primary },
+    { label: 'Payment Problem', icon: 'card', color: colors.success },
+    { label: 'Technical Issue', icon: 'bug', color: colors.error },
+    { label: 'Event Question', icon: 'calendar', color: colors.info },
+    { label: 'Other', icon: 'help-circle', color: colors.warning },
   ];
 
   const handleSubmit = () => {
@@ -44,7 +45,7 @@ const SupportScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color={colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Contact Support</Text>
         <View style={{ width: 40 }} />
@@ -59,7 +60,7 @@ const SupportScreen = ({ navigation }) => {
         <View style={styles.statusBanner}>
           <View style={styles.statusIconContainer}>
             <View style={styles.onlineIndicator} />
-            <Ionicons name="chatbubbles" size={28} color="#10B981" />
+            <Ionicons name="chatbubbles" size={28} color={colors.success} />
           </View>
           <View style={styles.statusContent}>
             <Text style={styles.statusTitle}>We're Here 24/7</Text>
@@ -91,7 +92,7 @@ const SupportScreen = ({ navigation }) => {
                   <Ionicons 
                     name={category.icon} 
                     size={20} 
-                    color={selectedCategory === category.label ? '#FFFFFF' : category.color} 
+                    color={selectedCategory === category.label ? 'colors.white' : category.color} 
                   />
                 </View>
                 <Text style={[
@@ -114,7 +115,7 @@ const SupportScreen = ({ navigation }) => {
               value={subject}
               onChangeText={setSubject}
               placeholder="Brief description of your issue"
-              placeholderTextColor="#6B7280"
+              placeholderTextColor={colors.textMuted}
             />
           </View>
         </View>
@@ -128,7 +129,7 @@ const SupportScreen = ({ navigation }) => {
               value={message}
               onChangeText={setMessage}
               placeholder="Describe your issue in detail..."
-              placeholderTextColor="#6B7280"
+              placeholderTextColor={colors.textMuted}
               multiline
               numberOfLines={6}
               textAlignVertical="top"
@@ -138,7 +139,7 @@ const SupportScreen = ({ navigation }) => {
 
         {/* Submit Button */}
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Ionicons name="send" size={20} color="#FFFFFF" style={{ marginRight: 8 }} />
+          <Ionicons name="send" size={20} color={colors.white} style={{ marginRight: 8 }} />
           <Text style={styles.submitButtonText}>Send Message</Text>
         </TouchableOpacity>
 
@@ -151,24 +152,24 @@ const SupportScreen = ({ navigation }) => {
 
         <TouchableOpacity style={styles.contactCard}>
           <View style={styles.contactIcon}>
-            <Ionicons name="mail" size={20} color="#7B2CBF" />
+            <Ionicons name="mail" size={20} color={colors.primary} />
           </View>
           <View style={styles.contactContent}>
             <Text style={styles.contactLabel}>Email</Text>
             <Text style={styles.contactValue}>support@sonnix.app</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#6B7280" />
+          <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.contactCard}>
           <View style={styles.contactIcon}>
-            <Ionicons name="call" size={20} color="#10B981" />
+            <Ionicons name="call" size={20} color={colors.success} />
           </View>
           <View style={styles.contactContent}>
             <Text style={styles.contactLabel}>Phone</Text>
             <Text style={styles.contactValue}>1-800-SONNIX-1</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#6B7280" />
+          <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -178,7 +179,7 @@ const SupportScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   content: {
     flex: 1,
@@ -209,19 +210,19 @@ const styles = StyleSheet.create({
   },
   statusBanner: {
     flexDirection: 'row',
-    backgroundColor: '#10B98115',
+    backgroundColor: colors.success15,
     borderRadius: 16,
     padding: 18,
     marginBottom: 24,
     borderWidth: 1,
-    borderColor: '#10B98130',
+    borderColor: colors.success30,
   },
   statusIconContainer: {
     position: 'relative',
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#10B98125',
+    backgroundColor: colors.success25,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
@@ -233,9 +234,9 @@ const styles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#10B981',
+    backgroundColor: colors.success,
     borderWidth: 2,
-    borderColor: '#10B98115',
+    borderColor: colors.success15,
   },
   statusContent: {
     flex: 1,
@@ -243,12 +244,12 @@ const styles = StyleSheet.create({
   statusTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#10B981',
+    color: colors.success,
     marginBottom: 4,
   },
   statusDescription: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   section: {
     marginBottom: 24,
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 12,
   },
   categoriesGrid: {
@@ -266,18 +267,18 @@ const styles = StyleSheet.create({
   },
   categoryButton: {
     width: '30%',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 14,
     marginHorizontal: 6,
     marginBottom: 12,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   categoryButtonSelected: {
-    borderColor: '#7B2CBF',
-    backgroundColor: '#7B2CBF10',
+    borderColor: colors.primary,
+    backgroundColor: colors.primary10,
   },
   categoryIcon: {
     width: 44,
@@ -290,23 +291,23 @@ const styles = StyleSheet.create({
   categoryLabel: {
     fontSize: 12,
     fontWeight: '500',
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     textAlign: 'center',
   },
   categoryLabelSelected: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontWeight: '600',
   },
   inputContainer: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
     paddingHorizontal: 16,
   },
   input: {
     fontSize: 15,
-    color: '#FFFFFF',
+    color: colors.white,
     paddingVertical: 14,
   },
   textAreaContainer: {
@@ -318,7 +319,7 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     flexDirection: 'row',
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',
@@ -328,7 +329,7 @@ const styles = StyleSheet.create({
   submitButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   divider: {
     flexDirection: 'row',
@@ -338,28 +339,28 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
   },
   dividerText: {
     fontSize: 13,
-    color: '#6B7280',
+    color: colors.textMuted,
     marginHorizontal: 12,
   },
   contactCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   contactIcon: {
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
@@ -369,13 +370,13 @@ const styles = StyleSheet.create({
   },
   contactLabel: {
     fontSize: 13,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 2,
   },
   contactValue: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: colors.white,
   },
 });
 

@@ -9,9 +9,12 @@ import {
   Switch,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
 import { useWallet } from '../../context/WalletContext';
+import { colors, gradients, shadows } from '../../constants/colors';
+import { spacing, borderRadius } from '../../constants/design';
 
 const SettingsScreen = ({ navigation }) => {
   const { user, logout } = useAuth();
@@ -41,28 +44,28 @@ const SettingsScreen = ({ navigation }) => {
       id: 1,
       icon: 'person',
       label: 'Edit Profile',
-      color: '#7B2CBF',
+      gradient: gradients.primary,
       onPress: () => navigation.navigate('EditProfile'),
     },
     {
       id: 2,
       icon: 'wallet',
       label: 'My Wallet',
-      color: '#10B981',
+      gradient: [colors.success, '#059669'],
       onPress: () => navigation.navigate('WalletTab'),
     },
     {
       id: 3,
       icon: 'shield-checkmark',
       label: 'Security',
-      color: '#3B82F6',
+      gradient: [colors.info, '#2563EB'],
       onPress: () => navigation.navigate('Security'),
     },
     {
       id: 4,
       icon: 'help-circle',
       label: 'Help',
-      color: '#F59E0B',
+      gradient: [colors.warning, '#D97706'],
       onPress: () => navigation.navigate('Help'),
     },
   ];
@@ -78,7 +81,7 @@ const SettingsScreen = ({ navigation }) => {
           type: 'switch',
           value: notificationsEnabled,
           onToggle: setNotificationsEnabled,
-          color: '#F59E0B',
+          color: colors.warning,
         },
         {
           icon: 'moon',
@@ -86,14 +89,14 @@ const SettingsScreen = ({ navigation }) => {
           type: 'switch',
           value: darkModeEnabled,
           onToggle: setDarkModeEnabled,
-          color: '#8B5CF6',
+          color: colors.primaryDark,
         },
         {
           icon: 'language',
           label: 'Language',
           value: 'English',
           onPress: () => navigation.navigate('Language'),
-          color: '#3B82F6',
+          color: colors.info,
         },
       ],
     },
@@ -106,34 +109,38 @@ const SettingsScreen = ({ navigation }) => {
           label: 'Contact Support',
           subtitle: '24/7 Available',
           onPress: () => navigation.navigate('Support'),
-          color: '#10B981',
+          color: colors.success,
         },
         {
           icon: 'star',
           label: 'Rate Sonnix',
           subtitle: 'Share your feedback',
           onPress: () => navigation.navigate('RateApp'),
-          color: '#F59E0B',
+          color: colors.warning,
         },
         {
           icon: 'document-text',
           label: 'Terms of Service',
           onPress: () => navigation.navigate('Terms'),
-          color: '#6B7280',
+          color: colors.textMuted,
         },
         {
           icon: 'shield-checkmark',
           label: 'Privacy Policy',
           onPress: () => navigation.navigate('Privacy'),
-          color: '#6B7280',
+          color: colors.textMuted,
         },
       ],
     },
   ];
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={[styles.content, { paddingTop: insets.top + 16 }]}>
+    <ScrollView 
+      style={styles.container} 
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: spacing.xxl }}
+    >
+      <View style={[styles.content, { paddingTop: insets.top + spacing.md }]}>
         {/* Header */}
         <View style={styles.header}>
           <View>
@@ -150,42 +157,45 @@ const SettingsScreen = ({ navigation }) => {
         >
           <View style={styles.profileHeader}>
             <View style={styles.avatarContainer}>
-              <View style={styles.avatar}>
-                <Text style={styles.avatarText}>{user?.name?.charAt(0)}</Text>
-              </View>
+              <LinearGradient
+                colors={gradients.primary}
+                style={styles.avatar}
+              >
+                <Text style={styles.avatarText}>{user?.name?.charAt(0)?.toUpperCase() || 'U'}</Text>
+              </LinearGradient>
               <View style={styles.avatarBadge}>
-                <Ionicons name="checkmark-circle" size={20} color="#10B981" />
+                <Ionicons name="checkmark-circle" size={18} color={colors.success} />
               </View>
             </View>
             <View style={styles.profileInfo}>
-              <Text style={styles.profileName}>{user?.name}</Text>
-              <Text style={styles.profileEmail}>{user?.email}</Text>
+              <Text style={styles.profileName}>{user?.name || 'User'}</Text>
+              <Text style={styles.profileEmail}>{user?.email || 'user@example.com'}</Text>
               <View style={styles.verifiedBadge}>
-                <Ionicons name="shield-checkmark" size={12} color="#10B981" />
+                <Ionicons name="shield-checkmark" size={12} color={colors.success} />
                 <Text style={styles.verifiedText}>Verified Account</Text>
               </View>
             </View>
             <TouchableOpacity style={styles.editButton}>
-              <Ionicons name="create-outline" size={20} color="#7B2CBF" />
+              <Ionicons name="create-outline" size={20} color={colors.primary} />
             </TouchableOpacity>
           </View>
 
           <View style={styles.statsContainer}>
             <View style={styles.statItem}>
               <View style={styles.statIconContainer}>
-                <Ionicons name="wallet" size={18} color="#10B981" />
+                <Ionicons name="wallet" size={18} color={colors.success} />
               </View>
               <View>
                 <Text style={styles.statValue}>{balance.toFixed(0)}</Text>
-                <Text style={styles.statLabel}>Tokens</Text>
+                <Text style={styles.statLabel}>Balance</Text>
               </View>
             </View>
             
             <View style={styles.statDivider} />
             
             <View style={styles.statItem}>
-              <View style={[styles.statIconContainer, { backgroundColor: '#7B2CBF15' }]}>
-                <Ionicons name="flash" size={18} color="#7B2CBF" />
+              <View style={styles.statIconContainer}>
+                <Ionicons name="flash" size={18} color={colors.primary} />
               </View>
               <View>
                 <Text style={styles.statValue}>{tokens}</Text>
@@ -196,8 +206,8 @@ const SettingsScreen = ({ navigation }) => {
             <View style={styles.statDivider} />
             
             <View style={styles.statItem}>
-              <View style={[styles.statIconContainer, { backgroundColor: '#3B82F615' }]}>
-                <Ionicons name="ticket" size={18} color="#3B82F6" />
+              <View style={styles.statIconContainer}>
+                <Ionicons name="ticket" size={18} color={colors.info} />
               </View>
               <View>
                 <Text style={styles.statValue}>{tickets?.length || 0}</Text>
@@ -216,10 +226,16 @@ const SettingsScreen = ({ navigation }) => {
                 key={action.id}
                 style={styles.quickActionCard}
                 onPress={action.onPress}
+                activeOpacity={0.7}
               >
-                <View style={[styles.quickActionIcon, { backgroundColor: `${action.color}15` }]}>
-                  <Ionicons name={action.icon} size={24} color={action.color} />
-                </View>
+                <LinearGradient
+                  colors={action.gradient}
+                  style={styles.quickActionGradient}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                >
+                  <Ionicons name={action.icon} size={24} color={colors.white} />
+                </LinearGradient>
                 <Text style={styles.quickActionLabel}>{action.label}</Text>
               </TouchableOpacity>
             ))}
@@ -230,7 +246,7 @@ const SettingsScreen = ({ navigation }) => {
         {settingsSections.map((section, sectionIndex) => (
           <View key={sectionIndex} style={styles.section}>
             <View style={styles.sectionHeader}>
-              <Ionicons name={section.icon} size={18} color="#7B2CBF" />
+              <Ionicons name={section.icon} size={18} color={colors.primary} />
               <Text style={styles.sectionTitle}>{section.title}</Text>
             </View>
             <View style={styles.sectionCard}>
@@ -243,7 +259,7 @@ const SettingsScreen = ({ navigation }) => {
                       itemIndex !== section.items.length - 1 && styles.settingItemBorder
                     ]}
                   >
-                    <View style={[styles.settingItemIcon, { backgroundColor: `${item.color}15` }]}>
+                    <View style={[styles.settingItemIcon, { backgroundColor: item.color + '20' }]}>
                       <Ionicons name={item.icon} size={20} color={item.color} />
                     </View>
                     <View style={styles.settingItemContent}>
@@ -252,8 +268,8 @@ const SettingsScreen = ({ navigation }) => {
                     <Switch
                       value={item.value}
                       onValueChange={item.onToggle}
-                      trackColor={{ false: '#2A2A2A', true: '#7B2CBF' }}
-                      thumbColor={item.value ? '#FFFFFF' : '#9CA3AF'}
+                      trackColor={{ false: colors.border, true: colors.primary }}
+                      thumbColor={item.value ? colors.white : colors.textTertiary}
                     />
                   </View>
                 ) : (
@@ -264,8 +280,9 @@ const SettingsScreen = ({ navigation }) => {
                       styles.settingItem,
                       itemIndex !== section.items.length - 1 && styles.settingItemBorder
                     ]}
+                    activeOpacity={0.7}
                   >
-                    <View style={[styles.settingItemIcon, { backgroundColor: `${item.color}15` }]}>
+                    <View style={[styles.settingItemIcon, { backgroundColor: item.color + '20' }]}>
                       <Ionicons name={item.icon} size={20} color={item.color} />
                     </View>
                     <View style={styles.settingItemContent}>
@@ -277,7 +294,7 @@ const SettingsScreen = ({ navigation }) => {
                     {item.value && (
                       <Text style={styles.settingItemValue}>{item.value}</Text>
                     )}
-                    <Ionicons name="chevron-forward" size={20} color="#6B7280" />
+                    <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
                   </TouchableOpacity>
                 )
               ))}
@@ -289,8 +306,9 @@ const SettingsScreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={handleLogout}
           style={styles.logoutButton}
+          activeOpacity={0.8}
         >
-          <Ionicons name="log-out" size={22} color="#DC2626" />
+          <Ionicons name="log-out" size={22} color={colors.error} />
           <Text style={styles.logoutText}>Logout from Account</Text>
         </TouchableOpacity>
 
@@ -308,59 +326,63 @@ const SettingsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   content: {
-    paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.xl,
   },
   header: {
-    marginBottom: 20,
+    marginBottom: spacing.lg,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 6,
+    fontSize: 28,
+    fontWeight: '800',
+    color: colors.text,
+    marginBottom: 4,
   },
   subtitle: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
+    fontWeight: '500',
   },
   profileCard: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 20,
-    padding: 18,
-    marginBottom: 24,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.xl,
+    padding: spacing.lg,
+    marginBottom: spacing.xl,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...shadows.medium,
   },
   profileHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 18,
+    marginBottom: spacing.lg,
   },
   avatarContainer: {
     position: 'relative',
-    marginRight: 16,
+    marginRight: spacing.md,
   },
   avatar: {
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: '#7B2CBF',
     justifyContent: 'center',
     alignItems: 'center',
+    ...shadows.medium,
   },
   avatarText: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontWeight: '900',
+    color: colors.white,
   },
   avatarBadge: {
     position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: '#0D0D0D',
-    borderRadius: 12,
+    backgroundColor: colors.background,
+    borderRadius: borderRadius.sm,
     padding: 2,
   },
   profileInfo: {
@@ -368,45 +390,49 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: colors.text,
     marginBottom: 4,
   },
   profileEmail: {
     fontSize: 14,
-    color: '#9CA3AF',
-    marginBottom: 8,
+    color: colors.textTertiary,
+    marginBottom: spacing.sm,
   },
   verifiedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: '#10B98115',
+    backgroundColor: colors.success + '20',
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: borderRadius.sm,
+    gap: 4,
   },
   verifiedText: {
     fontSize: 11,
-    fontWeight: '600',
-    color: '#10B981',
-    marginLeft: 4,
+    fontWeight: '700',
+    color: colors.success,
   },
   editButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#7B2CBF15',
+    backgroundColor: colors.primaryAlpha['15'],
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.primaryAlpha['25'],
   },
   statsContainer: {
     flexDirection: 'row',
-    backgroundColor: '#252525',
-    borderRadius: 16,
-    padding: 16,
+    backgroundColor: colors.cardElevated,
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
     justifyContent: 'space-around',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   statItem: {
     flexDirection: 'row',
@@ -417,149 +443,150 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#10B98115',
+    backgroundColor: colors.success + '20',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
+    marginRight: spacing.sm,
   },
   statValue: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: colors.text,
     marginBottom: 2,
   },
   statLabel: {
     fontSize: 11,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
+    fontWeight: '600',
   },
   statDivider: {
     width: 1,
     height: 32,
-    backgroundColor: '#3A3A3A',
+    backgroundColor: colors.border,
   },
   quickActionsSection: {
-    marginBottom: 24,
+    marginBottom: spacing.xl,
   },
   quickActionsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: -4,
+    gap: spacing.sm,
   },
   quickActionCard: {
     flex: 1,
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    marginHorizontal: 4,
     alignItems: 'center',
   },
-  quickActionIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+  quickActionGradient: {
+    width: 56,
+    height: 56,
+    borderRadius: borderRadius.lg,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: spacing.sm,
+    ...shadows.medium,
   },
   quickActionLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '700',
+    color: colors.text,
     textAlign: 'center',
   },
   section: {
-    marginBottom: 20,
+    marginBottom: spacing.lg,
   },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: spacing.sm,
+    gap: spacing.xs,
   },
   sectionTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginLeft: 6,
+    fontSize: 18,
+    fontWeight: '700',
+    color: colors.text,
   },
   sectionCard: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.lg,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   settingItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
     minHeight: 62,
   },
   settingItemBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   settingItemIcon: {
     width: 40,
     height: 40,
-    borderRadius: 10,
+    borderRadius: borderRadius.md,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: spacing.sm,
   },
   settingItemContent: {
     flex: 1,
   },
   settingItemLabel: {
     fontSize: 15,
-    fontWeight: '500',
-    color: '#FFFFFF',
+    fontWeight: '600',
+    color: colors.text,
   },
   settingItemSubtitle: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginTop: 4,
+    fontWeight: '500',
   },
   settingItemValue: {
     fontSize: 13,
-    color: '#9CA3AF',
-    marginRight: 8,
+    color: colors.textTertiary,
+    marginRight: spacing.sm,
+    fontWeight: '500',
   },
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#DC262615',
-    borderRadius: 16,
-    padding: 16,
-    marginTop: 12,
-    marginBottom: 28,
+    backgroundColor: colors.error + '20',
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
+    marginTop: spacing.sm,
+    marginBottom: spacing.xl,
     borderWidth: 1,
-    borderColor: '#DC262630',
+    borderColor: colors.error + '40',
   },
   logoutText: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: '#DC2626',
-    marginLeft: 8,
+    fontWeight: '700',
+    color: colors.error,
+    marginLeft: spacing.sm,
   },
   versionContainer: {
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: spacing.lg,
   },
   versionText: {
     fontSize: 13,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontWeight: '700',
+    color: colors.text,
     marginBottom: 4,
   },
   versionNumber: {
     fontSize: 12,
-    color: '#9CA3AF',
-    marginBottom: 10,
+    color: colors.textTertiary,
+    marginBottom: spacing.sm,
   },
   copyrightText: {
     fontSize: 10,
-    color: '#6B7280',
+    color: colors.textMuted,
   },
 });
 

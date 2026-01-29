@@ -12,6 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '../../context/AuthContext';
+import { colors, gradients } from '../../constants/colors';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -43,7 +44,7 @@ const LoginScreen = ({ navigation }) => {
           {/* Logo Section with Gradient */}
           <View style={styles.logoContainer}>
             <LinearGradient
-              colors={['#7B2CBF', '#9333EA', '#6B21A8']}
+              colors={gradients.primary}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.logoCircle}
@@ -52,7 +53,7 @@ const LoginScreen = ({ navigation }) => {
             </LinearGradient>
             <Text style={styles.appName}>Sonnix</Text>
             <View style={styles.taglineBadge}>
-              <Ionicons name="ticket" size={14} color="#F59E0B" />
+              <Ionicons name="ticket" size={14} color={colors.warning} />
               <Text style={styles.tagline}>Your Event Companion</Text>
             </View>
           </View>
@@ -74,7 +75,7 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.inputLabel}>Email Address</Text>
             <View style={styles.inputContainer}>
               <View style={styles.iconBox}>
-                <Ionicons name="mail" size={20} color="#7B2CBF" />
+                <Ionicons name="mail" size={20} color={colors.primary} />
               </View>
               <TextInput
                 style={styles.input}
@@ -97,7 +98,7 @@ const LoginScreen = ({ navigation }) => {
             </View>
             <View style={styles.inputContainer}>
               <View style={styles.iconBox}>
-                <Ionicons name="lock-closed" size={20} color="#7B2CBF" />
+                <Ionicons name="lock-closed" size={20} color={colors.primary} />
               </View>
               <TextInput
                 style={styles.input}
@@ -114,7 +115,7 @@ const LoginScreen = ({ navigation }) => {
                 <Ionicons
                   name={showPassword ? 'eye' : 'eye-off'}
                   size={20}
-                  color="#9CA3AF"
+                  color={colors.textTertiary}
                 />
               </TouchableOpacity>
             </View>
@@ -122,14 +123,14 @@ const LoginScreen = ({ navigation }) => {
 
           {/* Gradient Sign In Button */}
           <LinearGradient
-            colors={['#7B2CBF', '#9333EA']}
+            colors={gradients.primaryLight}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.signInButton}
           >
             <TouchableOpacity onPress={handleLogin} style={styles.signInButtonInner}>
               <Text style={styles.signInButtonText}>Sign In</Text>
-              <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
+              <Ionicons name="arrow-forward" size={20} color={colors.white} />
             </TouchableOpacity>
           </LinearGradient>
 
@@ -150,7 +151,7 @@ const LoginScreen = ({ navigation }) => {
 
           {/* Security Badge */}
           <View style={styles.securityBadge}>
-            <Ionicons name="shield-checkmark" size={16} color="#10B981" />
+            <Ionicons name="shield-checkmark" size={16} color={colors.success} />
             <Text style={styles.securityText}>Secure Login • Encrypted Connection</Text>
           </View>
         </View>
@@ -162,7 +163,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 150,
-    backgroundColor: '#7B2CBF15',
+    backgroundColor: colors.primaryAlpha['15'],
     top: -150,
     right: -100,
   },
@@ -181,7 +182,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 100,
-    backgroundColor: '#9333EA10',
+    backgroundColor: colors.primaryAlpha['10'],
     bottom: -100,
     left: -50,
   },
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 75,
-    backgroundColor: '#7B2CBF08',
+    backgroundColor: colors.primaryAlpha['08'],
     top: '40%',
     left: -75,
   },
@@ -212,14 +213,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-    shadowColor: '#7B2CBF',
+    shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.6,
     shadowRadius: 16,
     elevation: 12,
   },
   appName: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 42,
     fontWeight: '900',
     marginBottom: 12,
@@ -229,15 +230,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   tagline: {
-    color: '#FFFFFFCC',
+    color: colors.whiteAlpha['CC'],
     fontSize: 13,
     fontWeight: '600',
   },
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   welcomeTitle: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 28,
     fontWeight: '900',
     flex: 1,
@@ -260,27 +261,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#7B2CBF20',
+    backgroundColor: colors.primaryAlpha['20'],
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#7B2CBF40',
+    borderColor: colors.primaryAlpha['40'],
   },
   activeDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#10B981',
+    backgroundColor: colors.success,
   },
   activeBadgeText: {
-    color: '#7B2CBF',
+    color: colors.primary,
     fontSize: 10,
     fontWeight: '900',
     letterSpacing: 0.5,
   },
   welcomeSubtitle: {
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     fontSize: 15,
     lineHeight: 22,
   },
@@ -294,33 +295,33 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   inputLabel: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 14,
     fontWeight: '700',
     marginBottom: 8,
   },
   inputContainer: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   iconBox: {
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: '#7B2CBF15',
+    backgroundColor: colors.primaryAlpha['15'],
     justifyContent: 'center',
     alignItems: 'center',
   },
   input: {
     flex: 1,
     marginLeft: 12,
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
   },
   eyeButton: {
@@ -331,7 +332,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginTop: 24,
     marginBottom: 20,
-    shadowColor: '#7B2CBF',
+    shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.5,
     shadowRadius: 12,
@@ -345,7 +346,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
   },
   signInButtonText: {
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 17,
     fontWeight: '900',
   },
@@ -353,7 +354,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   forgotButtonText: {
-    color: '#7B2CBF',
+    color: colors.primary,
     fontSize: 13,
     fontWeight: '700',
   },
@@ -365,10 +366,10 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
   },
   dividerText: {
-    color: '#6B7280',
+    color: colors.textMuted,
     fontSize: 13,
     fontWeight: '600',
     paddingHorizontal: 16,
@@ -380,11 +381,11 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   signUpText: {
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     fontSize: 15,
   },
   signUpLink: {
-    color: '#7B2CBF',
+    color: colors.primary,
     fontWeight: '800',
     fontSize: 15,
   },
@@ -393,15 +394,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   securityText: {
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     fontSize: 12,
     fontWeight: '600',
   },

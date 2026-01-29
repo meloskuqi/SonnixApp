@@ -12,6 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '../../context/AuthContext';
+import { colors, gradients } from '../../constants/colors';
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -50,7 +51,7 @@ const RegisterScreen = ({ navigation }) => {
           {/* Logo Section with Gradient */}
           <View style={styles.logoContainer}>
             <LinearGradient
-              colors={['#9333EA', '#7B2CBF', '#6B21A8']}
+              colors={gradients.primary}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={styles.logoIcon}
@@ -59,7 +60,7 @@ const RegisterScreen = ({ navigation }) => {
             </LinearGradient>
             <Text style={styles.logoText}>Sonnix</Text>
             <View style={styles.newBadge}>
-              <Ionicons name="sparkles" size={12} color="#F59E0B" />
+              <Ionicons name="sparkles" size={12} color={colors.warning} />
               <Text style={styles.newBadgeText}>NEW ACCOUNT</Text>
             </View>
           </View>
@@ -80,7 +81,7 @@ const RegisterScreen = ({ navigation }) => {
             <Text style={styles.label}>Full Name</Text>
             <View style={styles.inputContainer}>
               <View style={styles.iconBox}>
-                <Ionicons name="person" size={20} color="#9333EA" />
+                <Ionicons name="person" size={20} color={colors.primary} />
               </View>
               <TextInput
                 style={styles.input}
@@ -97,7 +98,7 @@ const RegisterScreen = ({ navigation }) => {
             <Text style={styles.label}>Email Address</Text>
             <View style={styles.inputContainer}>
               <View style={styles.iconBox}>
-                <Ionicons name="mail" size={20} color="#9333EA" />
+                <Ionicons name="mail" size={20} color={colors.primary} />
               </View>
               <TextInput
                 style={styles.input}
@@ -116,7 +117,7 @@ const RegisterScreen = ({ navigation }) => {
             <Text style={styles.label}>Password</Text>
             <View style={styles.inputContainer}>
               <View style={styles.iconBox}>
-                <Ionicons name="lock-closed" size={20} color="#9333EA" />
+                <Ionicons name="lock-closed" size={20} color={colors.primary} />
               </View>
               <TextInput
                 style={styles.input}
@@ -133,7 +134,7 @@ const RegisterScreen = ({ navigation }) => {
                 <Ionicons
                   name={showPassword ? 'eye' : 'eye-off'}
                   size={20}
-                  color="#9CA3AF"
+                  color={colors.textTertiary}
                 />
               </TouchableOpacity>
             </View>
@@ -144,7 +145,7 @@ const RegisterScreen = ({ navigation }) => {
             <Text style={styles.label}>Confirm Password</Text>
             <View style={styles.inputContainer}>
               <View style={styles.iconBox}>
-                <Ionicons name="shield-checkmark" size={20} color="#9333EA" />
+                <Ionicons name="shield-checkmark" size={20} color={colors.primary} />
               </View>
               <TextInput
                 style={styles.input}
@@ -160,22 +161,22 @@ const RegisterScreen = ({ navigation }) => {
           {/* Features Grid */}
           <View style={styles.featuresGrid}>
             <View style={styles.featureItem}>
-              <Ionicons name="ticket" size={16} color="#10B981" />
+              <Ionicons name="ticket" size={16} color={colors.success} />
               <Text style={styles.featureText}>Easy Tickets</Text>
             </View>
             <View style={styles.featureItem}>
-              <Ionicons name="flash" size={16} color="#F59E0B" />
+              <Ionicons name="flash" size={16} color={colors.warning} />
               <Text style={styles.featureText}>Instant Access</Text>
             </View>
             <View style={styles.featureItem}>
-              <Ionicons name="shield" size={16} color="#3B82F6" />
+              <Ionicons name="shield" size={16} color={colors.info} />
               <Text style={styles.featureText}>Secure</Text>
             </View>
           </View>
 
           {/* Gradient Register Button */}
           <LinearGradient
-            colors={['#9333EA', '#7B2CBF']}
+            colors={gradients.primaryLight}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.registerButton}
@@ -187,7 +188,7 @@ const RegisterScreen = ({ navigation }) => {
               <Text style={styles.registerButtonText}>
                 Create My Account
               </Text>
-              <Ionicons name="arrow-forward-circle" size={22} color="#FFFFFF" />
+              <Ionicons name="arrow-forward-circle" size={22} color={colors.white} />
             </TouchableOpacity>
           </LinearGradient>
 
@@ -208,7 +209,7 @@ const RegisterScreen = ({ navigation }) => {
 
           {/* Terms Badge */}
           <View style={styles.termsBadge}>
-            <Ionicons name="information-circle" size={14} color="#6B7280" />
+            <Ionicons name="information-circle" size={14} color={colors.textMuted} />
             <Text style={styles.termsText}>
               By signing up, you agree to our Terms & Privacy
             </Text>
@@ -222,7 +223,7 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
     width: 320,
     height: 320,
     borderRadius: 160,
-    backgroundColor: '#9333EA12',
+    backgroundColor: colors.primaryAlpha['15'],
     top: -160,
     left: -100,
   },
@@ -241,7 +242,7 @@ const styles = StyleSheet.create({
     width: 220,
     height: 220,
     borderRadius: 110,
-    backgroundColor: '#7B2CBF10',
+    backgroundColor: colors.primaryAlpha['10'],
     bottom: -80,
     right: -60,
   },
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 80,
-    backgroundColor: '#9333EA08',
+    backgroundColor: colors.primaryAlpha['08'],
     top: '35%',
     right: -80,
   },
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 18,
-    shadowColor: '#9333EA',
+    shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.6,
     shadowRadius: 16,
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 38,
     fontWeight: '900',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 10,
     letterSpacing: -1,
   },
@@ -289,15 +290,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   newBadgeText: {
-    color: '#FFFFFFCC',
+    color: colors.whiteAlpha['CC'],
     fontSize: 11,
     fontWeight: '900',
     letterSpacing: 0.5,
@@ -314,25 +315,25 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: '900',
-    color: '#FFFFFF',
+    color: colors.white,
     flex: 1,
   },
   stepBadge: {
-    backgroundColor: '#9333EA20',
+    backgroundColor: colors.primaryAlpha['20'],
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#9333EA40',
+    borderColor: colors.primaryAlpha['40'],
   },
   stepBadgeText: {
-    color: '#9333EA',
+    color: colors.primary,
     fontSize: 11,
     fontWeight: '900',
   },
   subtitle: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     lineHeight: 20,
   },
   inputGroup: {
@@ -341,30 +342,30 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 8,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   iconBox: {
     width: 36,
     height: 36,
     borderRadius: 10,
-    backgroundColor: '#9333EA15',
+    backgroundColor: colors.primaryAlpha['15'],
     justifyContent: 'center',
     alignItems: 'center',
   },
   input: {
     flex: 1,
-    color: '#FFFFFF',
+    color: colors.white,
     fontSize: 16,
     marginLeft: 12,
   },
@@ -376,11 +377,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 16,
     marginBottom: 24,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     padding: 14,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   featureItem: {
     flexDirection: 'row',
@@ -388,7 +389,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   featureText: {
-    color: '#FFFFFFCC',
+    color: colors.whiteAlpha['CC'],
     fontSize: 11,
     fontWeight: '700',
   },
@@ -396,7 +397,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: 'hidden',
     marginBottom: 20,
-    shadowColor: '#9333EA',
+    shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.5,
     shadowRadius: 12,
@@ -412,7 +413,7 @@ const styles = StyleSheet.create({
   registerButtonText: {
     fontSize: 17,
     fontWeight: '900',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   dividerContainer: {
     flexDirection: 'row',
@@ -422,10 +423,10 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
   },
   dividerText: {
-    color: '#6B7280',
+    color: colors.textMuted,
     fontSize: 13,
     fontWeight: '600',
     paddingHorizontal: 16,
@@ -438,27 +439,27 @@ const styles = StyleSheet.create({
   },
   signInText: {
     fontSize: 15,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   signInLink: {
     fontSize: 15,
     fontWeight: '800',
-    color: '#9333EA',
+    color: colors.primary,
   },
   termsBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   termsText: {
-    color: '#6B7280',
+    color: colors.textMuted,
     fontSize: 11,
     fontWeight: '600',
     textAlign: 'center',

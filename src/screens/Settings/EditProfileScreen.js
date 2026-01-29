@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
+import { colors } from '../../constants/colors';
 
 const EditProfileScreen = ({ navigation }) => {
   const { user } = useAuth();
@@ -33,7 +34,7 @@ const EditProfileScreen = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+          <Ionicons name="arrow-back" size={24} color={colors.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Edit Profile</Text>
         <View style={{ width: 40 }} />
@@ -51,7 +52,7 @@ const EditProfileScreen = ({ navigation }) => {
               <Text style={styles.avatarText}>{name.charAt(0)}</Text>
             </View>
             <TouchableOpacity style={styles.avatarEditButton}>
-              <Ionicons name="camera" size={20} color="#FFFFFF" />
+              <Ionicons name="camera" size={20} color={colors.white} />
             </TouchableOpacity>
           </View>
           <Text style={styles.changePhotoText}>Change Profile Photo</Text>
@@ -64,13 +65,13 @@ const EditProfileScreen = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <Text style={styles.inputLabel}>Full Name</Text>
             <View style={styles.inputContainer}>
-              <Ionicons name="person-outline" size={20} color="#7B2CBF" style={styles.inputIcon} />
+              <Ionicons name="person-outline" size={20} color={colors.primary} style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
                 value={name}
                 onChangeText={setName}
                 placeholder="Enter your name"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor={colors.textMuted}
               />
             </View>
           </View>
@@ -78,13 +79,13 @@ const EditProfileScreen = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <Text style={styles.inputLabel}>Email Address</Text>
             <View style={styles.inputContainer}>
-              <Ionicons name="mail-outline" size={20} color="#7B2CBF" style={styles.inputIcon} />
+              <Ionicons name="mail-outline" size={20} color={colors.primary} style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
                 value={email}
                 onChangeText={setEmail}
                 placeholder="Enter your email"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor={colors.textMuted}
                 keyboardType="email-address"
               />
             </View>
@@ -93,13 +94,13 @@ const EditProfileScreen = ({ navigation }) => {
           <View style={styles.inputGroup}>
             <Text style={styles.inputLabel}>Phone Number</Text>
             <View style={styles.inputContainer}>
-              <Ionicons name="call-outline" size={20} color="#7B2CBF" style={styles.inputIcon} />
+              <Ionicons name="call-outline" size={20} color={colors.primary} style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
                 value={phone}
                 onChangeText={setPhone}
                 placeholder="Enter your phone"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor={colors.textMuted}
                 keyboardType="phone-pad"
               />
             </View>
@@ -113,7 +114,7 @@ const EditProfileScreen = ({ navigation }) => {
                 value={bio}
                 onChangeText={setBio}
                 placeholder="Tell us about yourself"
-                placeholderTextColor="#6B7280"
+                placeholderTextColor={colors.textMuted}
                 multiline
                 numberOfLines={4}
                 textAlignVertical="top"
@@ -129,13 +130,13 @@ const EditProfileScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.socialButton}>
             <Ionicons name="logo-instagram" size={24} color="#E4405F" />
             <Text style={styles.socialButtonText}>Connect Instagram</Text>
-            <Ionicons name="add-circle-outline" size={20} color="#6B7280" />
+            <Ionicons name="add-circle-outline" size={20} color={colors.textMuted} />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.socialButton}>
             <Ionicons name="logo-twitter" size={24} color="#1DA1F2" />
             <Text style={styles.socialButtonText}>Connect Twitter</Text>
-            <Ionicons name="add-circle-outline" size={20} color="#6B7280" />
+            <Ionicons name="add-circle-outline" size={20} color={colors.textMuted} />
           </TouchableOpacity>
         </View>
 
@@ -146,7 +147,7 @@ const EditProfileScreen = ({ navigation }) => {
 
         {/* Delete Account */}
         <TouchableOpacity style={styles.deleteButton}>
-          <Ionicons name="trash-outline" size={20} color="#DC2626" />
+          <Ionicons name="trash-outline" size={20} color={colors.error} />
           <Text style={styles.deleteButtonText}>Delete Account</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -157,7 +158,7 @@ const EditProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#2A2A2A',
+    borderBottomColor: colors.border,
   },
   backButton: {
     width: 40,
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   content: {
     flex: 1,
@@ -198,14 +199,14 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatarText: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   avatarEditButton: {
     position: 'absolute',
@@ -214,15 +215,15 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#10B981',
+    backgroundColor: colors.success,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 3,
-    borderColor: '#0D0D0D',
+    borderColor: colors.background,
   },
   changePhotoText: {
     fontSize: 14,
-    color: '#7B2CBF',
+    color: colors.primary,
     fontWeight: '600',
   },
   section: {
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
     marginBottom: 16,
   },
   inputGroup: {
@@ -240,16 +241,16 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 8,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
     paddingHorizontal: 14,
   },
   inputIcon: {
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 15,
-    color: '#FFFFFF',
+    color: colors.white,
     paddingVertical: 14,
   },
   textAreaContainer: {
@@ -272,22 +273,22 @@ const styles = StyleSheet.create({
   socialButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   socialButtonText: {
     flex: 1,
     fontSize: 15,
     fontWeight: '500',
-    color: '#FFFFFF',
+    color: colors.white,
     marginLeft: 12,
   },
   saveButton: {
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     borderRadius: 14,
     paddingVertical: 16,
     alignItems: 'center',
@@ -296,22 +297,22 @@ const styles = StyleSheet.create({
   saveButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: colors.white,
   },
   deleteButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#DC262610',
+    backgroundColor: colors.error10,
     borderRadius: 14,
     paddingVertical: 14,
     borderWidth: 1,
-    borderColor: '#DC262630',
+    borderColor: colors.error30,
   },
   deleteButtonText: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#DC2626',
+    color: colors.error,
     marginLeft: 8,
   },
 });

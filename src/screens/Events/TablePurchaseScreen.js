@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '../../constants/colors';
 
 const TablePurchaseScreen = ({ route, navigation }) => {
   const { eventId } = route.params;
@@ -58,7 +59,7 @@ const TablePurchaseScreen = ({ route, navigation }) => {
 
         {/* Info Banner */}
         <View style={styles.infoBanner}>
-          <Ionicons name="star" size={24} color="#7B2CBF" />
+          <Ionicons name="star" size={24} color={colors.primary} />
           <View style={styles.infoText}>
             <Text style={styles.infoTitle}>VIP Experience</Text>
             <Text style={styles.infoDescription}>
@@ -84,13 +85,13 @@ const TablePurchaseScreen = ({ route, navigation }) => {
                     {table.name}
                   </Text>
                   <View style={styles.tableDetail}>
-                    <Ionicons name="people" size={16} color="#7B2CBF" />
+                    <Ionicons name="people" size={16} color={colors.primary} />
                     <Text style={styles.tableDetailText}>
                       Up to {table.capacity} people
                     </Text>
                   </View>
                   <View style={styles.tableDetail}>
-                    <Ionicons name="checkmark-circle" size={16} color="#10B981" />
+                    <Ionicons name="checkmark-circle" size={16} color={colors.success} />
                     <Text style={styles.tableDetailText}>
                       {table.available} tables available
                     </Text>
@@ -109,7 +110,7 @@ const TablePurchaseScreen = ({ route, navigation }) => {
                 <Text style={styles.featuresTitle}>Includes:</Text>
                 {table.features.map((feature, index) => (
                   <View key={index} style={styles.feature}>
-                    <Ionicons name="checkmark" size={16} color="#7B2CBF" />
+                    <Ionicons name="checkmark" size={16} color={colors.primary} />
                     <Text style={styles.featureText}>{feature}</Text>
                   </View>
                 ))}
@@ -133,7 +134,7 @@ const TablePurchaseScreen = ({ route, navigation }) => {
 
         {/* Additional Info */}
         <View style={styles.additionalInfo}>
-          <Ionicons name="information-circle" size={24} color="#EAB308" />
+          <Ionicons name="information-circle" size={24} color={colors.warning} />
           <Text style={styles.additionalInfoText}>
             Table reservations are subject to availability. Early booking recommended for VIP tables.
           </Text>
@@ -146,7 +147,7 @@ const TablePurchaseScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0D0D0D',
+    backgroundColor: colors.background,
   },
   content: {
     padding: 20,
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
   },
   infoBanner: {
     flexDirection: 'row',
-    backgroundColor: '#1F2937',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
     marginBottom: 24,
@@ -187,13 +188,13 @@ const styles = StyleSheet.create({
   },
   infoDescription: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   tablesContainer: {
     marginBottom: 24,
   },
   tableCard: {
-    backgroundColor: '#1F2937',
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   tableCardSelected: {
-    borderColor: '#7B2CBF',
+    borderColor: colors.primary,
   },
   tableHeader: {
     flexDirection: 'row',
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
   },
   tableDetailText: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginLeft: 6,
   },
   priceContainer: {
@@ -233,11 +234,11 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#7B2CBF',
+    color: colors.primary,
   },
   priceLabel: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
   },
   featuresContainer: {
     marginTop: 12,
@@ -245,7 +246,7 @@ const styles = StyleSheet.create({
   featuresTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginBottom: 8,
   },
   feature: {
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   reserveButton: {
-    backgroundColor: '#7B2CBF',
+    backgroundColor: colors.primary,
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -274,13 +275,13 @@ const styles = StyleSheet.create({
   },
   additionalInfo: {
     flexDirection: 'row',
-    backgroundColor: '#1F2937',
+    backgroundColor: colors.card,
     borderRadius: 12,
     padding: 16,
   },
   additionalInfoText: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     marginLeft: 12,
     flex: 1,
   },

@@ -1,26 +1,28 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { colors } from '../constants/colors';
+import { spacing, borderRadius } from '../constants/design';
 
 const TransactionItem = ({ transaction, onPress, hideDate = false }) => {
   const getIconAndColor = (type) => {
     switch (type) {
       case 'Add Funds':
-        return { icon: 'add-circle', color: '#10B981', bg: '#10B98120' };
+        return { icon: 'add-circle', color: colors.success, bg: colors.success + '20' };
       case 'Purchase':
       case 'Ticket Purchase':
-        return { icon: 'cart', color: '#F59E0B', bg: '#F59E0B20' };
+        return { icon: 'cart', color: colors.warning, bg: colors.warning + '20' };
       case 'Refund':
-        return { icon: 'return-up-back', color: '#3B82F6', bg: '#3B82F620' };
+        return { icon: 'return-up-back', color: colors.info, bg: colors.info + '20' };
       case 'Sent':
-        return { icon: 'arrow-up-circle', color: '#DC2626', bg: '#DC262620' };
+        return { icon: 'arrow-up-circle', color: colors.error, bg: colors.error + '20' };
       case 'Received':
-        return { icon: 'arrow-down-circle', color: '#10B981', bg: '#10B98120' };
+        return { icon: 'arrow-down-circle', color: colors.success, bg: colors.success + '20' };
       case 'Drink Purchase':
       case 'Food Purchase':
-        return { icon: 'restaurant', color: '#EA580C', bg: '#EA580C20' };
+        return { icon: 'restaurant', color: colors.softOrange, bg: colors.softOrange + '20' };
       default:
-        return { icon: 'cash', color: '#7B2CBF', bg: '#7B2CBF20' };
+        return { icon: 'cash', color: colors.primary, bg: colors.primaryAlpha['20'] };
     }
   };
 
@@ -39,7 +41,7 @@ const TransactionItem = ({ transaction, onPress, hideDate = false }) => {
         <Text style={styles.description} numberOfLines={1}>{transaction.description}</Text>
         {!hideDate && (
           <View style={styles.timeContainer}>
-            <Ionicons name="time-outline" size={12} color="#6B7280" />
+            <Ionicons name="time-outline" size={12} color={colors.textMuted} />
             <Text style={styles.date}>{transaction.date}</Text>
           </View>
         )}
@@ -70,31 +72,31 @@ const TransactionItem = ({ transaction, onPress, hideDate = false }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
-    padding: 14,
-    marginBottom: 10,
+    backgroundColor: colors.card,
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#2A2A2A',
+    borderColor: colors.border,
   },
   iconContainer: {
-    borderRadius: 12,
+    borderRadius: borderRadius.md,
     padding: 12,
-    marginRight: 12,
+    marginRight: spacing.sm,
   },
   detailsContainer: {
     flex: 1,
   },
   type: {
-    color: '#FFFFFF',
+    color: colors.text,
     fontSize: 15,
     fontWeight: '600',
     marginBottom: 4,
   },
   description: {
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     fontSize: 13,
     marginBottom: 4,
   },
@@ -104,59 +106,60 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   date: {
-    color: '#6B7280',
+    color: colors.textMuted,
     fontSize: 12,
     marginLeft: 4,
   },
   amountContainer: {
     alignItems: 'flex-end',
+    marginLeft: spacing.sm,
   },
   amount: {
     fontSize: 17,
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginBottom: 6,
   },
   positiveAmount: {
-    color: '#10B981',
+    color: colors.success,
   },
   negativeAmount: {
-    color: '#DC2626',
+    color: colors.error,
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 12,
+    borderRadius: borderRadius.sm,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: colors.border,
   },
   statusCompleted: {
-    backgroundColor: '#10B98115',
+    backgroundColor: colors.success + '15',
   },
   statusPending: {
-    backgroundColor: '#F59E0B15',
+    backgroundColor: colors.warning + '15',
   },
   statusFailed: {
-    backgroundColor: '#DC262615',
+    backgroundColor: colors.error + '15',
   },
   statusDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#6B7280',
+    backgroundColor: colors.textMuted,
     marginRight: 5,
   },
   statusDotCompleted: {
-    backgroundColor: '#10B981',
+    backgroundColor: colors.success,
   },
   statusDotPending: {
-    backgroundColor: '#F59E0B',
+    backgroundColor: colors.warning,
   },
   statusDotFailed: {
-    backgroundColor: '#DC2626',
+    backgroundColor: colors.error,
   },
   statusText: {
-    color: '#9CA3AF',
+    color: colors.textTertiary,
     fontSize: 11,
     fontWeight: '600',
   },
